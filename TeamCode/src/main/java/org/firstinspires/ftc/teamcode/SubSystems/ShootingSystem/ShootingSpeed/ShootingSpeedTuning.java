@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
@@ -80,10 +79,10 @@ public class ShootingSpeedTuning extends LinearOpMode {
 
             if(gamepad1.right_bumper)
             {
-                TransferWheelClass.setPower(1);
+                TransferWheelClass.operate(1);
             }
             else {
-                TransferWheelClass.setPower(0);
+                TransferWheelClass.operate(0);
             }
 
             if (gamepad1.right_trigger > 0)

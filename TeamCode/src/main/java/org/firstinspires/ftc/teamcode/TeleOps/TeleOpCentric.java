@@ -55,7 +55,7 @@ public class TeleOpCentric extends LinearOpMode {
             else
             {
                 IntakeClass.operate(0);
-                TransferWheelClass.setPower(0);
+                TransferWheelClass.operate(0);
             }
 
 

@@ -1,18 +1,24 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleStates;
 
 public class ShootingSpeedClass
 {
-    private static DcMotorEx masterShootingMotor;
-    private static DcMotorEx slaveShootingMotor;
+    public static DcMotorEx masterShootingMotor;
+    public static DcMotorEx slaveShootingMotor;
 
 
-    private static double masterShootingMotorSpeed;
+    public static double masterShootingMotorSpeed;
     private static double slaveShootingMotorSpeed;
 
 
@@ -74,7 +80,7 @@ public class ShootingSpeedClass
         }
         else {
             masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * 60 / 28));
-            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(slaveShootingMotorSpeed, slaveShootingMotor.getVelocity() * 60 / 28));
+            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * 60 / 28));
         }
     }
     public static boolean inTolerence(ShootingSpeedStates shootingSpeedStates)
@@ -106,7 +112,7 @@ public class ShootingSpeedClass
         }
         double error = speed - masterShootingMotor.getVelocity()*60/28;
 
-        return error < 200;
+        return error < 100;
 
     }
 
@@ -116,5 +122,41 @@ public class ShootingSpeedClass
         telemetry.addData("motorPower" , masterShootingMotor.getPower());
         //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity()*60/8192);
         //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
+    }
+
+    public static class AtGoal implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            masterShootingMotorSpeed = ShootingSpeedConstants.atGoalSpeed;
+            return false;
+        }
+    }
+    public static Action atGoal() {
+        return new AtGoal();
+    }
+
+    public static class FarFromGoal implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            masterShootingMotorSpeed = ShootingSpeedConstants.farFromGoalSpeed;
+            return false;
+        }
+    }
+    public static Action farFromGoal() {
+        return new FarFromGoal();
+    }
+
+    public static class Disabled implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            masterShootingMotorSpeed = 0;
+            return false;
+        }
+    }
+    public static Action disabled() {
+        return new Disabled();
     }
 }

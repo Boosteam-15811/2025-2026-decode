@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle;
 
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 
 public class HoodAngleClass
 {
@@ -73,4 +78,29 @@ public class HoodAngleClass
     {
         telemetry.addData("hoodServoAngle:" , hoodServo.getPosition());
     }
+
+    public static class AtGoal implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            operate(HoodAngleStates.ATGOAL);
+            return false;
+        }
+    }
+    public static Action atGoal() {
+        return new AtGoal();
+    }
+    public static class FarFromGoal implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            operate(HoodAngleStates.FARFROMGOAL);
+            return false;
+        }
+    }
+    public static Action farFromGoal() {
+        return new FarFromGoal();
+    }
+
+
 }

@@ -45,7 +45,7 @@ public class ShooterStateClass {
                 if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.LAUNCHZONE))
                 {
                     IntakeClass.operate(1);
-                    TransferWheelClass.setPower(1);
+                    TransferWheelClass.operate(1);
                 }
                 break;
             }
@@ -56,7 +56,7 @@ public class ShooterStateClass {
                 if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.ATGOAL))
                 {
                     IntakeClass.operate(1);
-                    TransferWheelClass.setPower(1);
+                    TransferWheelClass.operate(1);
                 }
                 break;
             }
@@ -67,7 +67,7 @@ public class ShooterStateClass {
                 if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.FARFROMGOAL))
                 {
                     IntakeClass.operate(1);
-                    TransferWheelClass.setPower(1);
+                    TransferWheelClass.operate(1);
                 }
                 break;
             }
