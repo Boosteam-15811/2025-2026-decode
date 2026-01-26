@@ -112,7 +112,7 @@ public class ShootingSpeedClass
         }
         double error = speed - masterShootingMotor.getVelocity()*60/28;
 
-        return error < 100;
+        return error < 200;
 
     }
 

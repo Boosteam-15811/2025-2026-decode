@@ -40,7 +40,7 @@ public class TransferWheelClass
             {
                 operate(0);
             }
-            else if (ShootingSpeedClass.masterShootingMotorSpeed - masterShootingMotor.getVelocity()*60/28 < 100) {
+            else if (ShootingSpeedClass.masterShootingMotorSpeed - masterShootingMotor.getVelocity()*60/28 < 200) {
                 operate(1);
             }
             else {
