@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 
 @Config
-@Autonomous(name = "AtBlueGoal", group = "Autonomous")
+@Autonomous(name = "At Blue Goal", group = "Autonomous")
 public class AtBlueGoal extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

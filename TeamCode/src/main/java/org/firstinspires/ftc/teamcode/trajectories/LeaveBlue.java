@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 @Config
-@Autonomous(name = "LeaveBlue", group = "Autonomous")
+@Autonomous(name = "Leave Blue", group = "Autonomous")
 public class LeaveBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
