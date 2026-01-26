@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 
-@TeleOp
+@TeleOp(name = "Working Teleop")
 public class TeleOpCentric extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
