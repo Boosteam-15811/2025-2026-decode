@@ -121,7 +121,7 @@ public class ShootingSpeedClass
         telemetry.addData("masterShootingSpeed" , masterShootingMotor.getVelocity()*60/28);
         telemetry.addData("motorPower" , masterShootingMotor.getPower());
         //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity()*60/8192);
-        //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
+        telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
     }
 
     public static class AtGoal implements Action {

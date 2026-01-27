@@ -52,7 +52,7 @@ public class TeleOpCentric extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else
+            else if(ShooterStateClass.shooterState == ShooterStateClass.ShooterStates.DISABLED)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
