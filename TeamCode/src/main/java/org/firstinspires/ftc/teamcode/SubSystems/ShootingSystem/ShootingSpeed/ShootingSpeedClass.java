@@ -112,15 +112,15 @@ public class ShootingSpeedClass
         }
         double error = speed - masterShootingMotor.getVelocity()*60/28;
 
-        return error < 200;
+        return error < 20;
 
     }
 
     public static void telemetry(Telemetry telemetry)
     {
-        telemetry.addData("masterShootingSpeed" , masterShootingMotor.getVelocity()*60/28);
-        telemetry.addData("motorPower" , masterShootingMotor.getPower());
-        //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity()*60/8192);
+        telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity()*60/28);
+        //telemetry.addData("motorPower" , masterShootingMotor.getPower());
+        //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity()*60/28);
         telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
     }
 

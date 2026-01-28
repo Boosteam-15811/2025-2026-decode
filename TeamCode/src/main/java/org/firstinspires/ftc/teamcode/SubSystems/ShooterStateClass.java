@@ -13,14 +13,10 @@ public class ShooterStateClass {
     public static ShooterStates shooterState = ShooterStates.DISABLED;
 
     private static boolean lastChange = false;
-
+   //private static boolean patternMode = false;
 
     public static void setState(Gamepad gamepad) {
-        if (gamepad.circle)
-        {
-            shooterState = ShooterStates.LAUNCHZONE;
-        }
-        else if (gamepad.triangle)
+        if (gamepad.triangle)
         {
             shooterState= ShooterStates.FARFROMGOAL;
 
@@ -34,8 +30,26 @@ public class ShooterStateClass {
             shooterState = ShooterStates.DISABLED;
         }
     }
-    public static void operate()
-    {
+
+//    public static void setPatternMode(Gamepad gamepad)
+//    {
+//        if (gamepad.circle)
+//        {
+//            if (!lastChange)
+//            {
+//                patternMode = true;
+//                lastChange = true;
+//            }
+//            else
+//            {
+//                patternMode = false;
+//                lastChange = false;
+//            }
+//
+//        }
+//
+//    }
+    public static void operate() throws InterruptedException {
         switch (shooterState)
         {
             case LAUNCHZONE:
