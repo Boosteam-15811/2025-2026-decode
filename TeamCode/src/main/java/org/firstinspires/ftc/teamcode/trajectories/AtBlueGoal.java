@@ -38,8 +38,8 @@ public class AtBlueGoal extends LinearOpMode {
                 //from goal to collecting the first row
                 .strafeTo(new Vector2d(-49,-40))
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-5.5, -29, Math.toRadians(270)), Math.toRadians(270))
-                .lineToYConstantHeading(-49);
+                .splineToLinearHeading(new Pose2d(-4, -29, Math.toRadians(270)), Math.toRadians(270))
+                .lineToYConstantHeading(-54);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(new Pose2d(-7, -29, Math.toRadians(270)))
                 //from first row to shooting from medium range
@@ -77,9 +77,10 @@ public class AtBlueGoal extends LinearOpMode {
                                 ShootingSpeedClass.atGoal(),
                                 HoodAngleClass.atGoal(),
                                 new SleepAction(8),
-                                leave,
                                 IntakeClass.deactivate(),
-                                ShootingSpeedClass.disabled()
+                                ShootingSpeedClass.disabled(),
+                                leave
+
                         )
                 )
         );

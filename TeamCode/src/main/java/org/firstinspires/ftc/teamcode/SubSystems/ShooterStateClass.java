@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -72,6 +74,7 @@ public class ShooterStateClass {
                     IntakeClass.operate(1);
                     TransferWheelClass.operate(1);
                 }
+
                 break;
             }
             case FARFROMGOAL:
