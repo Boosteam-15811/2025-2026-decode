@@ -9,42 +9,42 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class DriveClass
 {
-    private static DcMotor FRMotor;
-    private static DcMotor FLMotor;
-    private static DcMotor BRMotor;
-    private static DcMotor BLMotor;
+    private static DcMotor frMotor;
+    private static DcMotor flMotor;
+    private static DcMotor brMotor;
+    private static DcMotor blMotor;
 
 
     public static void init(HardwareMap hardwareMap)
     {
-        FRMotor = hardwareMap.dcMotor.get("FRMotor");
-        FLMotor = hardwareMap.dcMotor.get("FLMotor");
-        BRMotor = hardwareMap.dcMotor.get("BRMotor");
-        BLMotor = hardwareMap.dcMotor.get("BLMotor");
+        frMotor = hardwareMap.dcMotor.get("frMotor");
+        flMotor = hardwareMap.dcMotor.get("flMotor");
+        brMotor = hardwareMap.dcMotor.get("brMotor");
+        blMotor = hardwareMap.dcMotor.get("blMotor");
 
-        FLMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        BLMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        flMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        blMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        FRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        FLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BRMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BLMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        brMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        blMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
     public static void drive(double power)
     {
-        FRMotor.setPower(power);
-        FLMotor.setPower(power);
-        BRMotor.setPower(power);
-        BLMotor.setPower(power);
+        frMotor.setPower(power);
+        flMotor.setPower(power);
+        brMotor.setPower(power);
+        blMotor.setPower(power);
     }
 
     public static void arcade (double x, double y , double rx)
     {
-        FRMotor.setPower(y - x - rx);
-        FLMotor.setPower(y + x + rx);
-        BRMotor.setPower(y + x - rx);
-        BLMotor.setPower(y - x + rx);
+        frMotor.setPower(y - x - rx);
+        flMotor.setPower(y + x + rx);
+        brMotor.setPower(y + x - rx);
+        blMotor.setPower(y - x + rx);
     }
 
     public static void fieldArcade(double x, double y , double rx, IMU imu)
@@ -59,9 +59,9 @@ public class DriveClass
 
         double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
 
-        FRMotor.setPower((rotY - rotX - rx) / denominator);
-        FLMotor.setPower((rotY + rotX + rx) / denominator);
-        BRMotor.setPower((rotY + rotX - rx) / denominator);
-        BLMotor.setPower((rotY - rotX + rx) / denominator);
+        frMotor.setPower((rotY - rotX - rx) / denominator);
+        flMotor.setPower((rotY + rotX + rx) / denominator);
+        brMotor.setPower((rotY + rotX - rx) / denominator);
+        blMotor.setPower((rotY - rotX + rx) / denominator);
     }
 }

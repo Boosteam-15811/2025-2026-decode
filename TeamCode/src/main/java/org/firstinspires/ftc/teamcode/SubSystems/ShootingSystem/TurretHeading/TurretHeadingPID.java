@@ -1,7 +1,16 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass.headingAngle;
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass.headingMotor;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
+
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 
 public class TurretHeadingPID
 {
@@ -27,5 +36,24 @@ public class TurretHeadingPID
     {
         return angle*TurretHeadingConstants.degreeInTicks;
     }
+
+    public static class PID implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+
+            controller.setPID(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
+
+            double pid = controller.calculate(headingMotor.getCurrentPosition(), angleToTicks(headingAngle));
+
+            headingMotor.setPower(pid);
+
+            return true;
+        }
+    }
+
+    public static Action pid() {
+        return new PID();
+    }
+
 
 }

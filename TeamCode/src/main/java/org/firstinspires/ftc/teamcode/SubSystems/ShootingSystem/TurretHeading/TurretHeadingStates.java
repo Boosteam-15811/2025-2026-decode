@@ -2,5 +2,5 @@ package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
 public enum TurretHeadingStates
 {
-    LAUNCHZONE , GOAL
+    LAUNCHZONE , ATGOAL , FARFROMGOAL ,START
 }

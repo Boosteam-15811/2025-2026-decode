@@ -11,24 +11,24 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class IntakeClass
 {
-    private static DcMotor IntakeMotor;
+    private static DcMotor intakeMotor;
 
     public static void init(HardwareMap hardwareMap)
     {
-        IntakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
-        IntakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        IntakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
     }
     public static void operate(double power)
     {
-        IntakeMotor.setPower(power);
+        intakeMotor.setPower(power);
     }
 
     public static void telemetry(Telemetry telemetry)
     {
-        telemetry.addData("IntakeMotor:", IntakeMotor.getPower());
+        telemetry.addData("intakeMotor:", intakeMotor.getPower());
     }
 
     public static class Activate implements Action {
