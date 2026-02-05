@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleStates;
 
 public class ShootingSpeedClass
 {
@@ -20,6 +18,8 @@ public class ShootingSpeedClass
 
     public static double masterShootingMotorSpeed;
     private static double slaveShootingMotorSpeed;
+
+    private static double error;
 
 
 
@@ -73,14 +73,14 @@ public class ShootingSpeedClass
                 break;
             }
         }
-        if ((ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity()*60/28) == 0))
+        if ((ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio) == 0))
         {
             masterShootingMotor.setMotorDisable();
             slaveShootingMotor.setMotorDisable();
         }
         else {
-            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * 60 / 28));
-            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * 60 / 28));
+            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
         }
     }
     public static boolean inTolerence(ShootingSpeedStates shootingSpeedStates)
@@ -110,17 +110,19 @@ public class ShootingSpeedClass
                 break;
             }
         }
-        double error = speed - masterShootingMotor.getVelocity()*60/28;
+        error = speed - masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;
 
-        return error < 20;
+
+        return Math.abs(error) < ShootingSpeedConstants.tolerance;
 
     }
 
     public static void telemetry(Telemetry telemetry)
     {
-        telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity()*60/28);
+        telemetry.addData("error", error);
+        telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
         //telemetry.addData("motorPower" , masterShootingMotor.getPower());
-        //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity()*60/28);
+        //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
         telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
     }
 

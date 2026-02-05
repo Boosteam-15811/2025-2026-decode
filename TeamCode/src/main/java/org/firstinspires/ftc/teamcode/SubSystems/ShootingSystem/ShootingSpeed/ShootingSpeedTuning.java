@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.seattlesolvers.solverslib.controller.PIDController;
+import com.seattlesolvers.solverslib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -20,9 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 @Disabled
 public class ShootingSpeedTuning extends LinearOpMode {
 
-    public static PIDController controller;
+    public static PIDFController controller;
 
-    public static double p = 0.014 ,i = 0 ,d = 0;
+    public static double p = 0.0015 ,i = 0 ,d = 0, f = 0.00021375;
 
     public static int targetVelocity = 0;
 
@@ -32,14 +33,13 @@ public class ShootingSpeedTuning extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        controller = new PIDController(p,i,d);
+        controller = new PIDFController(p,i,d,f);
 
         TransferWheelClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         DriveClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
-
-
+        HoodAngleClass.test(gamepad1);
 
         telemetry = new MultipleTelemetry(telemetry , FtcDashboard.getInstance().getTelemetry());
 
@@ -59,7 +59,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
         waitForStart();
         while (opModeIsActive())
         {
-            controller.setPID(p,i,d);
+            controller.setPIDF(p,i,d,f);
 
             double currentVelocity = (masterShootingSpeedMotor.getVelocity()/28)*60;
 

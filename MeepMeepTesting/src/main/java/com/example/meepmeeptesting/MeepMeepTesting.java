@@ -16,7 +16,7 @@ public class MeepMeepTesting {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8 , Math.toRadians(180)))
-                        .strafeTo(new Vector2d(62 , 35))
+                        .strafeTo(new Vector2d(-7 , 11))
 
 
                 .build());

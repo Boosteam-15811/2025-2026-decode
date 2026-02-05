@@ -18,7 +18,11 @@ public class ShooterStateClass {
    //private static boolean patternMode = false;
 
     public static void setState(Gamepad gamepad) {
-        if (gamepad.triangle)
+        if (gamepad.circle)
+        {
+            shooterState = ShooterStates.LAUNCHZONE;
+        }
+        else if (gamepad.triangle)
         {
             shooterState= ShooterStates.FARFROMGOAL;
 
@@ -58,10 +62,13 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.operate(HoodAngleStates.LAUNCHZONE);
                 ShootingSpeedClass.operate(ShootingSpeedStates.LAUNCHZONE);
-                if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.LAUNCHZONE))
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.LAUNCHZONE))
                 {
-                    IntakeClass.operate(1);
                     TransferWheelClass.operate(1);
+                    IntakeClass.operate(1);
+                } else {
+                    TransferWheelClass.operate(0);
+                    IntakeClass.operate(0);
                 }
                 break;
             }
@@ -69,10 +76,13 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.operate(HoodAngleStates.ATGOAL);
                 ShootingSpeedClass.operate(ShootingSpeedStates.ATGOAL);
-                if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.ATGOAL))
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.ATGOAL))
                 {
-                    IntakeClass.operate(1);
                     TransferWheelClass.operate(1);
+                    IntakeClass.operate(1);
+                } else {
+                    TransferWheelClass.operate(0);
+                    IntakeClass.operate(0);
                 }
 
                 break;
@@ -81,10 +91,13 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.operate(HoodAngleStates.FARFROMGOAL);
                 ShootingSpeedClass.operate(ShootingSpeedStates.FARFROMGOAL);
-                if(ShootingSpeedClass.inTolerence(ShootingSpeedStates.FARFROMGOAL))
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.FARFROMGOAL))
                 {
-                    IntakeClass.operate(1);
                     TransferWheelClass.operate(1);
+                    IntakeClass.operate(1);
+                } else {
+                    TransferWheelClass.operate(0);
+                    IntakeClass.operate(0);
                 }
                 break;
             }

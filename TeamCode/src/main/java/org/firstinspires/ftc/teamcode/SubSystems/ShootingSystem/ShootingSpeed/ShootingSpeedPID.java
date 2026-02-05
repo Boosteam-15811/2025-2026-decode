@@ -10,21 +10,22 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
+import com.seattlesolvers.solverslib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 
 public class ShootingSpeedPID
 {
-    private static PIDController controller;
+    private static PIDFController controller;
 
     public static void init(HardwareMap hardwareMap)
     {
-        controller = new PIDController(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
+        controller = new PIDFController(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d,ShootingSpeedConstants.f);
     }
 
     public static double updateMotorOutput(double  targetSpeed, double currentSpeed)
     {
-        controller.setPID(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
+        controller.setPIDF(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d,ShootingSpeedConstants.f);
 
         double pid = controller.calculate(currentSpeed , targetSpeed);
 
@@ -41,7 +42,7 @@ public class ShootingSpeedPID
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            controller.setPID(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
+            controller.setPIDF(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d,ShootingSpeedConstants.f);
 
             double pid = controller.calculate(masterShootingMotor.getVelocity()*60/28, masterShootingMotorSpeed);
 

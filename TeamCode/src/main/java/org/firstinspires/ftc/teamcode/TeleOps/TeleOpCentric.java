@@ -51,6 +51,7 @@ public class TeleOpCentric extends LinearOpMode {
             if (gamepad1.right_trigger > 0)
             {
                 IntakeClass.operate(gamepad1.right_trigger);
+                TransferWheelClass.operate(-gamepad1.right_trigger);
             }
             else if (gamepad1.left_trigger > 0)
             {
