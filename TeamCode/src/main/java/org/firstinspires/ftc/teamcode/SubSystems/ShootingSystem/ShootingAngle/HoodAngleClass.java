@@ -74,6 +74,11 @@ public class HoodAngleClass
         hoodServo.setPosition(servoPos);
     }
 
+    public static void tuning(double wantedPos)
+    {
+        hoodServo.setPosition(wantedPos);
+    }
+
     public static void telemetry(Telemetry telemetry)
     {
         telemetry.addData("hoodServoAngle:" , hoodServo.getPosition());
