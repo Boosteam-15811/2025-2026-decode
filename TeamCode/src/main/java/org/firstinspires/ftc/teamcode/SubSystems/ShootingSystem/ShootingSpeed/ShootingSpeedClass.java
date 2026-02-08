@@ -117,13 +117,19 @@ public class ShootingSpeedClass
 
     }
 
+    public static void tuning(double wantedSpeed) {
+        masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(wantedSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+        slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(wantedSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+    }
+
+
     public static void telemetry(Telemetry telemetry)
     {
-        telemetry.addData("error", error);
+        //telemetry.addData("error", error);
         telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
         //telemetry.addData("motorPower" , masterShootingMotor.getPower());
         //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-        telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
+        //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
     }
 
     public static class AtGoal implements Action {
