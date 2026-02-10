@@ -6,7 +6,8 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class MeepMeepTesting {
+public class RedHumanPlayer
+{
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
 
@@ -15,18 +16,18 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8 , Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, -17.8 , Math.toRadians(180)))
                 //from start to collecting from the human player
-                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(212))
                 .setTangent(0)
-                .strafeToLinearHeading(new Vector2d(56,30), Math.toRadians(90))
-                .lineToYConstantHeading(60)
+                .strafeToLinearHeading(new Vector2d(56,-30), Math.toRadians(270))
+                .lineToYConstantHeading(-60)
 
                 //from human player to shooting from launchzone
-                .strafeToLinearHeading(new Vector2d(56,12), Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56,-12), Math.toRadians(212))
 
                 //leave
-                .strafeTo(new Vector2d(25,17))
+                .strafeTo(new Vector2d(25,-17))
 
                 .build());
 
