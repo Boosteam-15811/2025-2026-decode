@@ -13,11 +13,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ShootingSpeedClass
 {
     public static DcMotorEx masterShootingMotor;
-    public static DcMotorEx slaveShootingMotor;
 
-
-    public static double masterShootingMotorSpeed;
-    private static double slaveShootingMotorSpeed;
+    public static double targetSpeed;
 
     private static double error;
 
@@ -27,99 +24,35 @@ public class ShootingSpeedClass
     {
 
         masterShootingMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
-        slaveShootingMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
 
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        slaveShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slaveShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slaveShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        slaveShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
     }
 
-    public static void operate(ShootingSpeedStates shootingSpeedStates)
+    public static void setSpeed(double speed)
     {
-        switch (shootingSpeedStates)
-        {
-            case LAUNCHZONE:
-            {
-                masterShootingMotorSpeed = ShootingSpeedConstants.launchZoneSpeed;
-                slaveShootingMotorSpeed = ShootingSpeedConstants.launchZoneSpeed;
-                break;
-            }
-            case ATGOAL:
-            {
-                masterShootingMotorSpeed = ShootingSpeedConstants.atGoalSpeed;
-                slaveShootingMotorSpeed = ShootingSpeedConstants.atGoalSpeed;
-                break;
-            }
-            case FARFROMGOAL:
-            {
-                masterShootingMotorSpeed = ShootingSpeedConstants.farFromGoalSpeed;
-                slaveShootingMotorSpeed = ShootingSpeedConstants.farFromGoalSpeed;
-                break;
-            }
-            case DISABLED:
-            {
-                masterShootingMotorSpeed = ShootingSpeedConstants.disabledSpeed;
-                slaveShootingMotorSpeed = ShootingSpeedConstants.disabledSpeed;
-                break;
-            }
-        }
-        if ((ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio) == 0))
+        targetSpeed = speed;
+        if (targetSpeed == 0)
         {
             masterShootingMotor.setMotorDisable();
-            slaveShootingMotor.setMotorDisable();
         }
         else {
-            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
-            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(masterShootingMotorSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
         }
     }
-    public static boolean inTolerence(ShootingSpeedStates shootingSpeedStates)
+    public static boolean inTolerence(double speed, double tolerance)
     {
-        double speed;
-        switch (shootingSpeedStates)
-        {
-            default:
-            case LAUNCHZONE:
-            {
-                speed = ShootingSpeedConstants.launchZoneSpeed;
-                break;
-            }
-            case ATGOAL:
-            {
-                speed = ShootingSpeedConstants.atGoalSpeed;
-                break;
-            }
-            case FARFROMGOAL:
-            {
-                speed = ShootingSpeedConstants.farFromGoalSpeed;
-                break;
-            }
-            case DISABLED:
-            {
-                speed = ShootingSpeedConstants.disabledSpeed;
-                break;
-            }
-        }
         error = speed - masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;
 
+        return Math.abs(error) < tolerance;
 
-        return Math.abs(error) < ShootingSpeedConstants.tolerance;
-
-    }
-
-    public static void tuning(double wantedSpeed) {
-        masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(wantedSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
-        slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(wantedSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
     }
 
 
@@ -136,7 +69,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            masterShootingMotorSpeed = ShootingSpeedConstants.atGoalSpeed;
+            targetSpeed = ShootingSpeedConstants.atGoalSpeed;
             return false;
         }
     }
@@ -148,7 +81,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            masterShootingMotorSpeed = ShootingSpeedConstants.farFromGoalSpeed;
+            targetSpeed = ShootingSpeedConstants.farFromGoalSpeed;
             return false;
         }
     }
@@ -160,7 +93,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            masterShootingMotorSpeed = 0;
+            targetSpeed = 0;
             return false;
         }
     }

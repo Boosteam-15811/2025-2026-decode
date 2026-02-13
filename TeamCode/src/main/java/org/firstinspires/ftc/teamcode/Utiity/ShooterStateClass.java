@@ -5,11 +5,11 @@ import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleStates;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedStates;
 
 public class ShooterStateClass {
     public static ShooterStates shooterState = ShooterStates.DISABLED;
@@ -24,7 +24,7 @@ public class ShooterStateClass {
         }
         else if (gamepad.triangle)
         {
-            shooterState= ShooterStates.FARFROMGOAL;
+            shooterState = ShooterStates.FARFROMGOAL;
 
         }
         else if (gamepad.square)
@@ -55,14 +55,14 @@ public class ShooterStateClass {
 //        }
 //
 //    }
-    public static void operate() throws InterruptedException {
+    public static void operate() {
         switch (shooterState)
         {
             case LAUNCHZONE:
             {
-                HoodAngleClass.operate(HoodAngleStates.LAUNCHZONE);
-                ShootingSpeedClass.operate(ShootingSpeedStates.LAUNCHZONE);
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.LAUNCHZONE))
+                HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
+                ShootingSpeedClass.setSpeed(ShootingSpeedConstants.launchZoneSpeed);
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.launchZoneSpeed , ShootingSpeedConstants.tolerance))
                 {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
@@ -74,9 +74,9 @@ public class ShooterStateClass {
             }
             case ATGOAL:
             {
-                HoodAngleClass.operate(HoodAngleStates.ATGOAL);
-                ShootingSpeedClass.operate(ShootingSpeedStates.ATGOAL);
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.ATGOAL))
+                HoodAngleClass.setPos(HoodAngleConstants.atGoalPos);
+                ShootingSpeedClass.setSpeed(ShootingSpeedConstants.atGoalSpeed);
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.atGoalSpeed, ShootingSpeedConstants.atGoalTolerance))
                 {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
@@ -89,9 +89,9 @@ public class ShooterStateClass {
             }
             case FARFROMGOAL:
             {
-                HoodAngleClass.operate(HoodAngleStates.FARFROMGOAL);
-                ShootingSpeedClass.operate(ShootingSpeedStates.FARFROMGOAL);
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedStates.FARFROMGOAL))
+                HoodAngleClass.setPos(HoodAngleConstants.farFromGoalPos);
+                ShootingSpeedClass.setSpeed(ShootingSpeedConstants.farFromGoalSpeed);
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance))
                 {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
@@ -103,8 +103,8 @@ public class ShooterStateClass {
             }
             case DISABLED:
             {
-                HoodAngleClass.operate(HoodAngleStates.DISABLED);
-                ShootingSpeedClass.operate(ShootingSpeedStates.DISABLED);
+                HoodAngleClass.setPos(HoodAngleConstants.disabledPos);
+                ShootingSpeedClass.setSpeed(ShootingSpeedConstants.disabledSpeed);
                 break;
             }
 
