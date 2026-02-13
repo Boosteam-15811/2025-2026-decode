@@ -27,24 +27,10 @@ public class HoodAngleClass
         hoodServo.setDirection(Servo.Direction.REVERSE);
     }
 
-    public static void operate(HoodAngleStates hoodAngleState)
+
+    public static void setPos(double pos)
     {
-        switch (hoodAngleState)
-        {
-            case ATGOAL:
-                servoPos = HoodAngleConstants.atGoalPos;
-                break;
-            case LAUNCHZONE:
-                servoPos = HoodAngleConstants.launchZonePos;
-                break;
-            case FARFROMGOAL:
-                servoPos = HoodAngleConstants.farFromGoalPos;
-                break;
-            case DISABLED:
-                servoPos = HoodAngleConstants.disabledPos;
-                break;
-        }
-        hoodServo.setPosition(servoPos);
+        hoodServo.setPosition(pos);
     }
 
 
@@ -74,11 +60,6 @@ public class HoodAngleClass
         hoodServo.setPosition(servoPos);
     }
 
-    public static void tuning(double wantedPos)
-    {
-        hoodServo.setPosition(wantedPos);
-    }
-
     public static void telemetry(Telemetry telemetry)
     {
         telemetry.addData("hoodServoAngle:" , hoodServo.getPosition());
@@ -88,7 +69,7 @@ public class HoodAngleClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            operate(HoodAngleStates.ATGOAL);
+            setPos(HoodAngleConstants.atGoalPos);
             return false;
         }
     }
@@ -99,7 +80,7 @@ public class HoodAngleClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            operate(HoodAngleStates.FARFROMGOAL);
+            setPos(HoodAngleConstants.farFromGoalPos);
             return false;
         }
     }

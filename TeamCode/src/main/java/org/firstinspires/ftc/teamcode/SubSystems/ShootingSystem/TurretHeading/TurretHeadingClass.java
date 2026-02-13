@@ -13,7 +13,6 @@ public class TurretHeadingClass
 {
     public static DcMotor headingMotor;
 
-    public static double headingAngle;
 
     public static void init(HardwareMap hardwareMap)
     {
@@ -22,60 +21,14 @@ public class TurretHeadingClass
         headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
-    public static void operate(TurretHeadingStates turretHeadingStates)
+    public static void operate(double tx)
     {
-        switch(turretHeadingStates)
-        {
-            default:
-            case LAUNCHZONE: {
-                headingAngle = TurretHeadingConstants.launchZonePos;
-                break;
-            }
-            case ATGOAL:
-            {
-                headingAngle = TurretHeadingConstants.atGoalPos;
-                break;
-            }
-            case FARFROMGOAL: {
-                headingAngle = TurretHeadingConstants.farFromGoalPos;
-                break;
-            }
-            case START:
-            {
-                headingAngle = TurretHeadingConstants.startPos;
-                break;
-            }
-        }
-       headingMotor.setPower(TurretHeadingPID.moveToPos(headingAngle, headingMotor.getCurrentPosition()));
+       headingMotor.setPower(TurretHeadingPID.moveToPos(tx));
     }
 
-    public static boolean inPosition (TurretHeadingStates turretHeadingStates)
+    public static boolean inPosition ()
     {
-        double pos;
-        switch (turretHeadingStates)
-        {
-            default:
-            case LAUNCHZONE:
-            {
-                pos = TurretHeadingConstants.launchZonePos;
-                break;
-            }
-            case ATGOAL:
-            {
-                pos = TurretHeadingConstants.atGoalPos;
-                break;
-            }
-            case FARFROMGOAL: {
-                pos = TurretHeadingConstants.farFromGoalPos;
-                break;
-            }
-            case START:
-            {
-                pos = TurretHeadingConstants.startPos;
-                break;
-            }
-        }
-        return pos == headingMotor.getCurrentPosition();
+        return (0.05 > TurretHeadingPID.moveToPos(0));
     }
 
     public static void telemetry(Telemetry telemetry)
@@ -83,55 +36,55 @@ public class TurretHeadingClass
         telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition());
     }
 
-    public static class AtGoal implements Action
-    {
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            headingAngle = TurretHeadingConstants.atGoalPos;
-            return false;
-        }
-    }
-    public static Action atGoal()
-    {
-        return new AtGoal();
-    }
-
-    public static class FarFromGoal implements Action
-    {
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            headingAngle = TurretHeadingConstants.farFromGoalPos;
-            return false;
-        }
-    }
-    public static Action farFromGoal()
-    {
-        return new FarFromGoal();
-    }
-
-    public static class LaunchZone implements Action
-    {
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            headingAngle = TurretHeadingConstants.launchZonePos;
-            return false;
-        }
-    }
-    public static Action launchZone()
-    {
-        return new LaunchZone();
-    }
-
-    public static class Start implements Action
-    {
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            headingAngle = TurretHeadingConstants.startPos;
-            return false;
-        }
-    }
-    public static Action start()
-    {
-        return new Start();
-    }
+//    public static class AtGoal implements Action
+//    {
+//        @Override
+//        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//            headingAngle = TurretHeadingConstants.atGoalPos;
+//            return false;
+//        }
+//    }
+//    public static Action atGoal()
+//    {
+//        return new AtGoal();
+//    }
+//
+//    public static class FarFromGoal implements Action
+//    {
+//        @Override
+//        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//            headingAngle = TurretHeadingConstants.farFromGoalPos;
+//            return false;
+//        }
+//    }
+//    public static Action farFromGoal()
+//    {
+//        return new FarFromGoal();
+//    }
+//
+//    public static class LaunchZone implements Action
+//    {
+//        @Override
+//        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//            headingAngle = TurretHeadingConstants.launchZonePos;
+//            return false;
+//        }
+//    }
+//    public static Action launchZone()
+//    {
+//        return new LaunchZone();
+//    }
+//
+//    public static class Start implements Action
+//    {
+//        @Override
+//        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//            headingAngle = TurretHeadingConstants.startPos;
+//            return false;
+//        }
+//    }
+//    public static Action start()
+//    {
+//        return new Start();
+//    }
 }

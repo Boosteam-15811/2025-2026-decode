@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel;
-
 import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.masterShootingMotor;
 
 import androidx.annotation.NonNull;
@@ -11,18 +10,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
-
-
 public class TransferWheelClass
 {
     private static DcMotor transferWheel;
 
     public static void init(HardwareMap hardwareMap) {
-        transferWheel = hardwareMap.dcMotor.get("transferWheel");
-
-        transferWheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        transferWheel = hardwareMap.get(DcMotor.class,"transferWheel");
     }
-
     public static void operate(double power) {
         transferWheel.setPower(power);
     }
@@ -30,17 +24,14 @@ public class TransferWheelClass
     {
         telemetry.addData("transferPower:" , transferWheel.getPower());
     }
-
-
     public static class Activate implements Action {
-
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if(ShootingSpeedClass.masterShootingMotorSpeed == 0)
+            if(ShootingSpeedClass.targetSpeed == 0)
             {
                 operate(0);
             }
-            else if (ShootingSpeedClass.masterShootingMotorSpeed - masterShootingMotor.getVelocity()*60/28 < 200) {
+            else if (ShootingSpeedClass.targetSpeed - masterShootingMotor.getVelocity()*60/28 < 200) {
                 operate(1);
             }
             else {

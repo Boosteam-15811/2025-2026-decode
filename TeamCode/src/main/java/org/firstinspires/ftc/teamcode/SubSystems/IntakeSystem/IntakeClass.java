@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -8,7 +7,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 public class IntakeClass
 {
     private static DcMotor intakeMotor;
@@ -30,7 +28,6 @@ public class IntakeClass
     {
         telemetry.addData("intakeMotor:", intakeMotor.getPower());
     }
-
     public static class Activate implements Action {
 
         @Override
