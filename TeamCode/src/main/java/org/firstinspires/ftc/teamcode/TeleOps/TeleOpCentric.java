@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode.TeleOps;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 import org.firstinspires.ftc.teamcode.TwoDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.Utiity.ShooterStateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
@@ -19,6 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
 
 @TeleOp(name = "Working Teleop")
+@Config
 public class TeleOpCentric extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,6 +35,8 @@ public class TeleOpCentric extends LinearOpMode {
         IntakeClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
+        TurretHeadingClass.init(hardwareMap);
+
 
 
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -69,10 +75,12 @@ public class TeleOpCentric extends LinearOpMode {
 
             ShooterStateClass.setState(gamepad1);
             ShooterStateClass.operate();
+            TurretHeadingClass.test(gamepad2);
 
             HoodAngleClass.telemetry(telemetry);
             ShootingSpeedClass.telemetry(telemetry);
             TransferWheelClass.telemetry(telemetry);
+            TurretHeadingClass.telemetry(telemetry);
             telemetry.update();
         }
     }

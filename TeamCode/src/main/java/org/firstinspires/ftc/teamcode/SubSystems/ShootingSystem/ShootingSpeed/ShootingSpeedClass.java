@@ -60,9 +60,9 @@ public class ShootingSpeedClass
     {
         //telemetry.addData("error", error);
         telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-        //telemetry.addData("motorPower" , masterShootingMotor.getPower());
+        telemetry.addData("motorPower" , masterShootingMotor.getPower());
         //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-        //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedStates.ATGOAL));
+        telemetry .addData("in tolerance" , inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance));
     }
 
     public static class AtGoal implements Action {

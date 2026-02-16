@@ -18,12 +18,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 
 @TeleOp
 @Config
-@Disabled
 public class ShootingSpeedTuning extends LinearOpMode {
 
     public static PIDFController controller;
 
-    public static double p = 0.0015 ,i = 0 ,d = 0, f = 0.00021375;
+    public static double p = 0.0018 ,i = 0 ,d = 0.000001, f = 0.00025;
 
     public static int targetVelocity = 0;
 
@@ -44,17 +43,12 @@ public class ShootingSpeedTuning extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry , FtcDashboard.getInstance().getTelemetry());
 
         masterShootingSpeedMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
-        slaveShootingSpeedMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
-
 
         masterShootingSpeedMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        slaveShootingSpeedMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         masterShootingSpeedMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        slaveShootingSpeedMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingSpeedMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        slaveShootingSpeedMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
         waitForStart();
         while (opModeIsActive())
@@ -70,11 +64,9 @@ public class ShootingSpeedTuning extends LinearOpMode {
             if(targetVelocity < 100)
             {
                 masterShootingSpeedMotor.setMotorDisable();
-                slaveShootingSpeedMotor.setMotorDisable();
             }
             else {
                 masterShootingSpeedMotor.setPower(power);
-                slaveShootingSpeedMotor.setPower(power);
             }
 
                 DriveClass.arcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
@@ -102,7 +94,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
             HoodAngleClass.test(gamepad1);
             HoodAngleClass.telemetry(telemetry);
 
-            telemetry.addData("motorPower:" , masterShootingSpeedMotor.getPower()*1000);
+            telemetry.addData("motorPower:" , masterShootingSpeedMotor.getPower());
             telemetry.addData("currentVelocity:" ,currentVelocity);
             telemetry.addData("targetVelocity" , targetVelocity);
             telemetry.addData("currentError:", (targetVelocity-currentVelocity));
