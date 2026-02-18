@@ -73,11 +73,12 @@ public class RPMAndAngleTuning extends LinearOpMode {
 //            }
                 if (gamepad1.right_trigger > 0)
                 {
-                    IntakeClass.operate(gamepad1.right_trigger);
+                    IntakeClass.operate(1);
+                    TransferWheelClass.operate(-1);
                 }
                 else if (gamepad1.left_trigger > 0)
                 {
-                    IntakeClass.operate(-gamepad1.left_trigger);
+                    IntakeClass.operate(-1);
                 }
                 else
                 {
