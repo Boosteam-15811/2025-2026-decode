@@ -22,9 +22,9 @@ public class TurretHeadingTuning extends LinearOpMode
 
     private DcMotor turretHeadingMotor;
 
-    private static final double encoderResolution = 384.5;
+    private static final double encoderResolution = 537.7;
 
-    private static final double gearRatio = 1.0 / 7.0;
+    private static final double gearRatio = 11.0 / 140.0;
 
     public static final double degreeInTicks = (encoderResolution*gearRatio)/360;
 

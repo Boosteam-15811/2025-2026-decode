@@ -11,8 +11,11 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.Utiity.Camera.CameraClass;
 import org.firstinspires.ftc.teamcode.Utiity.Camera.CameraTeleOp;
 
@@ -30,7 +33,10 @@ public class RPMAndAngleTuning extends LinearOpMode {
         DriveClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
-        CameraClass.init(hardwareMap);
+        ShootingSpeedPID.init(hardwareMap);
+        IntakeClass.init(hardwareMap);
+        TransferWheelClass.init(hardwareMap);
+        //CameraClass.init(hardwareMap);
 
 
 
@@ -43,7 +49,7 @@ public class RPMAndAngleTuning extends LinearOpMode {
         imu.initialize(parameters);
 
         waitForStart();
-        CameraClass.limeLight3A.start();
+        //CameraClass.limeLight3A.start();
 
         while (opModeIsActive()) {
 
@@ -57,19 +63,43 @@ public class RPMAndAngleTuning extends LinearOpMode {
             HoodAngleClass.setPos(servoPos);
             ShootingSpeedClass.setSpeed(motorRPM);
 
-            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+//            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+//            CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
+//
+//            LLResult llResult = CameraClass.limeLight3A.getLatestResult();
+//            if(llResult != null && llResult.isValid())
+//            {
+//                distance = CameraClass.getDistanceFromTag(llResult.getTa());
+//            }
+                if (gamepad1.right_trigger > 0)
+                {
+                    IntakeClass.operate(1);
+                    TransferWheelClass.operate(-1);
+                }
+                else if (gamepad1.left_trigger > 0)
+                {
+                    IntakeClass.operate(-1);
+                }
+                else
+                {
+                    IntakeClass.operate(0);
+                }
+                if (gamepad1.right_bumper)
+                {
+                    TransferWheelClass.operate(1);
 
-            LLResult llResult = CameraClass.limeLight3A.getLatestResult();
-            if(llResult != null && llResult.isValid())
-            {
-                distance = CameraClass.getDistanceFromTag(llResult.getTa());
-            }
-
+                } else if (gamepad1.left_bumper)
+                {
+                    TransferWheelClass.operate(-1);
+                }
+                else
+                {
+                    TransferWheelClass.operate(0);
+                }
 
             HoodAngleClass.telemetry(telemetry);
             ShootingSpeedClass.telemetry(telemetry);
-            CameraClass.telemetry(telemetry);
+            //CameraClass.telemetry(telemetry);
 
             telemetry.update();
         }

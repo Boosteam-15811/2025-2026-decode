@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -24,6 +25,22 @@ public class TurretHeadingClass
     public static void operate(double tx)
     {
        headingMotor.setPower(TurretHeadingPID.moveToPos(tx));
+    }
+
+    public static void test(Gamepad gamepad)
+    {
+        if (gamepad.right_trigger > 0)
+        {
+            headingMotor.setPower(gamepad.right_trigger);
+        }
+        else if (gamepad.left_trigger > 0)
+        {
+            headingMotor.setPower(-gamepad.left_trigger);
+        }
+        else
+        {
+            headingMotor.setPower(0);
+        }
     }
 
     public static boolean inPosition ()
