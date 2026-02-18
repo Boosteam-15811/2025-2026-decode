@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utiity.Camera;
+package org.firstinspires.ftc.teamcode.Utility.Camera;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -17,8 +17,9 @@ public class CameraTeleOp extends LinearOpMode {
 
     public static double getDistanceFromTag(double ta)
     {
-        double scale = 3040.267;
-        return Math.pow((scale/ta),(1/1.54168));
+        double scale = 174.3593;
+        return scale * Math.pow((ta),(-0.5875666));
+
     }
     @Override
     public void runOpMode() throws InterruptedException {
@@ -29,7 +30,7 @@ public class CameraTeleOp extends LinearOpMode {
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
                 RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(parameters);

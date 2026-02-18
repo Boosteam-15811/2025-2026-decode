@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utiity;
+package org.firstinspires.ftc.teamcode.Utility;
 
 import static java.lang.Thread.sleep;
 
@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
-import org.firstinspires.ftc.teamcode.Utiity.DynamicShooting.DynamicShootingClass;
 
 public class ShooterStateClass {
     public static ShooterStates shooterState = ShooterStates.DISABLED;
@@ -138,7 +137,12 @@ public class ShooterStateClass {
     public static void operate(double wantedSpeed)
     {
         ShootingSpeedClass.setSpeed(wantedSpeed);
-        if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300))
+        if (wantedSpeed == 0)
+        {
+            IntakeClass.operate(0);
+            TransferWheelClass.operate(0);
+        }
+        else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 450))
         {
             IntakeClass.operate(-1);
         }

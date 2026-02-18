@@ -6,16 +6,17 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 public class TransferWheelClass
 {
-    private static DcMotor transferWheel;
+    private static DcMotorEx transferWheel;
 
     public static void init(HardwareMap hardwareMap) {
-        transferWheel = hardwareMap.get(DcMotor.class,"transferWheel");
+        transferWheel = hardwareMap.get(DcMotorEx.class,"transferWheel");
     }
     public static void operate(double power) {
         transferWheel.setPower(power);
@@ -23,6 +24,7 @@ public class TransferWheelClass
     public static void telemetry(Telemetry telemetry)
     {
         telemetry.addData("transferPower:" , transferWheel.getPower());
+        telemetry.addData("transferVelocity:" , transferWheel.getVelocity()*60/28);
     }
     public static class Activate implements Action {
         @Override

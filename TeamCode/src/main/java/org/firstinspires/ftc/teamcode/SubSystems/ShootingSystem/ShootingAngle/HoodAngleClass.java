@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
+import org.firstinspires.ftc.teamcode.Utility.MathUtil.MathUtilClass;
 
 public class HoodAngleClass
 {
@@ -30,7 +31,7 @@ public class HoodAngleClass
 
     public static void setPos(double pos)
     {
-        hoodServo.setPosition(pos);
+        hoodServo.setPosition(MathUtilClass.clamp(pos, HoodAngleConstants.hoodAngleMin, HoodAngleConstants.hoodAngleMax));
     }
 
 
