@@ -22,6 +22,7 @@ public class TurretHeadingClass
         headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
 
+
     public static void operate(double tx)
     {
        headingMotor.setPower(TurretHeadingPID.moveToPos(tx));

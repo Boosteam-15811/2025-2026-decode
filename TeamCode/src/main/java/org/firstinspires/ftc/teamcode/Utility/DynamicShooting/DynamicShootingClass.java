@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Utiity.DynamicShooting;
+package org.firstinspires.ftc.teamcode.Utility.DynamicShooting;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
