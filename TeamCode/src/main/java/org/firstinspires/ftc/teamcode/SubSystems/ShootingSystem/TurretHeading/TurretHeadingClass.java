@@ -14,18 +14,33 @@ public class TurretHeadingClass
 {
     public static DcMotor headingMotor;
 
+    private static double tx = 0;
+
 
     public static void init(HardwareMap hardwareMap)
     {
         headingMotor = hardwareMap.dcMotor.get("headingMotor");
 
         headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
-    public static void operate(double tx)
+    public static void operate()
     {
        headingMotor.setPower(TurretHeadingPID.moveToPos(tx));
+    }
+
+    public static void setTx(double Tx)
+    {
+        tx = Tx;
+    }
+
+    public static void setPos(double pos)
+    {
+
     }
 
     public static void test(Gamepad gamepad)

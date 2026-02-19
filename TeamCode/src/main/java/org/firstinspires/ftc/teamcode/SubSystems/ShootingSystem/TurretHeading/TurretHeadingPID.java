@@ -14,6 +14,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 public class TurretHeadingPID
 {
     private static PIDController controller;
+    private static boolean flip = false;
+    private static double fixAngle = 0;
+    private static double power = 0;
 
 
 
@@ -26,9 +29,30 @@ public class TurretHeadingPID
     {
         controller.setPID(TurretHeadingConstants.p, TurretHeadingConstants.i , TurretHeadingConstants.d);
 
-        double pid =controller.calculate(tx,0);
+        double motorAngle = headingMotor.getCurrentPosition()/TurretHeadingConstants.degreeInTicks;
+        if (Math.abs(motorAngle) >= TurretHeadingConstants.angleLimit)
+        {
+            flip = true;
+            fixAngle = Math.signum(motorAngle)*-TurretHeadingConstants.flipAngle;
+        }
+        else if(!flip)
+        {
+            double pid = controller.calculate(-tx, 0);
 
-        double power = pid;
+            power = pid + (TurretHeadingConstants.f * Math.signum(tx));
+
+        }
+
+        if (flip)
+        {
+            double pid = controller.calculate(motorAngle, fixAngle);
+            power = pid + (TurretHeadingConstants.f * Math.signum(tx));
+
+            if(power < TurretHeadingConstants.pidStopper && power > -TurretHeadingConstants.pidStopper)
+            {
+                flip = false;
+            }
+        }
 
         return power;
     }

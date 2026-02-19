@@ -8,7 +8,7 @@ public class TurretHeadingConstants
     public static final double farFromGoalPos = 150;
     public static final double startPos = 0;
 
-    public static double p = 0 , i = 0 , d = 0;
+    public static double p = 0.0415 , i = 0 , d = 0.0016 , f = 0.05;
 
     private static final double encoderResolution = 537.7;
 
