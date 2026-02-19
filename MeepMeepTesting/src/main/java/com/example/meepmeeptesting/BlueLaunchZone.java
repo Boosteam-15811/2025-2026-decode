@@ -18,34 +18,34 @@ public class BlueLaunchZone
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, -17.8 , Math.toRadians(180)))
                 //from start to collecting the first row
-                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(212))
+                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(270))
                 .setTangent(180)
                 .splineToLinearHeading(new Pose2d(36,-30, Math.toRadians(270)), Math.toRadians(270))
                 .lineToYConstantHeading(-54)
 
                 //from first row to shooting from launchzone range
-                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(212))
+                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(270))
 
                 //from launchzone to second row
                 .setTangent(180)
                 .splineToLinearHeading(new Pose2d(12,-30, Math.toRadians(270)), Math.toRadians(270))
                 .lineToYConstantHeading(-54)
 
-                //from second row to shooting from medium range
+                //from second row to shooting from launchzone range
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(56, -12 , Math.toRadians(270)), Math.toRadians(270))
 
                 //from medium range to third row
-                .setTangent(0)
+                .setTangent(180)
                 .splineToLinearHeading(new Pose2d(-11,-30, Math.toRadians(270)), Math.toRadians(270))
                 .lineToYConstantHeading(-54)
 
-                //from third row to shooting from medium range
-                .setTangent(90)
-                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225))
+                //from third row to shooting from launchzone range
+                .setTangent(0)
+                .strafeTo(new Vector2d(56, -12))
 
                 //leave
-                .strafeTo(new Vector2d(5,-17))
+                .strafeTo(new Vector2d(20,-17))
 
                 .build());
 

@@ -27,6 +27,13 @@ public class TurretHeadingClass
         headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
+    public static void teleOpInit(HardwareMap hardwareMap)
+    {
+        headingMotor = hardwareMap.get(DcMotor.class , "headingMotor");
+
+        headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    }
+
 
     public static void operate()
     {

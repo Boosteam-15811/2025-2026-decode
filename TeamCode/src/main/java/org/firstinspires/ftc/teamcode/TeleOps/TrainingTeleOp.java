@@ -28,19 +28,19 @@ import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingCla
 
 
 
-@TeleOp(name = "Blue Teleop")
+@TeleOp(name = "Training Teleop")
 @Config
-public class BlueTeleOp extends LinearOpMode {
+public class TrainingTeleOp extends LinearOpMode {
 
-        public static double manualDistance = 0;
-        private double distance = 0;
+    public static double manualDistance = 0;
+    private double distance = 0;
 
-        private static final double minDistance = 65;
-        private static final double maxDistance = 250;
+    private static final double minDistance = 65;
+    private static final double maxDistance = 250;
 
-        private int wantedAprilTagID = 20; ////blue april tag
-        private boolean lastChange = false;
-        private boolean shooting = false;
+    private int wantedAprilTagID = 20; ////blue april tag
+    private boolean lastChange = false;
+    private boolean shooting = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,7 +54,7 @@ public class BlueTeleOp extends LinearOpMode {
         IntakeClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
-        TurretHeadingClass.teleOpInit(hardwareMap);
+        TurretHeadingClass.init(hardwareMap);
         CameraClass.init(hardwareMap);
         TurretHeadingPID.init(hardwareMap);
 
@@ -132,7 +132,7 @@ public class BlueTeleOp extends LinearOpMode {
                 }
                 else if (distance >= maxDistance)
                 {
-                 HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
+                    HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
                 }
                 else
                 {

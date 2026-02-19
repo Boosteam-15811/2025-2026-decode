@@ -23,7 +23,7 @@ public class RedAtGoal
                 .lineToYConstantHeading(54)
 
                 //from first row to shooting from medium range
-                .strafeToLinearHeading(new Vector2d(-16,17),Math.toRadians(135))
+                .strafeToLinearHeading(new Vector2d(-16,17),Math.toRadians(90))
 
                 //from medium range to second row
                 .setTangent(0)
@@ -32,19 +32,19 @@ public class RedAtGoal
 
                 //from second row to shooting from medium range
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(90)), Math.toRadians(90))
 
                 //from medium range to first row
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(36,30, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(54)
 
-                //from first row to shooting from launchzone
+                //from first row to shooting from medium range
                 .setTangent(0)
-                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(152))
+                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(90)), Math.toRadians(90))
 
                 //leave
-                .strafeTo(new Vector2d(25,14))
+                .strafeTo(new Vector2d(-35,14))
 
                 .build());
 
