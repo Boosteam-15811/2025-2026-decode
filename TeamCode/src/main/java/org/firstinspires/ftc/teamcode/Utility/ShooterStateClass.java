@@ -63,7 +63,7 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.launchZoneSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300))
+                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 400))
                 {
                     IntakeClass.operate(-1);
                 }
@@ -84,7 +84,7 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.setPos(HoodAngleConstants.atGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.atGoalSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300))
+                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 400))
                 {
                     IntakeClass.operate(-1);
                 }
@@ -105,7 +105,7 @@ public class ShooterStateClass {
             {
                 HoodAngleClass.setPos(HoodAngleConstants.farFromGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.farFromGoalSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300))
+                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 400))
                 {
                     IntakeClass.operate(-1);
                 }
@@ -142,7 +142,7 @@ public class ShooterStateClass {
             IntakeClass.operate(0);
             TransferWheelClass.operate(0);
         }
-        else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 450))
+        else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 400))
         {
             IntakeClass.operate(-1);
         }

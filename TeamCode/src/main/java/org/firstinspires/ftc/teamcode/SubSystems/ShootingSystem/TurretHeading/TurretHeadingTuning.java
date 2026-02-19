@@ -22,19 +22,16 @@ import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
 @Config
 public class TurretHeadingTuning extends LinearOpMode
 {
-    private PIDFController controller;
+    private PIDController controller;
 
 
 
-    public static double p = 0 ,i = 0 ,d = 0 , f = 0;
+    public static double p = 0.0415 ,i = 0 ,d = 0.0016 , f = 0.05;
 
     public static double tx = 0;
 
     private DcMotor turretHeadingMotor;
 
-    private static final double encoderResolution = 537.7;
-
-    private static final double gearRatio = 13.0 / 140.0;
 
     private static boolean flip = false;
 
@@ -45,9 +42,10 @@ public class TurretHeadingTuning extends LinearOpMode
     private static double power = 0;
 
 
+
     @Override
     public void runOpMode() throws InterruptedException {
-        controller = new PIDFController(p, i, d, f);
+        controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry , FtcDashboard.getInstance().getTelemetry());
         CameraClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
@@ -75,7 +73,7 @@ public class TurretHeadingTuning extends LinearOpMode
 
         while (opModeIsActive())
         {
-            controller.setPIDF(p, i ,d, f);
+            controller.setPID(p, i ,d);
 
             HoodAngleClass.setPos(0.06);
 
@@ -100,15 +98,15 @@ public class TurretHeadingTuning extends LinearOpMode
             {
                 double pid = controller.calculate(-tx, 0);
 
-                power = pid;
+                power = pid + (f * Math.signum(tx));
 
             }
             if (flip)
             {
                 double pid = controller.calculate(motorAngle, fixAngle);
-                power = pid;
+                power = pid + (f * Math.signum(tx));
 
-                if(pid < TurretHeadingConstants.pidStopper && pid > -TurretHeadingConstants.pidStopper)
+                if(power < TurretHeadingConstants.pidStopper && power > -TurretHeadingConstants.pidStopper)
                 {
                     flip = false;
                 }

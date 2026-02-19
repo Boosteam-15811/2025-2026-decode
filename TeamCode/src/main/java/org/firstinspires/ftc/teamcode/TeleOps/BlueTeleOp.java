@@ -17,6 +17,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingPID;
 import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
@@ -39,6 +40,7 @@ public class BlueTeleOp extends LinearOpMode {
 
         private int wantedAprilTagID = 20; ////blue april tag
         private boolean lastChange = false;
+        private boolean shooting = false;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -54,6 +56,7 @@ public class BlueTeleOp extends LinearOpMode {
         ShootingSpeedPID.init(hardwareMap);
         TurretHeadingClass.init(hardwareMap);
         CameraClass.init(hardwareMap);
+        TurretHeadingPID.init(hardwareMap);
 
 
 
@@ -84,6 +87,7 @@ public class BlueTeleOp extends LinearOpMode {
             if (gamepad2.dpad_up)
             {
                 TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
 
@@ -91,6 +95,7 @@ public class BlueTeleOp extends LinearOpMode {
             if(llResult != null && llResult.isValid() && CameraClass.compareID(wantedAprilTagID))
             {
                 distance = CameraClass.getDistanceFromTag(llResult.getTa());
+                TurretHeadingClass.setTx(llResult.getTx());
             }
 
 
@@ -108,6 +113,8 @@ public class BlueTeleOp extends LinearOpMode {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
             }
+
+            TurretHeadingClass.operate();
 
             if (!lastChange)
             {
@@ -134,6 +141,16 @@ public class BlueTeleOp extends LinearOpMode {
 
                 if (gamepad1.square)
                 {
+                    shooting = true;
+                }
+
+                if (gamepad1.cross)
+                {
+                    shooting = false;
+                    ShooterStateClass.operate(ShootingSpeedConstants.disabledSpeed);
+                }
+                else if (shooting)
+                {
                     if (distance <= minDistance)
                     {
                         ShooterStateClass.operate(ShootingSpeedConstants.atGoalSpeed);
@@ -147,10 +164,6 @@ public class BlueTeleOp extends LinearOpMode {
                         ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
                     }
                 }
-                else if (gamepad1.cross)
-                {
-                    ShooterStateClass.operate(ShootingSpeedConstants.disabledSpeed);
-                }
             }
             else
             {
@@ -158,7 +171,7 @@ public class BlueTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            TurretHeadingClass.test(gamepad2);
+
 
             lastChange = gamepad1.dpad_up;
 
