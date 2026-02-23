@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,12 +28,18 @@ public class TurretHeadingClass
         headingMotor = hardwareMap.get(DcMotor.class , "headingMotor");
 
         headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
     }
 
 
     public static void operate()
     {
-       headingMotor.setPower(TurretHeadingPID.moveToPos(tx));
+       headingMotor.setPower(LimelightTurretHeadingPID.moveToPos(tx));
+    }
+
+    public static void pinpointOperate(double wantedAngle)
+    {
+        headingMotor.setPower(PinpointTurretHeadingPID.moveToPos(wantedAngle));
     }
 
     public static void setTx(double Tx)
@@ -68,7 +70,7 @@ public class TurretHeadingClass
 
     public static boolean inPosition ()
     {
-        return (0.05 > TurretHeadingPID.moveToPos(0));
+        return (0.05 > LimelightTurretHeadingPID.moveToPos(0));
     }
 
     public static void telemetry(Telemetry telemetry)

@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.LimelightTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
@@ -56,7 +56,7 @@ public class RedTeleOp extends LinearOpMode {
         ShootingSpeedPID.init(hardwareMap);
         TurretHeadingClass.teleOpInit(hardwareMap);
         CameraClass.init(hardwareMap);
-        TurretHeadingPID.init(hardwareMap);
+        LimelightTurretHeadingPID.init(hardwareMap);
 
 
 

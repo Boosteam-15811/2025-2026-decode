@@ -1,0 +1,121 @@
+package org.firstinspires.ftc.teamcode.TeleOps;
+
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.seattlesolvers.solverslib.geometry.Pose2d;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
+import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
+import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
+import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
+
+@TeleOp
+public class LocalizerTestingTeleOp extends LinearOpMode {
+
+    private static double distance = 0;
+
+    private static double wantedAngle = 0;
+    private boolean shooting = false;
+    @Override
+    public void runOpMode() throws InterruptedException
+    {
+        LocalizerClass.init(new Pose2d(0,0,Math.toRadians(0)),hardwareMap);
+        DriveClass.init(hardwareMap);
+        ShootingSpeedPID.init(hardwareMap);
+        ShootingSpeedClass.init(hardwareMap);
+        PinpointTurretHeadingPID.init(hardwareMap);
+        TurretHeadingClass.init(hardwareMap);
+        HoodAngleClass.init(hardwareMap);
+        IntakeClass.init(hardwareMap);
+        TransferWheelClass.init(hardwareMap);
+
+
+
+
+        IMU imu = hardwareMap.get(IMU.class, "imu");
+
+        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+
+        imu.initialize(parameters);
+
+
+
+        waitForStart();
+        while (opModeIsActive())
+        {
+            if (gamepad1.options)
+            {
+                imu.resetYaw();
+            }
+
+            DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x,imu);
+
+
+            LocalizerClass.pinpoint.update();
+            Pose2D pose2D = LocalizerClass.pinpoint.getPosition();
+
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D);
+
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90);
+
+
+            HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
+
+
+
+            if (gamepad1.right_trigger > 0)
+            {
+                IntakeClass.operate(gamepad1.right_trigger);
+                TransferWheelClass.operate(-gamepad1.right_trigger);
+            }
+            else if (gamepad1.left_trigger > 0)
+            {
+                IntakeClass.operate(-gamepad1.left_trigger);
+            }
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300)
+            {
+                IntakeClass.operate(0);
+                TransferWheelClass.operate(0);
+            }
+
+            if (gamepad1.square)
+            {
+                shooting = true;
+            }
+
+            if (gamepad1.cross)
+            {
+                shooting = false;
+                ShooterStateClass.operate(ShootingSpeedConstants.disabledSpeed);
+            }
+            else if (shooting)
+            {
+                ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
+            }
+
+            TurretHeadingClass.pinpointOperate(wantedAngle);
+
+            telemetry.addData("X coordinate (IN)", pose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("Y coordinate (IN)", pose2D.getY(DistanceUnit.INCH));
+            telemetry.addData("Heading angle (DEGREES)", pose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D));
+            telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90));
+            telemetry.update();
+        }
+    }
+}

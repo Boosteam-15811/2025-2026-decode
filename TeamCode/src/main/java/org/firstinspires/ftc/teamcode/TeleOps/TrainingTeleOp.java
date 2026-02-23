@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.LimelightTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
@@ -56,7 +56,7 @@ public class TrainingTeleOp extends LinearOpMode {
         ShootingSpeedPID.init(hardwareMap);
         TurretHeadingClass.init(hardwareMap);
         CameraClass.init(hardwareMap);
-        TurretHeadingPID.init(hardwareMap);
+        LimelightTurretHeadingPID.init(hardwareMap);
 
 
 
@@ -91,6 +91,7 @@ public class TrainingTeleOp extends LinearOpMode {
             }
 
 
+
             LLResult llResult = CameraClass.limeLight3A.getLatestResult();
             if(llResult != null && llResult.isValid() && CameraClass.compareID(wantedAprilTagID))
             {
@@ -114,7 +115,6 @@ public class TrainingTeleOp extends LinearOpMode {
                 TransferWheelClass.operate(0);
             }
 
-            TurretHeadingClass.operate();
 
             if (!lastChange)
             {
@@ -171,7 +171,7 @@ public class TrainingTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-
+            TurretHeadingClass.operate();
 
             lastChange = gamepad1.dpad_up;
 

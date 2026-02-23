@@ -2,16 +2,10 @@ package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass.headingMotor;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
-
-public class TurretHeadingPID
+public class LimelightTurretHeadingPID
 {
     private static PIDController controller;
     private static boolean flip = false;
