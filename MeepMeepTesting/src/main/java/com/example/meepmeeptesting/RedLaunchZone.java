@@ -18,22 +18,23 @@ public class RedLaunchZone {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8 , Math.toRadians(180)))
                 //from start to collecting the first row
-                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(90))
                 .setTangent(90)
                 .splineToLinearHeading(new Pose2d(36,30, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(54)
 
                 //from first row to shooting from launchzone range
-                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(90))
 
                 //from launchzone to second row
                 .setTangent(90)
                 .splineToLinearHeading(new Pose2d(12.5,30, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(54)
 
-                //from second row to shooting from medium range
+                //from second row to shooting from launchzone range
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(56, 12, Math.toRadians(90)), Math.toRadians(90))
+
 
                 //from medium range to third row
                 .setTangent(90)
@@ -41,11 +42,11 @@ public class RedLaunchZone {
                 .lineToYConstantHeading(54)
 
                 //from third row to shooting from medium range
-                .setTangent(180)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(90))
+                .setTangent(0)
+                .strafeTo(new Vector2d(56, 12))
 
                 //leave
-                .strafeTo(new Vector2d(5,17))
+                .strafeTo(new Vector2d(20,17))
 
                 .build());
 

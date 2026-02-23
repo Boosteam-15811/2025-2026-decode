@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
+import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 
 @TeleOp
 @Config
