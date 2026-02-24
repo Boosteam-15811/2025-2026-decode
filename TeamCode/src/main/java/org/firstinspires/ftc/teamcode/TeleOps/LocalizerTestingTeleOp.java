@@ -69,9 +69,9 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D pose2D = LocalizerClass.pinpoint.getPosition();
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D);
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), pose2D);
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90);
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70 , Math.toRadians(0)), pose2D , 90);
 
 
             HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
@@ -87,7 +87,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 180)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
@@ -113,8 +113,8 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
             telemetry.addData("X coordinate (IN)", pose2D.getX(DistanceUnit.INCH));
             telemetry.addData("Y coordinate (IN)", pose2D.getY(DistanceUnit.INCH));
             telemetry.addData("Heading angle (DEGREES)", pose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D));
-            telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90));
+            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), pose2D));
+            telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), pose2D , 90));
             telemetry.update();
         }
     }

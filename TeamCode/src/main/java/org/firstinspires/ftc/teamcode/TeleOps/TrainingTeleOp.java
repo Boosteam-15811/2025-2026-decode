@@ -84,11 +84,11 @@ public class TrainingTeleOp extends LinearOpMode {
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
             CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
 
-            if (gamepad2.dpad_up)
-            {
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
+//            if (gamepad2.dpad_up)
+//            {
+//                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            }
 
 
 
@@ -96,7 +96,7 @@ public class TrainingTeleOp extends LinearOpMode {
             if(llResult != null && llResult.isValid() && CameraClass.compareID(wantedAprilTagID))
             {
                 distance = CameraClass.getDistanceFromTag(llResult.getTa());
-                TurretHeadingClass.setTx(llResult.getTx());
+               // TurretHeadingClass.setTx(llResult.getTx());
             }
 
 
@@ -171,7 +171,7 @@ public class TrainingTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            TurretHeadingClass.operate();
+           // TurretHeadingClass.operate();
 
             lastChange = gamepad1.dpad_up;
 
