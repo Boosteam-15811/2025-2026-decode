@@ -146,7 +146,7 @@ public class ShooterStateClass {
         {
             IntakeClass.operate(-1);
         }
-        else if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.farFromGoalTolerance))
+        else if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance))
         {
             TransferWheelClass.operate(1);
             IntakeClass.operate(1);

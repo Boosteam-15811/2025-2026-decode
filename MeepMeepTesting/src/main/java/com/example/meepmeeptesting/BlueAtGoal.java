@@ -17,13 +17,16 @@ public class BlueAtGoal
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-49, -49 , Math.toRadians(235)))
+                //from start to shooting a bit farther
+                .strafeTo(new Vector2d(-47,-46))
+
                 //from start to collecting the third row
                 .setTangent(90)
                 .splineToLinearHeading(new Pose2d(-11,-30, Math.toRadians(270)), Math.toRadians(270))
                 .lineToYConstantHeading(-54)
 
                 //from third row to shooting from medium range
-                .strafeToLinearHeading(new Vector2d(-16,-17),Math.toRadians(270))
+                .strafeToLinearHeading(new Vector2d(-16,-17),Math.toRadians(225))
 
                 //from medium range to second row
                 .setTangent(0)
@@ -32,7 +35,7 @@ public class BlueAtGoal
 
                 //from second row to shooting from medium range
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(270)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225))
 
                 //from medium range to first row
                 .setTangent(0)
@@ -41,7 +44,7 @@ public class BlueAtGoal
 
                 //from first row to shooting from
                 .setTangent(180)
-                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(270)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225))
 
                 //leave
                 .strafeTo(new Vector2d(-39,-17))

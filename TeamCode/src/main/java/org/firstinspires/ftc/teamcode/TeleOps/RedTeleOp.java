@@ -1,62 +1,59 @@
 package org.firstinspires.ftc.teamcode.TeleOps;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.LimelightTurretHeadingPID;
-import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
-import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
-
-
-
-@TeleOp(name = "Red Teleop")
-@Config
+import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
+import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
+@TeleOp
 public class RedTeleOp extends LinearOpMode {
 
-    public static double manualDistance = 0;
-    private double distance = 0;
+    private static double distance = 0;
 
-    private static final double minDistance = 65;
-    private static final double maxDistance = 250;
+    private static final double minDistance = 35;
+    private static final double maxDistance = 110;
 
-    private int wantedAprilTagID = 24; ////red april tag
     private boolean lastChange = false;
+
     private boolean shooting = false;
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    private static Pose2D redAutonoumsEnd = LocalizerClass.pinpoint.getPosition();
 
+
+    @Override
+    public void runOpMode() throws InterruptedException
+    {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         boolean manualToggle = false;
 
+        LocalizerClass.init(redAutonoumsEnd,hardwareMap);
         DriveClass.init(hardwareMap);
-        HoodAngleClass.init(hardwareMap);
+        ShootingSpeedPID.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
+        PinpointTurretHeadingPID.init(hardwareMap);
+        TurretHeadingClass.init(hardwareMap);
+        HoodAngleClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
-        ShootingSpeedPID.init(hardwareMap);
-        TurretHeadingClass.teleOpInit(hardwareMap);
-        CameraClass.init(hardwareMap);
-        LimelightTurretHeadingPID.init(hardwareMap);
 
 
 
@@ -68,35 +65,21 @@ public class RedTeleOp extends LinearOpMode {
 
         imu.initialize(parameters);
 
-        waitForStart();
-        CameraClass.limeLight3A.start();
 
+        waitForStart();
         while (opModeIsActive())
         {
-
-            if (gamepad1.options)
-            {
+            if (gamepad1.options) {
                 imu.resetYaw();
             }
 
-            DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x,imu);
-
-            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
-
-            if (gamepad2.dpad_up)
-            {
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
+            DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
 
 
-            LLResult llResult = CameraClass.limeLight3A.getLatestResult();
-            if(llResult != null && llResult.isValid() && CameraClass.compareID(wantedAprilTagID))
-            {
-                distance = CameraClass.getDistanceFromTag(llResult.getTa());
-                TurretHeadingClass.setTx(llResult.getTx());
-            }
+            LocalizerClass.pinpoint.update();
+            Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
+
+            distance = LocalizerClass.redGetDistance(new Pose2d(-70,70,Math.toRadians(0)), robotPose2D);
 
 
             if (gamepad1.right_trigger > 0)
@@ -114,7 +97,6 @@ public class RedTeleOp extends LinearOpMode {
                 TransferWheelClass.operate(0);
             }
 
-            TurretHeadingClass.operate();
 
             if (!lastChange)
             {
@@ -171,18 +153,18 @@ public class RedTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-
+            // TurretHeadingClass.operate();
 
             lastChange = gamepad1.dpad_up;
 
-            HoodAngleClass.telemetry(telemetry);
-            ShootingSpeedClass.telemetry(telemetry);
-            TransferWheelClass.telemetry(telemetry);
-            TurretHeadingClass.telemetry(telemetry);
-            DynamicShootingClass.telemetry(telemetry, manualDistance);
-            CameraClass.telemetry(telemetry , wantedAprilTagID);
-            telemetry.addData("manual:", manualToggle);
+
+            telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
+            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,70,Math.toRadians(0)), robotPose2D));
             telemetry.update();
+
+
         }
     }
 }

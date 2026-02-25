@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,6 +31,7 @@ import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingCla
 
 @TeleOp(name = "Training Teleop")
 @Config
+@Disabled
 public class TrainingTeleOp extends LinearOpMode {
 
     public static double manualDistance = 0;
@@ -39,6 +41,7 @@ public class TrainingTeleOp extends LinearOpMode {
     private static final double maxDistance = 250;
 
     private int wantedAprilTagID = 20; ////blue april tag
+
     private boolean lastChange = false;
     private boolean shooting = false;
 

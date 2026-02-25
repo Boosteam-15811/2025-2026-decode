@@ -5,6 +5,8 @@ import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHea
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.Utility.MathUtil.MathUtilClass;
+
 public class PinpointTurretHeadingPID
 {
     private static PIDController controller;
@@ -42,6 +44,6 @@ public class PinpointTurretHeadingPID
 
         power = pid;
 
-        return power + (TurretHeadingConstants.f * Math.signum(trueAngle));
+        return (power + (TurretHeadingConstants.f * Math.signum(trueAngle)))*-1;
     }
 }

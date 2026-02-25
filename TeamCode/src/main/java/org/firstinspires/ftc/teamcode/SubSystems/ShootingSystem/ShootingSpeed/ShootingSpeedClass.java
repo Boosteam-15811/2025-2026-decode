@@ -14,7 +14,7 @@ public class ShootingSpeedClass
 {
     public static DcMotorEx masterShootingMotor;
 
-    public static double targetSpeed;
+    public static double targetSpeed = 0;
 
     private static double error;
 
@@ -82,12 +82,24 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = ShootingSpeedConstants.farFromGoalSpeed;
+            targetSpeed = 2600;
             return false;
         }
     }
     public static Action farFromGoal() {
         return new FarFromGoal();
+    }
+
+    public static class Far implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            targetSpeed = 3300;
+            return false;
+        }
+    }
+    public static Action far() {
+        return new Far();
     }
 
     public static class Disabled implements Action {

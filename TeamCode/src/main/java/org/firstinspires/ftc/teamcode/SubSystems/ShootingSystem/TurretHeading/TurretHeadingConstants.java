@@ -12,7 +12,7 @@ public class TurretHeadingConstants
 
     private static final double encoderResolution = 537.7;
 
-    private static final double gearRatio = 140.0/13;
+    private static final double gearRatio = (140.0/19.0)*-1;
 
     public static final double degreeInTicks = (encoderResolution*gearRatio)/360;
 

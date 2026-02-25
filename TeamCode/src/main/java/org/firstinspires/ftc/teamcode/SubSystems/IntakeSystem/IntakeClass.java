@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
+
 public class IntakeClass
 {
     private static DcMotor intakeMotor;
@@ -38,6 +41,64 @@ public class IntakeClass
     }
     public static Action activate() {
         return new Activate();
+    }
+
+    public static class ShootFarFromGoal implements Action
+    {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 150))
+            {
+                IntakeClass.operate(-1);
+            }
+            else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, 135))
+            {
+                operate(1);
+            }
+            else if(ShootingSpeedClass.targetSpeed == 0)
+            {
+                operate(1);
+            }
+            else
+            {
+                operate(0);
+            }
+
+            return true;
+        }
+    }
+
+    public static Action shootfarfromgoal() {
+        return new ShootFarFromGoal();
+    }
+
+    public static class ShootFar implements Action
+    {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 150))
+            {
+                IntakeClass.operate(-1);
+            }
+            else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, 150))
+            {
+                operate(1);
+            }
+            else if(ShootingSpeedClass.targetSpeed == 0)
+            {
+                operate(1);
+            }
+            else
+            {
+                operate(0);
+            }
+
+            return true;
+        }
+    }
+
+    public static Action shootFar() {
+        return new ShootFar();
     }
     public static class Deactivate implements Action {
 
