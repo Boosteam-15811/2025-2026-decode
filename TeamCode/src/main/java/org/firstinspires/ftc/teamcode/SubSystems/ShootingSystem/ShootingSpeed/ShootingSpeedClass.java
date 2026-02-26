@@ -94,7 +94,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 3300;
+            targetSpeed = ShootingSpeedConstants.launchZoneSpeed;
             return false;
         }
     }

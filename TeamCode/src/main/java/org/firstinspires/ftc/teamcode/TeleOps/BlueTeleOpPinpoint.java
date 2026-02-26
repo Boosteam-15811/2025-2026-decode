@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TeleOps;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -24,8 +25,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.Tu
 import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
-@TeleOp (group = "main")
-public class RedTeleOp extends LinearOpMode {
+@TeleOp(group = "main")
+@Disabled
+public class BlueTeleOpPinpoint extends LinearOpMode {
 
     private static double distance = 0;
 
@@ -36,16 +38,19 @@ public class RedTeleOp extends LinearOpMode {
 
     private boolean shooting = false;
 
-    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, 15, AngleUnit.DEGREES, 90);
+    private static double wantedAngle = 0;
+
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, -15, AngleUnit.DEGREES, 270);
 
 
     @Override
     public void runOpMode() throws InterruptedException
     {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
         boolean manualToggle = false;
 
-        LocalizerClass.init(redAutonoumsEnd,hardwareMap);
+        LocalizerClass.init(blueAutonoumsEnd,hardwareMap);
         DriveClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
@@ -67,16 +72,16 @@ public class RedTeleOp extends LinearOpMode {
 
 
         waitForStart();
-        LocalizerClass.pinpoint.setPosition(redAutonoumsEnd);
+        LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
         while (opModeIsActive())
         {
             if (gamepad1.options) {
                 imu.resetYaw();
             }
 
-            //preload
+            //Preload
             if (gamepad1.dpad_left) {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 58, 22, AngleUnit.DEGREES, 90));
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 58, -22, AngleUnit.DEGREES, 270));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
@@ -85,7 +90,9 @@ public class RedTeleOp extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            distance = LocalizerClass.redGetDistance(new Pose2d(-70,70,Math.toRadians(0)), robotPose2D);
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
+
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270);
 
 
             if (gamepad1.right_trigger > 0)
@@ -159,7 +166,7 @@ public class RedTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            // TurretHeadingClass.operate();
+            TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 
@@ -167,7 +174,8 @@ public class RedTeleOp extends LinearOpMode {
             telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
             telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
             telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,70,Math.toRadians(0)), robotPose2D));
+            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
+            telemetry.addData("wanted angle" , wantedAngle);
             telemetry.update();
 
 

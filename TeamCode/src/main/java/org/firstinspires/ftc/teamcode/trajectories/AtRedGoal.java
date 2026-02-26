@@ -30,39 +30,40 @@ public class AtRedGoal extends LinearOpMode {
         ShootingSpeedClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
+        //TurretHeadingClass.init(hardwareMap);
+        //PinpointTurretHeadingPID.init(hardwareMap);
 
         Pose2d initialPose = new Pose2d(-49, 49 , Math.toRadians(125));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
                 //from start to shooting a bit farther
-                .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(135));
+                .strafeToLinearHeading(new Vector2d(-16,17),Math.toRadians(130));
 
-        TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-47, 46, Math.toRadians(135)))
+        TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-16, 17, Math.toRadians(130)))
                 //from start to collecting the third row
                 .setTangent(270)
-                .splineToLinearHeading(new Pose2d(-17.5,30, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(-15,23, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(54);
 
         TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(-16, 54, Math.toRadians(90)))
                 //from first row to shooting from medium range
-                .strafeToLinearHeading(new Vector2d(-16,17),Math.toRadians(135));
+                .strafeToLinearHeading(new Vector2d(-16,17),Math.toRadians(130));
 
-        TrajectoryActionBuilder collect2 = drive.actionBuilder(new Pose2d(-16, 17 , Math.toRadians(135)))
+        TrajectoryActionBuilder collect2 = drive.actionBuilder(new Pose2d(-16, 17 , Math.toRadians(130)))
                 //from medium range to second row
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(7,28, Math.toRadians(90)), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(9,27, Math.toRadians(90)), Math.toRadians(90))
                 .lineToYConstantHeading(54);
 
 
         TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(7, 54, Math.toRadians(90)))
                 //from second row to shooting from medium range
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(135));
+                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(130)), Math.toRadians(130));
 
 
-        TrajectoryActionBuilder collect3 = drive.actionBuilder(new Pose2d(-16, 17, Math.toRadians(135)))
+        TrajectoryActionBuilder collect3 = drive.actionBuilder(new Pose2d(-16, 17, Math.toRadians(130)))
                 //from medium range to first row
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(31,30, Math.toRadians(90)), Math.toRadians(90))
@@ -71,9 +72,9 @@ public class AtRedGoal extends LinearOpMode {
         TrajectoryActionBuilder shoot4 = drive.actionBuilder(new Pose2d(31, 54, Math.toRadians(90)))
                 //from first row to shooting from medium range
                 .setTangent(180)
-                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(135)), Math.toRadians(135));
+                .splineToLinearHeading(new Pose2d(-16, 17 , Math.toRadians(130)), Math.toRadians(130));
 
-        TrajectoryActionBuilder leave1 = drive.actionBuilder(new Pose2d(-16, 17 , Math.toRadians(135)))
+        TrajectoryActionBuilder leave1 = drive.actionBuilder(new Pose2d(-16, 17 , Math.toRadians(130)))
                 //leave the launch line
                 .strafeToLinearHeading(new Vector2d(-42,15), Math.toRadians(90));
 
@@ -99,24 +100,25 @@ public class AtRedGoal extends LinearOpMode {
                         ShootingSpeedPID.pid(),
                         TransferWheelClass.activate(),
                         IntakeClass.shootfarfromgoal(),
+                        //   PinpointTurretHeadingPID.pid()
                         new SequentialAction(
-                                Shoot1,
                                 ShootingSpeedClass.farFromGoal(),
+                                Shoot1,
                                 HoodAngleClass.farFromGoal(),
                                 //  IntakeClass.activate(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 Collect1,
                                 Shoot2,
-                                ShootingSpeedClass.farFromGoal(),
                                 HoodAngleClass.farFromGoal(),
+                                ShootingSpeedClass.farFromGoal(),
                                 //    IntakeClass.activate(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 Collect2,
                                 Shoot3,
-                                ShootingSpeedClass.farFromGoal(),
                                 HoodAngleClass.farFromGoal(),
+                                ShootingSpeedClass.farFromGoal(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 leave

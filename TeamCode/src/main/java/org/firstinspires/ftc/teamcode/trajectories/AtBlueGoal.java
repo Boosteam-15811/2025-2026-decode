@@ -18,6 +18,8 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.Ho
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
 @Config
 @Autonomous(name = "At Blue Goal", group = "Autonomous")
@@ -30,14 +32,15 @@ public class AtBlueGoal extends LinearOpMode {
         ShootingSpeedClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
+        //TurretHeadingClass.init(hardwareMap);
+        //PinpointTurretHeadingPID.init(hardwareMap);
 
         Pose2d initialPose = new Pose2d(-49, -49 , Math.toRadians(235));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
                 //from start to shooting a bit farther
-                .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225));
+                .strafeToLinearHeading(new Vector2d(-16, -17), Math.toRadians(225));
 
         TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-47, -46, Math.toRadians(225)))
                 //from start to collecting the third row
@@ -99,24 +102,25 @@ public class AtBlueGoal extends LinearOpMode {
                         ShootingSpeedPID.pid(),
                         TransferWheelClass.activate(),
                         IntakeClass.shootfarfromgoal(),
+                     //   PinpointTurretHeadingPID.pid(),
                         new SequentialAction(
+                                HoodAngleClass.farFromGoal(),
                                 Shoot1,
                                 ShootingSpeedClass.farFromGoal(),
-                                HoodAngleClass.farFromGoal(),
                               //  IntakeClass.activate(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 Collect1,
                                 Shoot2,
-                                ShootingSpeedClass.farFromGoal(),
                                 HoodAngleClass.farFromGoal(),
+                                ShootingSpeedClass.farFromGoal(),
                             //    IntakeClass.activate(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 Collect2,
                                 Shoot3,
-                                ShootingSpeedClass.farFromGoal(),
                                 HoodAngleClass.farFromGoal(),
+                                ShootingSpeedClass.farFromGoal(),
                                 new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 leave

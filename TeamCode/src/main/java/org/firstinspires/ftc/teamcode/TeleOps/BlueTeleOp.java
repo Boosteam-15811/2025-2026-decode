@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.Tu
 import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
-@TeleOp
+@TeleOp(group = "main")
 public class BlueTeleOp extends LinearOpMode {
 
     private static double distance = 0;
@@ -74,11 +74,9 @@ public class BlueTeleOp extends LinearOpMode {
                 imu.resetYaw();
             }
 
+            //Preload
             if (gamepad1.dpad_left) {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 57, -35, AngleUnit.DEGREES, 270));
-            }
-            if (gamepad1.dpad_right) {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 62, -35, AngleUnit.DEGREES, 180));
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 58, -22, AngleUnit.DEGREES, 270));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);

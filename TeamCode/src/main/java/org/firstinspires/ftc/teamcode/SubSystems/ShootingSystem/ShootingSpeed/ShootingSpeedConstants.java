@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class ShootingSpeedConstants {
-    public static double launchZoneSpeed = 3350;
+    public static double launchZoneSpeed = 3250;
     public static double atGoalSpeed = 2300;
     public static double farFromGoalSpeed = 2700;
     public static double disabledSpeed = 0;

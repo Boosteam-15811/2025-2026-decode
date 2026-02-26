@@ -18,12 +18,12 @@ public class LeaveRed extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(62, 17.8 , Math.toRadians(180));
+        Pose2d initialPose = new Pose2d(62, 17.8, Math.toRadians(180));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder leave1 = drive.actionBuilder(initialPose)
                 //leave the launch line
-                .strafeTo(new Vector2d(62 , 35));
+                .strafeToLinearHeading(new Vector2d(58 , 22), Math.toRadians(90));
 
         Action leave = leave1.build();
 

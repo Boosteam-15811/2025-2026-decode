@@ -39,6 +39,8 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
     private static double wantedAngle = 0;
     private boolean shooting = false;
 
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, -15, AngleUnit.DEGREES, 270);
+
     @Override
     public void runOpMode() throws InterruptedException
     {
@@ -56,6 +58,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
 
 
+
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -67,6 +70,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
 
         waitForStart();
+        LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
         while (opModeIsActive())
         {
             if (gamepad1.options)
@@ -88,7 +92,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
 
-//            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 90);
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270);
 
 
             HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
@@ -125,7 +129,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
                 ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
             }
 
-   //         TurretHeadingClass.pinpointOperate(wantedAngle);
+            TurretHeadingClass.pinpointOperate(wantedAngle);
 
 
 
@@ -133,11 +137,11 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
             telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
             telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
-//            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
             telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
 //            telemetry.addData("TurretX" , turretX);
 //            telemetry.addData("TurretY" , turretY);
-//           telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 90));
+           telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270));
             telemetry.update();
 
         }

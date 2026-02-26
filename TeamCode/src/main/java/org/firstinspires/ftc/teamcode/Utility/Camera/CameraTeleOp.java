@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @TeleOp
 @Config
+@Disabled
 public class CameraTeleOp extends LinearOpMode {
     private Limelight3A limeLight3A;
     private double distance;

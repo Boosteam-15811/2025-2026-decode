@@ -16,18 +16,11 @@ public class RedHumanPlayer
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, -17.8 , Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8, Math.toRadians(180)))
                 //from start to collecting from the human player
-                .strafeToLinearHeading(new Vector2d(56,-12),Math.toRadians(212))
-                .setTangent(0)
-                .strafeToLinearHeading(new Vector2d(56,-30), Math.toRadians(270))
-                .lineToYConstantHeading(-60)
+                .strafeToLinearHeading(new Vector2d(57 , 17.8), Math.toRadians(160))
+                .strafeToLinearHeading(new Vector2d(57 , 35), Math.toRadians(90))
 
-                //from human player to shooting from launchzone
-                .strafeToLinearHeading(new Vector2d(56,-12), Math.toRadians(212))
-
-                //leave
-                .strafeTo(new Vector2d(25,-17))
 
                 .build());
 

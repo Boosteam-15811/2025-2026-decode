@@ -1,10 +1,18 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.masterShootingMotor;
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.targetSpeed;
 import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass.headingMotor;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
 import org.firstinspires.ftc.teamcode.Utility.MathUtil.MathUtilClass;
 
 public class PinpointTurretHeadingPID
@@ -12,6 +20,8 @@ public class PinpointTurretHeadingPID
     private static PIDController controller;
     private static double trueAngle = 0;
     private static double power = 0;
+
+    private static double zeroAngle = 0;
 
 
 
@@ -46,4 +56,23 @@ public class PinpointTurretHeadingPID
 
         return (power + (TurretHeadingConstants.f * Math.signum(trueAngle)))*-1;
     }
+
+    public static class PID implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            controller.setPIDF(TurretHeadingConstants.p, TurretHeadingConstants.i, TurretHeadingConstants.d, TurretHeadingConstants.f);
+
+            double pid = controller.calculate((headingMotor.getCurrentPosition() / TurretHeadingConstants.degreeInTicks), zeroAngle);
+
+            headingMotor.setPower(pid);
+
+            return true;
+        }
+    }
+
+    public static Action pid() {
+        return new PID();
+    }
+
 }

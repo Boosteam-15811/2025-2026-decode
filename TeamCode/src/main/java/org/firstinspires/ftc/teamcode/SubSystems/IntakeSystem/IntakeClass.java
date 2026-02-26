@@ -80,7 +80,7 @@ public class IntakeClass
             {
                 IntakeClass.operate(-1);
             }
-            else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, 150))
+            else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.launchZoneSpeed, 200))
             {
                 operate(1);
             }
