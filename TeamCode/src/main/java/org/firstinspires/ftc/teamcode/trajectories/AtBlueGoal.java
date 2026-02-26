@@ -34,26 +34,58 @@ public class AtBlueGoal extends LinearOpMode {
         Pose2d initialPose = new Pose2d(-49, -49 , Math.toRadians(235));
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
-        TrajectoryActionBuilder collect1 = drive.actionBuilder(initialPose)
-                //from goal to collecting the first row
-                .strafeTo(new Vector2d(-49,-40))
+        TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
+                //from start to shooting a bit farther
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(-4, -29, Math.toRadians(270)), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225));
+
+        TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-47, -46, Math.toRadians(225)))
+                //from start to collecting the third row
+                .setTangent(90)
+                .splineToLinearHeading(new Pose2d(-17.5,-30, Math.toRadians(270)), Math.toRadians(270))
                 .lineToYConstantHeading(-54);
 
-        TrajectoryActionBuilder shoot1 = drive.actionBuilder(new Pose2d(-7, -29, Math.toRadians(270)))
+        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(-16, -54, Math.toRadians(270)))
                 //from first row to shooting from medium range
-                .strafeToLinearHeading(new Vector2d(-40, -40), Math.toRadians(235))
-                .strafeTo(new Vector2d(-60,-46));
+                .strafeToLinearHeading(new Vector2d(-16,-17),Math.toRadians(225));
 
-        TrajectoryActionBuilder leave1 = drive.actionBuilder(new Pose2d(-60, -46 , Math.toRadians(235)))
+        TrajectoryActionBuilder collect2 = drive.actionBuilder(new Pose2d(-16, -17 , Math.toRadians(225)))
+                //from medium range to second row
+                .setTangent(0)
+                .splineToLinearHeading(new Pose2d(7,-28, Math.toRadians(270)), Math.toRadians(270))
+                .lineToYConstantHeading(-54);
+
+
+        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(7, -54, Math.toRadians(270)))
+                //from second row to shooting from medium range
+                .setTangent(0)
+                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225));
+
+
+        TrajectoryActionBuilder collect3 = drive.actionBuilder(new Pose2d(-16, -17, Math.toRadians(225)))
+        //from medium range to first row
+                .setTangent(0)
+                .splineToLinearHeading(new Pose2d(31,-30, Math.toRadians(270)), Math.toRadians(270))
+                .lineToYConstantHeading(-54);
+
+        TrajectoryActionBuilder shoot4 = drive.actionBuilder(new Pose2d(31, -54, Math.toRadians(270)))
+                //from first row to shooting from medium range
+                .setTangent(180)
+                .splineToLinearHeading(new Pose2d(-16, -17 , Math.toRadians(225)), Math.toRadians(225));
+
+        TrajectoryActionBuilder leave1 = drive.actionBuilder(new Pose2d(-16, -17 , Math.toRadians(225)))
                 //leave the launch line
-                .strafeTo(new Vector2d(-55,-15));
+                .strafeToLinearHeading(new Vector2d(-42,-15), Math.toRadians(270));
 
 
-        Action collect = collect1.build();
+        Action Collect1 = collect1.build();
+        Action Collect2 = collect2.build();
+        Action Collect3 = collect3.build();
 
-        Action shoot = shoot1.build();
+        Action Shoot1 = shoot1.build();
+        Action Shoot2 = shoot2.build();
+        Action Shoot3 = shoot3.build();
+        Action Shoot4 = shoot4.build();
 
         Action leave = leave1.build();
 
@@ -66,20 +98,33 @@ public class AtBlueGoal extends LinearOpMode {
                 new ParallelAction(
                         ShootingSpeedPID.pid(),
                         TransferWheelClass.activate(),
+                        IntakeClass.shootfarfromgoal(),
                         new SequentialAction(
-                                ShootingSpeedClass.atGoal(),
-                                HoodAngleClass.atGoal(),
-                                IntakeClass.activate(),
-                                new SleepAction(8),
+                                Shoot1,
+                                ShootingSpeedClass.farFromGoal(),
+                                HoodAngleClass.farFromGoal(),
+                              //  IntakeClass.activate(),
+                                new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
-                                collect,
-                                shoot,
-                                ShootingSpeedClass.atGoal(),
-                                HoodAngleClass.atGoal(),
-                                new SleepAction(8),
-                                IntakeClass.deactivate(),
+                                Collect1,
+                                Shoot2,
+                                ShootingSpeedClass.farFromGoal(),
+                                HoodAngleClass.farFromGoal(),
+                            //    IntakeClass.activate(),
+                                new SleepAction(4),
+                                ShootingSpeedClass.disabled(),
+                                Collect2,
+                                Shoot3,
+                                ShootingSpeedClass.farFromGoal(),
+                                HoodAngleClass.farFromGoal(),
+                                new SleepAction(4),
                                 ShootingSpeedClass.disabled(),
                                 leave
+
+//                                ShootingSpeedClass.farFromGoal(),
+//                                HoodAngleClass.farFromGoal(),
+//                                IntakeClass.activate(),
+//                                leave
 
                         )
                 )

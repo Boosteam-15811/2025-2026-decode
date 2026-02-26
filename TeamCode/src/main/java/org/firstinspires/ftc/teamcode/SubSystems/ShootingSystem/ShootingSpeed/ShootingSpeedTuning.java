@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 
 @TeleOp
 @Config
+@Disabled
 public class ShootingSpeedTuning extends LinearOpMode {
 
     public static PIDFController controller;

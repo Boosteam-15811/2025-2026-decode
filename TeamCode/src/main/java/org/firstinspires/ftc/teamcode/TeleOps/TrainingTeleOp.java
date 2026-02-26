@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -30,6 +31,7 @@ import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingCla
 
 @TeleOp(name = "Training Teleop")
 @Config
+@Disabled
 public class TrainingTeleOp extends LinearOpMode {
 
     public static double manualDistance = 0;
@@ -39,6 +41,7 @@ public class TrainingTeleOp extends LinearOpMode {
     private static final double maxDistance = 250;
 
     private int wantedAprilTagID = 20; ////blue april tag
+
     private boolean lastChange = false;
     private boolean shooting = false;
 
@@ -84,11 +87,11 @@ public class TrainingTeleOp extends LinearOpMode {
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
             CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
 
-            if (gamepad2.dpad_up)
-            {
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
+//            if (gamepad2.dpad_up)
+//            {
+//                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                TurretHeadingClass.headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            }
 
 
 
@@ -96,7 +99,7 @@ public class TrainingTeleOp extends LinearOpMode {
             if(llResult != null && llResult.isValid() && CameraClass.compareID(wantedAprilTagID))
             {
                 distance = CameraClass.getDistanceFromTag(llResult.getTa());
-                TurretHeadingClass.setTx(llResult.getTx());
+               // TurretHeadingClass.setTx(llResult.getTx());
             }
 
 
@@ -171,7 +174,7 @@ public class TrainingTeleOp extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            TurretHeadingClass.operate();
+           // TurretHeadingClass.operate();
 
             lastChange = gamepad1.dpad_up;
 

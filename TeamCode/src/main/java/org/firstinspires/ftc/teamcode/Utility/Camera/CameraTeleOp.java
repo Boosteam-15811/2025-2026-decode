@@ -1,19 +1,26 @@
 package org.firstinspires.ftc.teamcode.Utility.Camera;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @TeleOp
+@Config
 public class CameraTeleOp extends LinearOpMode {
     private Limelight3A limeLight3A;
     private double distance;
+
 
     public static double getDistanceFromTag(double ta)
     {
@@ -24,6 +31,7 @@ public class CameraTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        telemetry = new MultipleTelemetry(telemetry,FtcDashboard.getInstance().getTelemetry());
         limeLight3A = hardwareMap.get(Limelight3A.class, "limelight");
         limeLight3A.pipelineSwitch(0);
 
@@ -51,6 +59,8 @@ public class CameraTeleOp extends LinearOpMode {
                 telemetry.addData("Calculated Distance", distance);
                 telemetry.addData("Target X", llResult.getTx());
                 telemetry.addData("Target Area", llResult.getTa());
+                telemetry.addData("limelight robot pose",limeLight3A.getLatestResult().getBotpose());
+                telemetry.addData("limelight bot pose MT2",limeLight3A.getLatestResult().getBotpose_MT2());
                 telemetry.update();
             }
         }

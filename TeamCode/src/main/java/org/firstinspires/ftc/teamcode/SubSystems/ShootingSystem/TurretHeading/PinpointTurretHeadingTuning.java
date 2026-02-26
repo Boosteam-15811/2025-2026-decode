@@ -5,18 +5,22 @@ import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHea
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 
 @TeleOp
 @Config
+@Disabled
 public class PinpointTurretHeadingTuning extends LinearOpMode
 {
     private PIDController controller;
@@ -39,7 +43,7 @@ public class PinpointTurretHeadingTuning extends LinearOpMode
         controller = new PIDController(p, i, d);
         telemetry = new MultipleTelemetry(telemetry , FtcDashboard.getInstance().getTelemetry());
 
-        LocalizerClass.init(new Pose2d(0,0 ,0), hardwareMap);
+        LocalizerClass.init(new Pose2D(DistanceUnit.INCH,0,0 , AngleUnit.DEGREES,0), hardwareMap);
         HoodAngleClass.init(hardwareMap);
 
         turretHeadingMotor = hardwareMap.dcMotor.get("headingMotor");

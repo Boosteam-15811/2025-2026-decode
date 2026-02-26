@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.TeleOps;
 
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass.headingMotor;
+
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -9,6 +14,7 @@ import com.seattlesolvers.solverslib.geometry.Pose2d;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
@@ -18,21 +24,27 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingConstants;
+import org.firstinspires.ftc.teamcode.Utility.Camera.CameraClass;
 import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 
 @TeleOp
+@Disabled
 public class LocalizerTestingTeleOp extends LinearOpMode {
 
     private static double distance = 0;
 
     private static double wantedAngle = 0;
     private boolean shooting = false;
+
     @Override
     public void runOpMode() throws InterruptedException
     {
-        LocalizerClass.init(new Pose2d(0,0,Math.toRadians(0)),hardwareMap);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        LocalizerClass.init(new Pose2D(DistanceUnit.INCH,0,0 , AngleUnit.DEGREES,0), hardwareMap);
         DriveClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
@@ -41,7 +53,6 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
         HoodAngleClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
-
 
 
 
@@ -67,11 +78,17 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
 
             LocalizerClass.pinpoint.update();
-            Pose2D pose2D = LocalizerClass.pinpoint.getPosition();
+            Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
+//
+//            double turretX = robotPose2D.getX(DistanceUnit.INCH)+Math.cos(robotPose2D.getHeading(AngleUnit.DEGREES)+180)*2.34252;
+//            double turretY = robotPose2D.getY(DistanceUnit.INCH)+Math.sin(robotPose2D.getHeading(AngleUnit.DEGREES)+180)*2.34252;
+//
+//            Pose2D turretPos = new Pose2D(DistanceUnit.INCH , turretX , turretY , AngleUnit.DEGREES , robotPose2D.getHeading(AngleUnit.DEGREES));
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D);
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90);
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
+
+//            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 90);
 
 
             HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
@@ -87,7 +104,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 180)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
@@ -108,14 +125,21 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
                 ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
             }
 
-            TurretHeadingClass.pinpointOperate(wantedAngle);
+   //         TurretHeadingClass.pinpointOperate(wantedAngle);
 
-            telemetry.addData("X coordinate (IN)", pose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("Y coordinate (IN)", pose2D.getY(DistanceUnit.INCH));
-            telemetry.addData("Heading angle (DEGREES)", pose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), pose2D));
-            telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90));
+
+
+
+
+            telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
+//            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
+//            telemetry.addData("TurretX" , turretX);
+//            telemetry.addData("TurretY" , turretY);
+//           telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 90));
             telemetry.update();
+
         }
     }
 }

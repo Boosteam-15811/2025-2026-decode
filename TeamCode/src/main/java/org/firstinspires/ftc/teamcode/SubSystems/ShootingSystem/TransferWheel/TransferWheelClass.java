@@ -31,7 +31,7 @@ public class TransferWheelClass
         public boolean run(@NonNull TelemetryPacket packet) {
             if(ShootingSpeedClass.targetSpeed == 0)
             {
-                operate(0);
+                operate(-1);
             }
             else if (ShootingSpeedClass.targetSpeed - masterShootingMotor.getVelocity()*60/28 < 200) {
                 operate(1);

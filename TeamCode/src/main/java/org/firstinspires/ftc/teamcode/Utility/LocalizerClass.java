@@ -12,13 +12,13 @@ public class LocalizerClass
 {
     public static GoBildaPinpointDriver pinpoint;
 
-    public static void init (Pose2d pose2d , HardwareMap hardwareMap)
+    public static void init (Pose2D pose2d , HardwareMap hardwareMap)
     {
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
         configurePinpoint();
 
-        pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, pose2d.getX(), pose2d.getY(), AngleUnit.DEGREES, pose2d.getHeading()));
+        pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, pose2d.getX(DistanceUnit.INCH), pose2d.getY(DistanceUnit.INCH), AngleUnit.DEGREES, pose2d.getHeading(AngleUnit.DEGREES)));
     }
 
     public static double blueGetDistance(Pose2d wantedPos , Pose2D pinpointPos)
@@ -56,8 +56,7 @@ public class LocalizerClass
 
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
 
-        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
-
+        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pinpoint.resetPosAndIMU();
     }
 }

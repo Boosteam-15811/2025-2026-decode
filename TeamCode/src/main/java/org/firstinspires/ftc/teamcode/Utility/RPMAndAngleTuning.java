@@ -57,14 +57,7 @@ public class RPMAndAngleTuning extends LinearOpMode {
             HoodAngleClass.setPos(servoPos);
             ShootingSpeedClass.setSpeed(motorRPM);
 
-//            YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-//            CameraClass.limeLight3A.updateRobotOrientation(orientation.getYaw(AngleUnit.DEGREES));
-//
-//            LLResult llResult = CameraClass.limeLight3A.getLatestResult();
-//            if(llResult != null && llResult.isValid())
-//            {
-//                distance = CameraClass.getDistanceFromTag(llResult.getTa());
-//            }
+
                 if (gamepad1.right_trigger > 0)
                 {
                     IntakeClass.operate(1);
