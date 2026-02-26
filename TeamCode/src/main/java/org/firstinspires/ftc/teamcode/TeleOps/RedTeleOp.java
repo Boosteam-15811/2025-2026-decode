@@ -36,7 +36,7 @@ public class RedTeleOp extends LinearOpMode {
 
     private boolean shooting = false;
 
-    private static Pose2D redAutonoumsEnd = LocalizerClass.pinpoint.getPosition();
+    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, 15, AngleUnit.DEGREES, 90);
 
 
     @Override
@@ -67,10 +67,18 @@ public class RedTeleOp extends LinearOpMode {
 
 
         waitForStart();
+        LocalizerClass.pinpoint.setPosition(redAutonoumsEnd);
         while (opModeIsActive())
         {
             if (gamepad1.options) {
                 imu.resetYaw();
+            }
+
+            if (gamepad1.dpad_left) {
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 57, 35, AngleUnit.DEGREES, 90));
+            }
+            if (gamepad1.dpad_right) {
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 62, 35, AngleUnit.DEGREES, 180));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
