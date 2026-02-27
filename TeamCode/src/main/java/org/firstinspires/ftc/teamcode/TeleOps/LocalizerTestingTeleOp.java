@@ -31,7 +31,6 @@ import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 
 @TeleOp
-@Disabled
 public class LocalizerTestingTeleOp extends LinearOpMode {
 
     private static double distance = 0;
@@ -39,7 +38,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
     private static double wantedAngle = 0;
     private boolean shooting = false;
 
-    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, -15, AngleUnit.DEGREES, 270);
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -83,11 +82,6 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
-//
-//            double turretX = robotPose2D.getX(DistanceUnit.INCH)+Math.cos(robotPose2D.getHeading(AngleUnit.DEGREES)+180)*2.34252;
-//            double turretY = robotPose2D.getY(DistanceUnit.INCH)+Math.sin(robotPose2D.getHeading(AngleUnit.DEGREES)+180)*2.34252;
-//
-//            Pose2D turretPos = new Pose2D(DistanceUnit.INCH , turretX , turretY , AngleUnit.DEGREES , robotPose2D.getHeading(AngleUnit.DEGREES));
 
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
@@ -137,11 +131,9 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
             telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
             telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
-            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
-//            telemetry.addData("TurretX" , turretX);
-//            telemetry.addData("TurretY" , turretY);
-           telemetry.addData("wanted heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270));
+            telemetry.addData("Current angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("Target distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
+           telemetry.addData("Target heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270));
             telemetry.update();
 
         }
