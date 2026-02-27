@@ -23,30 +23,30 @@ public class LocalizerClass
 
     public static double blueGetDistance(Pose2d wantedPos , Pose2D pinpointPos)
     {
-        return Math.sqrt(Math.pow(wantedPos.getX() - (pinpointPos.getY(DistanceUnit.INCH)*-1), 2) + Math.pow(wantedPos.getY() - pinpointPos.getX(DistanceUnit.INCH), 2));
+        return Math.sqrt(Math.pow(wantedPos.getX() - pinpointPos.getY(DistanceUnit.INCH), 2) + Math.pow(wantedPos.getY() - (pinpointPos.getX(DistanceUnit.INCH)*-1), 2));
     }
 
     public static double redGetDistance(Pose2d wantedPos , Pose2D pinpointPos)
     {
-        return Math.sqrt(Math.pow(wantedPos.getX() - pinpointPos.getY(DistanceUnit.INCH), 2) + Math.pow(wantedPos.getY() - (pinpointPos.getX(DistanceUnit.INCH)*-1), 2));
+        return Math.sqrt(Math.pow(wantedPos.getX() - (pinpointPos.getY(DistanceUnit.INCH)*-1), 2) + Math.pow(wantedPos.getY() - pinpointPos.getX(DistanceUnit.INCH), 2));
     }
 
     public static double blueWantedTurretHeading(Pose2d wantedPos , Pose2D pinpointPos , double starterHeading)
     {
-        double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - pinpointPos.getX(DistanceUnit.INCH))/(wantedPos.getX() - (pinpointPos.getY(DistanceUnit.INCH)*-1)))) + 180;
+        double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - (pinpointPos.getX(DistanceUnit.INCH)*-1))/(wantedPos.getX() - pinpointPos.getY(DistanceUnit.INCH))));
 
-        double driveHeading = starterHeading + pinpointPos.getHeading(AngleUnit.DEGREES);
+        double driveHeading = pinpointPos.getHeading(AngleUnit.DEGREES);
 
-        return (wantedHeading - driveHeading)*-1;
+        return 90 - wantedHeading + driveHeading;
     }
 
     public static double redWantedTurretHeading(Pose2d wantedPos , Pose2D pinpointPos , double starterHeading)
     {
-        double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - (pinpointPos.getX(DistanceUnit.INCH)*-1))/(wantedPos.getX() - pinpointPos.getY(DistanceUnit.INCH)))) + 180;
+        double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - pinpointPos.getX(DistanceUnit.INCH))/(wantedPos.getX() - (pinpointPos.getY(DistanceUnit.INCH)*-1))));
 
-        double driveHeading = starterHeading + pinpointPos.getHeading(AngleUnit.DEGREES);
+        double driveHeading =  pinpointPos.getHeading(AngleUnit.DEGREES);
 
-        return (wantedHeading - driveHeading)*-1;
+        return 90 - wantedHeading + driveHeading;
     }
 
 
