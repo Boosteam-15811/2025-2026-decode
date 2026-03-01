@@ -65,7 +65,7 @@ public class PinpointTurretHeadingTuning extends LinearOpMode
             LocalizerClass.pinpoint.update();
             Pose2D pose2D = LocalizerClass.pinpoint.getPosition();
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D , 90);
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)), pose2D);
 
             if (wantedAngle > 180)
             {

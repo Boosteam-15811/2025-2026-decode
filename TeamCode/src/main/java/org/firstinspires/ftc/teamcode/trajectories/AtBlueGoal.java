@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.Pi
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
 @Config
-@Autonomous(name = "At Blue Goal", group = "Autonomous")
+@Autonomous(name = "At Blue Goal", group = "Autonomous" , preselectTeleOp = "BlueTeleOpPinpoint")
 public class AtBlueGoal extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -42,7 +42,7 @@ public class AtBlueGoal extends LinearOpMode {
                 //from start to shooting a bit farther
                 .strafeToLinearHeading(new Vector2d(-16, -17), Math.toRadians(225));
 
-        TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-47, -46, Math.toRadians(225)))
+        TrajectoryActionBuilder collect1 = drive.actionBuilder(new Pose2d(-16, -17, Math.toRadians(225)))
                 //from start to collecting the third row
                 .setTangent(90)
                 .splineToLinearHeading(new Pose2d(-17.5,-30, Math.toRadians(270)), Math.toRadians(270))
