@@ -86,7 +86,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270);
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D);
 
 
             HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
@@ -133,7 +133,7 @@ public class LocalizerTestingTeleOp extends LinearOpMode {
             telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
             telemetry.addData("Current angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
             telemetry.addData("Target distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
-           telemetry.addData("Target heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D , 270));
+           telemetry.addData("Target heading" , LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D));
             telemetry.update();
 
         }
