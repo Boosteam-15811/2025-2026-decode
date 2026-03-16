@@ -6,7 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 public class ShootingSpeedConstants {
     public static double launchZoneSpeed = 3250;
     public static double atGoalSpeed = 2300;
-    public static double farFromGoalSpeed = 2700;
+    public static double farFromGoalSpeed = 2400;
     public static double disabledSpeed = 0;
 
     public static int farFromGoalTolerance = 100;
@@ -15,10 +15,8 @@ public class ShootingSpeedConstants {
 
     public static int dynamicTolerance = 80;
 
-    public static int ejectionRPMThreshold = 180;
-    public static final double tickToRPMRatio = 60.0 / 28.0;
+    public static int ejectionRPMThreshold = 0;
+    public static final double tickToRPMRatio = 60.0 / 42.0;
 
-    public static double p = 0.0018 ,i = 0 ,d = 0.000001, f = 0.00025;
-
+    public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
 }
-

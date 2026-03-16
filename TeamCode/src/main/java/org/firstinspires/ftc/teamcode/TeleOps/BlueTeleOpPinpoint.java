@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingCla
 import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.Utility.ShooterStateClass;
 @TeleOp(group = "main")
-@Disabled
+
 public class BlueTeleOpPinpoint extends LinearOpMode {
 
     private static double distance = 0;
@@ -40,7 +40,8 @@ public class BlueTeleOpPinpoint extends LinearOpMode {
 
     private static double wantedAngle = 0;
 
-    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
+   // private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -42, -15, AngleUnit.DEGREES, 270);
+   private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0);
 
 
     @Override
@@ -81,7 +82,7 @@ public class BlueTeleOpPinpoint extends LinearOpMode {
 
             //Preload
             if (gamepad1.dpad_left) {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 22, 58, AngleUnit.DEGREES, 0));
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 58, -22, AngleUnit.DEGREES, 270));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
@@ -90,9 +91,9 @@ public class BlueTeleOpPinpoint extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), robotPose2D);
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-70, -70, Math.toRadians(0)), robotPose2D);
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72, Math.toRadians(0)), robotPose2D);
 
 
             if (gamepad1.right_trigger > 0)
@@ -104,7 +105,7 @@ public class BlueTeleOpPinpoint extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 2000)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
