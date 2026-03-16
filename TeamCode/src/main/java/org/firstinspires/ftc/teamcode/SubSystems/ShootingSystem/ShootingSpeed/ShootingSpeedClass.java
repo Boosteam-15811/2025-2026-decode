@@ -30,7 +30,9 @@ public class ShootingSpeedClass
 
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        masterShootingMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
@@ -47,6 +49,8 @@ public class ShootingSpeedClass
             masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
         }
     }
+
+
     public static boolean inTolerence(double speed, double tolerance)
     {
         error = speed - masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;

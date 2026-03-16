@@ -85,7 +85,7 @@ public class BlueTeleOp extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D);
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)), robotPose2D);
 
 
             if (gamepad1.right_trigger > 0)
@@ -97,7 +97,7 @@ public class BlueTeleOp extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 300)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 2000)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
@@ -168,6 +168,8 @@ public class BlueTeleOp extends LinearOpMode {
             telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
             telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
             telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-70,-70,Math.toRadians(0)), robotPose2D));
+            telemetry.addData("current velocity:" , (ShootingSpeedClass.masterShootingMotor.getVelocity()/28)*60);
+            telemetry.addData("target speed:" , ShootingSpeedConstants.farFromGoalSpeed);
             telemetry.update();
 
 

@@ -19,12 +19,11 @@ import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
 
 @TeleOp
 @Config
-@Disabled
 public class ShootingSpeedTuning extends LinearOpMode {
 
     public static PIDFController controller;
 
-    public static double p = 0.0018 ,i = 0 ,d = 0.000001, f = 0.00025;
+    public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
 
     public static int targetVelocity = 0;
 
@@ -57,7 +56,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
         {
             controller.setPIDF(p,i,d,f);
 
-            double currentVelocity = (masterShootingSpeedMotor.getVelocity()/28)*60;
+            double currentVelocity = masterShootingSpeedMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;
 
             double pid = controller.calculate(currentVelocity , targetVelocity);
 
@@ -77,7 +76,11 @@ public class ShootingSpeedTuning extends LinearOpMode {
             {
                 TransferWheelClass.operate(1);
             }
-            else {
+            else if (gamepad1.left_bumper){
+                TransferWheelClass.operate(-1);
+            }
+            else
+            {
                 TransferWheelClass.operate(0);
             }
 

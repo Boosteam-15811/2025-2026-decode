@@ -85,7 +85,7 @@ public class RedTeleOp extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            distance = LocalizerClass.redGetDistance(new Pose2d(-70,70,Math.toRadians(0)), robotPose2D);
+            distance = LocalizerClass.redGetDistance(new Pose2d(-72,72,Math.toRadians(0)), robotPose2D);
 
 
             if (gamepad1.right_trigger > 0)
