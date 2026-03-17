@@ -47,11 +47,11 @@ public class IntakeClass
     {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 150))
-            {
-                IntakeClass.operate(-1);
-            }
-            else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, 135))
+//            if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 150))
+//            {
+//                IntakeClass.operate(-1);
+//            }
+            if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, 135))
             {
                 operate(1);
             }

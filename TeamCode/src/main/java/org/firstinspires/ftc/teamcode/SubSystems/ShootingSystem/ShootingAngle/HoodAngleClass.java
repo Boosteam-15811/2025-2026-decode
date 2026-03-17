@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle;
 
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -8,14 +7,8 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.seattlesolvers.solverslib.geometry.Pose2d;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
-import org.firstinspires.ftc.teamcode.Utility.DynamicShooting.DynamicShootingClass;
-import org.firstinspires.ftc.teamcode.Utility.LocalizerClass;
-import org.firstinspires.ftc.teamcode.Utility.MathUtil.MathUtilClass;
+import static com.seattlesolvers.solverslib.util.MathUtils.*;
 
 public class HoodAngleClass
 {
@@ -35,7 +28,7 @@ public class HoodAngleClass
 
     public static void setPos(double pos)
     {
-        hoodServo.setPosition(MathUtilClass.clamp(pos, HoodAngleConstants.hoodAngleMin, HoodAngleConstants.hoodAngleMax));
+        hoodServo.setPosition(clamp(pos, HoodAngleConstants.hoodAngleMin, HoodAngleConstants.hoodAngleMax));
     }
 
 

@@ -35,7 +35,7 @@ public class ShootingSpeedPID
         public boolean run(@NonNull TelemetryPacket packet) {
             controller.setPIDF(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d,ShootingSpeedConstants.f);
 
-            double pid = controller.calculate(masterShootingMotor.getVelocity()*60/28, targetSpeed);
+            double pid = controller.calculate(masterShootingMotor.getVelocity()*ShootingSpeedConstants.tickToRPMRatio, targetSpeed);
 
             if (targetSpeed == 0)
             {
