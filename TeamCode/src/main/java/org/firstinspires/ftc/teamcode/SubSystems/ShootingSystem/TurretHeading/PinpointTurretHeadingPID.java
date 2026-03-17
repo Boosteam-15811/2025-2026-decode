@@ -13,7 +13,6 @@ import com.seattlesolvers.solverslib.controller.PIDController;
 
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
-import org.firstinspires.ftc.teamcode.Utility.MathUtil.MathUtilClass;
 
 public class PinpointTurretHeadingPID
 {
@@ -28,6 +27,11 @@ public class PinpointTurretHeadingPID
     public static void init(HardwareMap hardwareMap)
     {
         controller = new PIDController(TurretHeadingConstants.p, TurretHeadingConstants.i , TurretHeadingConstants.d);
+    }
+
+    public static double getTrueAngle()
+    {
+        return trueAngle;
     }
 
 

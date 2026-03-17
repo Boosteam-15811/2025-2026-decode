@@ -33,10 +33,6 @@ public class TurretHeadingClass
     }
 
 
-    public static void operate()
-    {
-       headingMotor.setPower(LimelightTurretHeadingPID.moveToPos(tx));
-    }
 
     public static void pinpointOperate(double wantedAngle)
     {
@@ -69,10 +65,6 @@ public class TurretHeadingClass
         }
     }
 
-    public static boolean inPosition ()
-    {
-        return (0.05 > LimelightTurretHeadingPID.moveToPos(0));
-    }
 
     public static void telemetry(Telemetry telemetry)
     {

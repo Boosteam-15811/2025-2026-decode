@@ -25,14 +25,9 @@ public class ShootingSpeedClass
 
         masterShootingMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
 
-
-        masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        masterShootingMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
