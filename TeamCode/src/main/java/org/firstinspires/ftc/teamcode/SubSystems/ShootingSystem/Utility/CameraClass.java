@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
+import org.firstinspires.ftc.teamcode.TeleOps.Main.Blue;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class CameraClass {
     public static Limelight3A limeLight3A;
     private static double distance;
 
+    private static final int minDisTolerance = 40;
+    private static final int maxDisTolerance = 80;
 
 
     public static void init(HardwareMap hardwareMap) {
@@ -26,7 +29,7 @@ public class CameraClass {
 
     public static boolean inDisTolerance(double distance)
     {
-        return distance < 80 && distance > 40;
+        return distance < maxDisTolerance && distance > minDisTolerance;
     }
 
     public static boolean cameraDetecting()
@@ -40,10 +43,10 @@ public class CameraClass {
     {
             LLResult result = limeLight3A.getLatestResult();
 
-            double robotX = result.getBotpose().getPosition().x + 6.5*Math.cos(PinpointTurretHeadingPID.getTrueAngle());
-            double robotY = result.getBotpose().getPosition().y + 6.5*Math.sin(PinpointTurretHeadingPID.getTrueAngle());
+            double robotX = result.getBotpose().getPosition().x + 6.5*Math.cos(Blue.wantedAngle)+180;
+            double robotY = result.getBotpose().getPosition().y + 6.5*Math.sin(Blue.wantedAngle)+180;
 
-            return new Pose2D(DistanceUnit.INCH, robotX, robotY, AngleUnit.DEGREES , PinpointTurretHeadingPID.getTrueAngle());
+            return new Pose2D(DistanceUnit.INCH, robotX, robotY, AngleUnit.DEGREES , Blue.wantedAngle);
     }
 
 
