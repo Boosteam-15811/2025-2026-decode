@@ -8,11 +8,15 @@ public class TestingUsingServos
     private static CRServo rightServo;
     private static CRServo leftServo;
 
+    private static CRServo middleServo;
+
+
 
     public static void init (HardwareMap hardwareMap)
     {
         rightServo = hardwareMap.get(CRServo.class, "rightServo");
         leftServo = hardwareMap.get(CRServo.class, "leftServo");
+        middleServo = hardwareMap.get(CRServo.class, "middleServo");
 
         rightServo.setDirection(CRServo.Direction.REVERSE);
 
@@ -22,6 +26,7 @@ public class TestingUsingServos
     {
         rightServo.setPower(power);
         leftServo.setPower(power);
+        middleServo.setPower(power);
     }
 
 }

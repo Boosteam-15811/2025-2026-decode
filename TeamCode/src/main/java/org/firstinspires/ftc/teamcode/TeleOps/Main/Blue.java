@@ -39,7 +39,7 @@ public class Blue extends LinearOpMode {
 
     private boolean shooting = false;
 
-    private static double wantedAngle = 0;
+    public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
 
@@ -112,8 +112,7 @@ public class Blue extends LinearOpMode {
             }
 
 
-
-            if (gamepad1.right_trigger > 0)
+             if (gamepad1.right_trigger > 0)
             {
                 IntakeClass.operate(gamepad1.right_trigger);
                 TransferWheelClass.operate(-gamepad1.right_trigger);

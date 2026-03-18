@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
+import org.firstinspires.ftc.teamcode.TeleOps.Main.Blue;
 
 import java.util.Random;
 
@@ -30,7 +31,7 @@ public class LocalizerClass
     {
         double turretY = pinpointPos.getX(DistanceUnit.INCH) + 2.31*Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS)+180);
         double turretX = pinpointPos.getY(DistanceUnit.INCH) + 2.31*Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS)+180);
-        turretPose = new Pose2D(DistanceUnit.INCH, turretX, turretY, AngleUnit.DEGREES, PinpointTurretHeadingPID.getTrueAngle());
+        turretPose = new Pose2D(DistanceUnit.INCH, turretX, turretY, AngleUnit.DEGREES, Blue.wantedAngle);
     }
 
     public static void setTurretPose(Pose2D pose2d)
@@ -40,8 +41,8 @@ public class LocalizerClass
 
     public static void calcPinpointPose()
     {
-        double pinpointY = turretPose.getX(DistanceUnit.INCH) + 2.31*Math.cos(turretPose.getHeading(AngleUnit.RADIANS)+180);
-        double pinpointX = turretPose.getY(DistanceUnit.INCH) + 2.31*Math.sin(turretPose.getHeading(AngleUnit.RADIANS)+180);
+        double pinpointY = turretPose.getX(DistanceUnit.INCH) + 2.31*Math.cos(turretPose.getHeading(AngleUnit.RADIANS));
+        double pinpointX = turretPose.getY(DistanceUnit.INCH) + 2.31*Math.sin(turretPose.getHeading(AngleUnit.RADIANS));
         pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, pinpointX, pinpointY, AngleUnit.DEGREES, pinpoint.getHeading(AngleUnit.DEGREES)));
     }
 
@@ -76,7 +77,7 @@ public class LocalizerClass
 
     public static void configurePinpoint()
     {
-        pinpoint.setOffsets(-72.5, -182.5, DistanceUnit.MM);
+        pinpoint.setOffsets(-76.0, -168.0, DistanceUnit.MM);
 
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
 
