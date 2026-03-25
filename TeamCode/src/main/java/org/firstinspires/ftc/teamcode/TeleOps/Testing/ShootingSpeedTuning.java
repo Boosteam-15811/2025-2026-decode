@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TestingUsingServos;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 
 @TeleOp
@@ -34,8 +33,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
 
         controller = new PIDFController(p,i,d,f);
 
-        //TransferWheelClass.init(hardwareMap);
-        TestingUsingServos.init(hardwareMap);
+        TransferWheelClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         DriveClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
@@ -44,7 +42,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry , FtcDashboard.getInstance().getTelemetry());
 
         masterShootingSpeedMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
-        //slaveShootingSpeedMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
+        slaveShootingSpeedMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
 
         masterShootingSpeedMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -66,28 +64,27 @@ public class ShootingSpeedTuning extends LinearOpMode {
             if(targetVelocity < 100)
             {
                 masterShootingSpeedMotor.setMotorDisable();
-                //slaveShootingSpeedMotor.setMotorDisable();
+                slaveShootingSpeedMotor.setMotorDisable();
             }
             else {
                 masterShootingSpeedMotor.setPower(power);
-              //  slaveShootingSpeedMotor.setPower(power);
+                slaveShootingSpeedMotor.setPower(power);
             }
 
                 DriveClass.arcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x);
 
             if(gamepad1.right_bumper)
             {
-                //TransferWheelClass.operate(1);
-                TestingUsingServos.operate(1);
+                TransferWheelClass.operate(1);
             }
             else if (gamepad1.left_bumper){
-                //TransferWheelClass.operate(-1);
-                TestingUsingServos.operate(-1);
+                TransferWheelClass.operate(-1);
+
             }
             else
             {
-                //TransferWheelClass.operate(0);
-                TestingUsingServos.operate(0);
+                TransferWheelClass.operate(0);
+
             }
 
             if (gamepad1.right_trigger > 0)

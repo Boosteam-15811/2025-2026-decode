@@ -2,15 +2,12 @@ package org.firstinspires.ftc.teamcode.TeleOps.Main;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -76,6 +73,7 @@ public class Blue extends LinearOpMode {
 
         waitForStart();
         LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
+        CameraClass.limeLight3A.start();
         while (opModeIsActive())
         {
             if (gamepad1.options) {
@@ -105,11 +103,11 @@ public class Blue extends LinearOpMode {
 
             wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72, Math.toRadians(0)));
 
-            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
-            {
-                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
-                LocalizerClass.calcPinpointPose();
-            }
+//            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
+//            {
+//                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
+//                LocalizerClass.calcPinpointPoseBlue();
+//            }
 
 
              if (gamepad1.right_trigger > 0)
@@ -183,7 +181,7 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            TurretHeadingClass.pinpointOperate(wantedAngle);
+           TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 
@@ -195,7 +193,9 @@ public class Blue extends LinearOpMode {
             telemetry.addData("wanted angle" , wantedAngle);
             telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
             telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
-            IntakeClass.telemetry(telemetry);
+            //IntakeClass.telemetry(telemetry);
+            //TransferWheelClass.telemetry(telemetry);
+            CameraClass.telemetry(telemetry);
             telemetry.update();
 
 

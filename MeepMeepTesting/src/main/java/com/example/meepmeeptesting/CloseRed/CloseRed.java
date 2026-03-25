@@ -1,12 +1,11 @@
-package com.example.meepmeeptesting;
+package com.example.meepmeeptesting.CloseRed;
 
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.example.meepmeeptesting.CloseBlue.CloseBlueConstants;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class RedHumanPlayer
+public class CloseRed
 {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(800);
@@ -16,10 +15,16 @@ public class RedHumanPlayer
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8, Math.toRadians(180)))
-                //from start to collecting from the human player
-                .strafeToLinearHeading(new Vector2d(57 , 17.8), Math.toRadians(160))
-                .strafeToLinearHeading(new Vector2d(57 , 35), Math.toRadians(90))
+        myBot.runAction(myBot.getDrive().actionBuilder(CloseRedConstants.startingPos)
+
+                .strafeTo(CloseRedConstants.startShootingPos)
+                .strafeTo(CloseRedConstants.secondRow)
+                .strafeTo(CloseRedConstants.collectSecondRow)
+                .strafeTo(CloseRedConstants.shootingPos)
+                .strafeToLinearHeading(CloseRedConstants.collectGate, Math.toRadians(120))
+                .strafeTo(CloseRedConstants.Back)
+                .strafeTo(CloseRedConstants.collectGate)
+                .strafeToLinearHeading(CloseRedConstants.shootingPos,Math.toRadians(90))
 
 
                 .build());

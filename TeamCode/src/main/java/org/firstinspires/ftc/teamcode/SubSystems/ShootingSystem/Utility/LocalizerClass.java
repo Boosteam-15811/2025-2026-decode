@@ -8,10 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.TeleOps.Main.Blue;
-
-import java.util.Random;
 
 public class LocalizerClass
 {
@@ -39,9 +36,16 @@ public class LocalizerClass
         turretPose = pose2d;
     }
 
-    public static void calcPinpointPose()
+    public static void calcPinpointPoseBlue()
     {
         double pinpointY = turretPose.getX(DistanceUnit.INCH) + 2.31*Math.cos(turretPose.getHeading(AngleUnit.RADIANS));
+        double pinpointX = (turretPose.getY(DistanceUnit.INCH) + 2.31*Math.sin(turretPose.getHeading(AngleUnit.RADIANS)))*-1;
+        pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, pinpointX, pinpointY, AngleUnit.DEGREES, pinpoint.getHeading(AngleUnit.DEGREES)));
+    }
+
+    public static void calcPinpointPoseRed()
+    {
+        double pinpointY = (turretPose.getX(DistanceUnit.INCH) + 2.31*Math.cos(turretPose.getHeading(AngleUnit.RADIANS)))*-1;
         double pinpointX = turretPose.getY(DistanceUnit.INCH) + 2.31*Math.sin(turretPose.getHeading(AngleUnit.RADIANS));
         pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, pinpointX, pinpointY, AngleUnit.DEGREES, pinpoint.getHeading(AngleUnit.DEGREES)));
     }

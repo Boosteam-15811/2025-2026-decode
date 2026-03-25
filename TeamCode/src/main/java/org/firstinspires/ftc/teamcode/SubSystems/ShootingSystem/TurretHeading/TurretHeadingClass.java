@@ -1,11 +1,16 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.GlobalData;
 
 public class TurretHeadingClass
 {
@@ -70,6 +75,19 @@ public class TurretHeadingClass
     {
         telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition());
     }
+
+    public static class ChangeTurretAngle implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.currentAngle);
+            return false;
+        }
+    }
+    public static Action changeTurretAngle() {
+        return new ChangeTurretAngle();
+        }
+
 
 //    public static class AtGoal implements Action
 //    {

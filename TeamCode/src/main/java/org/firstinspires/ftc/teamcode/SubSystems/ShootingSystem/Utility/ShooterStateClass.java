@@ -5,6 +5,7 @@ import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Gate.GateClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;

@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.GlobalData;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 
 public class ShootingSpeedClass
 {
@@ -65,40 +67,17 @@ public class ShootingSpeedClass
         //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance));
     }
 
-    public static class AtGoal implements Action {
+
+    public static class SetSpeed implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = ShootingSpeedConstants.atGoalSpeed;
+            targetSpeed = DynamicShootingClass.calcSpeed(GlobalData.currentDistance);
             return false;
         }
     }
-    public static Action atGoal() {
-        return new AtGoal();
-    }
-
-    public static class FarFromGoal implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 2600;
-            return false;
-        }
-    }
-    public static Action farFromGoal() {
-        return new FarFromGoal();
-    }
-
-    public static class Far implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = ShootingSpeedConstants.launchZoneSpeed;
-            return false;
-        }
-    }
-    public static Action far() {
-        return new Far();
+    public static Action setSpeed() {
+        return new SetSpeed();
     }
 
     public static class Disabled implements Action {

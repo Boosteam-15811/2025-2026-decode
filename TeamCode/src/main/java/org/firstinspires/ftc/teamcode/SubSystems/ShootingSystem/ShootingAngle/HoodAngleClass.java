@@ -8,6 +8,10 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.GlobalData;
+import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
+
 import static com.seattlesolvers.solverslib.util.MathUtils.*;
 
 public class HoodAngleClass
@@ -63,27 +67,16 @@ public class HoodAngleClass
         telemetry.addData("hoodServoAngle:" , hoodServo.getPosition());
     }
 
-    public static class AtGoal implements Action {
+    public static class ChangeHoodAngle implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(HoodAngleConstants.atGoalPos);
+            setPos(DynamicShootingClass.calcAngle(GlobalData.currentDistance));
             return false;
         }
     }
-    public static Action atGoal() {
-        return new AtGoal();
-    }
-    public static class FarFromGoal implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(HoodAngleConstants.farFromGoalPos);
-            return false;
-        }
-    }
-    public static Action farFromGoal() {
-        return new FarFromGoal();
+    public static Action changeHoodAngle() {
+        return new ChangeHoodAngle();
     }
 
 
