@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.seattlesolvers.solverslib.controller.PIDController;
 
+import org.firstinspires.ftc.teamcode.GlobalData;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
 
@@ -65,9 +66,27 @@ public class PinpointTurretHeadingPID
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            controller.setPIDF(TurretHeadingConstants.p, TurretHeadingConstants.i, TurretHeadingConstants.d, TurretHeadingConstants.f);
+            controller.setPID(TurretHeadingConstants.p, TurretHeadingConstants.i, TurretHeadingConstants.d);
 
-            double pid = controller.calculate((headingMotor.getCurrentPosition() / TurretHeadingConstants.degreeInTicks), zeroAngle);
+            double motorAngle = headingMotor.getCurrentPosition() / TurretHeadingConstants.degreeInTicks;
+
+            if (GlobalData.currentAngle > 180)
+            {
+                trueAngle = GlobalData.currentAngle - 360;
+
+            }
+            else if(GlobalData.currentAngle < -180)
+            {
+                trueAngle = 360 + GlobalData.currentAngle;
+            }
+            else
+            {
+                trueAngle = GlobalData.currentAngle;
+            }
+
+            double pid = controller.calculate(motorAngle , trueAngle);
+
+            power = (pid + (TurretHeadingConstants.f * Math.signum(trueAngle)))*-1;
 
             headingMotor.setPower(pid);
 

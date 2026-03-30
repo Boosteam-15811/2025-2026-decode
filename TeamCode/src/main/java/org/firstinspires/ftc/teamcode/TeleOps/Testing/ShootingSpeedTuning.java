@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.seattlesolvers.solverslib.controller.PIDController;
 import com.seattlesolvers.solverslib.controller.PIDFController;
 
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
@@ -19,9 +20,12 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 @Config
 public class ShootingSpeedTuning extends LinearOpMode {
 
-    public static PIDFController controller;
+    public static PIDController controller;
+    //yesterday half tuning
+    //public static double p = 0 ,i = 0 ,d = 0, fs = 0.182, fv = 0.000195;
 
-    public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
+
+    public static double p = 0.002 ,i = 0 ,d = 0, fs = 0.1, fv = 0.00016;
 
     public static int targetVelocity = 0;
 
@@ -31,7 +35,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        controller = new PIDFController(p,i,d,f);
+        controller = new PIDController(p,i,d);
 
         TransferWheelClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
@@ -47,19 +51,22 @@ public class ShootingSpeedTuning extends LinearOpMode {
         masterShootingSpeedMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         masterShootingSpeedMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        slaveShootingSpeedMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingSpeedMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        slaveShootingSpeedMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+
 
         waitForStart();
         while (opModeIsActive())
         {
-            controller.setPIDF(p,i,d,f);
+            controller.setPID(p,i,d);
 
             double currentVelocity = masterShootingSpeedMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;
 
             double pid = controller.calculate(currentVelocity , targetVelocity);
 
-            double power = pid;
+            double power = pid + fs + fv*targetVelocity;
 
             if(targetVelocity < 100)
             {
@@ -75,7 +82,7 @@ public class ShootingSpeedTuning extends LinearOpMode {
 
             if(gamepad1.right_bumper)
             {
-                TransferWheelClass.operate(1);
+                 TransferWheelClass.operate(1);
             }
             else if (gamepad1.left_bumper){
                 TransferWheelClass.operate(-1);

@@ -25,6 +25,7 @@ public class CloseRed
                 .strafeTo(CloseRedConstants.Back)
                 .strafeTo(CloseRedConstants.collectGate)
                 .strafeToLinearHeading(CloseRedConstants.shootingPos,Math.toRadians(90))
+                .strafeTo(CloseRedConstants.leave)
 
 
                 .build());

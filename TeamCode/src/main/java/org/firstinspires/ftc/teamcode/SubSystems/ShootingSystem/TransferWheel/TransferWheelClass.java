@@ -28,7 +28,7 @@ public class TransferWheelClass
         rightTransferWheel.setDirection(CRServo.Direction.REVERSE);
     }
     public static void operate(double power) {
-        //rightTransferWheel.setPower(power);
+        rightTransferWheel.setPower(power);
         leftTransferWheel.setPower(power);
     }
     public static void telemetry(Telemetry telemetry)

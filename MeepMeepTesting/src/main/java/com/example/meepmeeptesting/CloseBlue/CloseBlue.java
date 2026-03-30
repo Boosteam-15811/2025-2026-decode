@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting.CloseBlue;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.example.meepmeeptesting.BlueHumanPlayer.BlueHumanPlayerConstants;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
@@ -26,6 +27,8 @@ public class CloseBlue
                         .strafeTo(CloseBlueConstants.Back)
                         .strafeTo(CloseBlueConstants.collectGate)
                         .strafeToLinearHeading(CloseBlueConstants.shootingPos, Math.toRadians(270))
+                        .strafeTo(CloseBlueConstants.leave)
+
 
 
                 .build());

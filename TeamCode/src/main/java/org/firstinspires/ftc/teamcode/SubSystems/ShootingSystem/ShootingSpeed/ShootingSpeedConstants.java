@@ -18,5 +18,8 @@ public class ShootingSpeedConstants {
     public static int ejectionRPMThreshold = 0;
     public static final double tickToRPMRatio = 60.0 / 28.0 ;
 
-    public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
+    //old PIDF values yigal said to save
+    //public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
+
+    public static double p = 0.002 ,i = 0 ,d = 0, fs = 0.1, fv = 0.00016;
 }

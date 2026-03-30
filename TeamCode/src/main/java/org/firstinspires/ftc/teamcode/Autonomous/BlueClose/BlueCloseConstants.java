@@ -1,9 +1,9 @@
-package com.example.meepmeeptesting.CloseBlue;
+package org.firstinspires.ftc.teamcode.Autonomous.BlueClose;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 
-public class CloseBlueConstants
+public class BlueCloseConstants
 {
     public static final Pose2d startingPos = new Pose2d(-38,-55, Math.toRadians(270));
 
@@ -14,9 +14,6 @@ public class CloseBlueConstants
     public static final Vector2d shootingPos = new Vector2d(0,-16);
     public static final Vector2d collectGate = new Vector2d(12,-58.5);
     public static final Vector2d Back = new Vector2d(12,-56);
-
     public static final Vector2d leave = new Vector2d(7,-16);
-
-
 
 }

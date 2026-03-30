@@ -1,4 +1,4 @@
-package com.example.meepmeeptesting.RedHumanPlayer;
+package org.firstinspires.ftc.teamcode.Autonomous.RedHumanPlayer;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -14,6 +14,4 @@ public class RedHumanPlayerConstants
     public static final Vector2d back = new Vector2d(62,40);
 
     public static final Vector2d leave = new Vector2d(47,23);
-
-
 }

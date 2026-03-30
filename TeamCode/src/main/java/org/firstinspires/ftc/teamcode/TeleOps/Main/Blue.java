@@ -66,7 +66,7 @@ public class Blue extends LinearOpMode {
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
 
         imu.initialize(parameters);
 
@@ -181,7 +181,7 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-           TurretHeadingClass.pinpointOperate(wantedAngle);
+           //TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 
@@ -194,7 +194,7 @@ public class Blue extends LinearOpMode {
             telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
             telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
             //IntakeClass.telemetry(telemetry);
-            //TransferWheelClass.telemetry(telemetry);
+            TransferWheelClass.telemetry(telemetry);
             CameraClass.telemetry(telemetry);
             telemetry.update();
 

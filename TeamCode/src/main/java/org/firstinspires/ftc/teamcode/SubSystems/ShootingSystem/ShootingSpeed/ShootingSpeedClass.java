@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicS
 public class ShootingSpeedClass
 {
     public static DcMotorEx masterShootingMotor;
+    public static DcMotorEx slaveShootingMotor;
 
     public static double targetSpeed = 0;
 
@@ -26,12 +27,17 @@ public class ShootingSpeedClass
     {
 
         masterShootingMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
+        slaveShootingMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
 
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slaveShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        masterShootingMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slaveShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        slaveShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
     }
 
@@ -41,9 +47,11 @@ public class ShootingSpeedClass
         if (targetSpeed == 0)
         {
             masterShootingMotor.setMotorDisable();
+            slaveShootingMotor.setMotorDisable();
         }
         else {
             masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
         }
     }
 
