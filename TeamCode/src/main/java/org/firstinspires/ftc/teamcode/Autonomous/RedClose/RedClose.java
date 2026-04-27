@@ -78,19 +78,13 @@ public class RedClose extends LinearOpMode
                                         PinpointTurretHeadingPID.pid(),
                                         new SequentialAction
                                                 (
-                                                        HoodAngleClass.changeHoodAngle(),
                                                         Shoot1,
-                                                        ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Shoot2,
-                                                        HoodAngleClass.changeHoodAngle(),
-                                                        ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         GateShoot,
-                                                        HoodAngleClass.changeHoodAngle(),
-                                                        ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Leave

@@ -76,18 +76,80 @@ public class TurretHeadingClass
         telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition());
     }
 
-    public static class ChangeTurretAngle implements Action {
+    public static class BlueShootHumanPlayerAngle implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(GlobalData.currentAngle);
+            pinpointOperate(GlobalData.blueShootHumanPlayerAngle);
             return false;
         }
     }
-    public static Action changeTurretAngle() {
-        return new ChangeTurretAngle();
+    public static Action blueShootHumanPlayerAngle() {
+        return new BlueShootHumanPlayerAngle();
         }
 
+
+    public static class BlueShootClose1Angle implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.blueShootClose1Angle);
+            return false;
+        }
+    }
+    public static Action blueShootClose1Angle() {
+        return new BlueShootClose1Angle();
+    }
+
+    public static class BlueShootClose2Angle implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.blueShootClose2Angle);
+            return false;
+        }
+    }
+    public static Action blueShootClose2Angle() {
+        return new BlueShootClose2Angle();
+    }
+
+
+    public static class RedShootHumanPlayerAngle  implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.redShootHumanPlayerAngle );
+            return false;
+        }
+    }
+    public static Action redShootHumanPlayerAngle () {
+        return new RedShootHumanPlayerAngle();
+    }
+
+
+    public static class RedShootClose1Angle  implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.redShootClose1Angle);
+            return false;
+        }
+    }
+    public static Action redShootClose1Angle () {
+        return new RedShootClose1Angle();
+    }
+
+    public static class RedShootClose2Angle  implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(GlobalData.redShootClose2Angle);
+            return false;
+        }
+    }
+    public static Action redShootClose2Angle () {
+        return new RedShootClose2Angle();
+    }
 
 //    public static class AtGoal implements Action
 //    {

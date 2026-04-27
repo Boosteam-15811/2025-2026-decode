@@ -76,16 +76,45 @@ public class ShootingSpeedClass
     }
 
 
-    public static class SetSpeed implements Action {
+    public static class ShootHumanPlayerDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = DynamicShootingClass.calcSpeed(GlobalData.currentDistance);
+            targetSpeed = (DynamicShootingClass.calcDistance(GlobalData.ShootHumanPlayerDis));
             return false;
         }
     }
-    public static Action setSpeed() {
-        return new SetSpeed();
+
+    public static Action shootHumanPlayerDis() {
+        return new ShootHumanPlayerDis();
+    }
+
+
+    public static class ShootClose1Dis implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            targetSpeed =(DynamicShootingClass.calcDistance(GlobalData.ShootClose1Dis));
+            return false;
+        }
+    }
+
+    public static Action shootClose1Dis() {
+        return new ShootClose1Dis();
+    }
+
+
+    public static class ShootClose2Dis implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            targetSpeed = (DynamicShootingClass.calcDistance(GlobalData.ShootClose2Dis));
+            return false;
+        }
+    }
+
+    public static Action shootClose2Dis() {
+        return new ShootClose2Dis();
     }
 
     public static class Disabled implements Action {

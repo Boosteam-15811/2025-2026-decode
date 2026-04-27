@@ -73,13 +73,9 @@ public class BlueHumanPlayer extends LinearOpMode
                                         new SequentialAction
                                                 (
                                                         Shoot1,
-                                                        HoodAngleClass.changeHoodAngle(),
-                                                        ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Shoot2,
-                                                        HoodAngleClass.changeHoodAngle(),
-                                                        ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Leave

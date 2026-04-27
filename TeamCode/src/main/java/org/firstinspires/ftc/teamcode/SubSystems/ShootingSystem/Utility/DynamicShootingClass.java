@@ -1,18 +1,12 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 
 public class DynamicShootingClass
 {
 
 
-    public static double calcAngle(double distance)
+    public static double calcDistance(double distance)
     {
         return  (0.08212363 - 0.0002178571*distance + 0.00001565934*Math.pow(distance, 2));
     }
@@ -24,7 +18,7 @@ public class DynamicShootingClass
 
     public static void telemetry(Telemetry telemetry , double distance)
     {
-        telemetry.addData("angle:", calcAngle(distance));
+        telemetry.addData("angle:", calcDistance(distance));
         telemetry.addData("speed:", calcSpeed(distance));
     }
 

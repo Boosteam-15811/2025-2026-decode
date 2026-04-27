@@ -11,30 +11,30 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.Localize
 
 public class GlobalData
 {
-    public static double blueShootHumanPlayerDis = calcDistanceBlue(new Pose2D(DistanceUnit.INCH, 14.5,62, AngleUnit.DEGREES, 0));
+    public static double ShootHumanPlayerDis = calcDistance(new Pose2D(DistanceUnit.INCH, 14.5,62, AngleUnit.DEGREES, 0));
     public static double blueShootHumanPlayerAngle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 14.5,62, AngleUnit.DEGREES, 0));
 
-    public static double blueShootClose1Dis = calcDistanceBlue(new Pose2D(DistanceUnit.INCH, 16,-16, AngleUnit.DEGREES, 0));
+    public static double ShootClose1Dis = calcDistance(new Pose2D(DistanceUnit.INCH, 16,-16, AngleUnit.DEGREES, 0));
     public static double blueShootClose1Angle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 16,-16, AngleUnit.DEGREES, 0));
 
-    public static double blueShootClose2Dis = calcDistanceBlue(new Pose2D(DistanceUnit.INCH, 16,0 , AngleUnit.DEGREES , 0));
+    public static double ShootClose2Dis = calcDistance(new Pose2D(DistanceUnit.INCH, 16,0 , AngleUnit.DEGREES , 0));
     public static double blueShootClose2Angle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 16,0 , AngleUnit.DEGREES , 0));
 
 
-    public static double redShootHumanPlayerDis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,14.5,-62 , AngleUnit.DEGREES , 0));
+    //public static double redShootHumanPlayerDis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,14.5,-62 , AngleUnit.DEGREES , 0));
     public static double redShootHumanPlayerAngle = calcWantedAngleRed(new Pose2D(DistanceUnit.INCH,14.5,-62,AngleUnit.DEGREES, 0));
 
-    public static double redShootClose1Dis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,16,16 , AngleUnit.DEGREES , 0));
+    //public static double redShootClose1Dis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,16,16 , AngleUnit.DEGREES , 0));
     public static double redShootClose1Angle = calcWantedAngleRed(new Pose2D(DistanceUnit.INCH,16,16 , AngleUnit.DEGREES , 0));
 
-    public static double redShootClose2Dis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,16,0 , AngleUnit.DEGREES , 0));
+    //public static double redShootClose2Dis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,16,0 , AngleUnit.DEGREES , 0));
     public static double redShootClose2Angle = calcWantedAngleRed(new Pose2D(DistanceUnit.INCH,16,0 , AngleUnit.DEGREES , 0));
 
     public static double currentDistance = 0;
     public static double currentAngle = 0;
 
 
-    public static double calcDistanceBlue(Pose2D roadRunnerPos)
+    public static double calcDistance(Pose2D roadRunnerPos)
     {
         LocalizerClass.calcTurretPose(roadRunnerPos);
         return LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)));

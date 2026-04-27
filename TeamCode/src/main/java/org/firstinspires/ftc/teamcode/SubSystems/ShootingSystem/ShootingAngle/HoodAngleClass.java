@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GlobalData;
-import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 
 import static com.seattlesolvers.solverslib.util.MathUtils.*;
@@ -56,18 +55,45 @@ public class HoodAngleClass {
         telemetry.addData("hoodServoAngle:", hoodServo.getPosition());
     }
 
-    public static class ChangeHoodAngle implements Action {
+    public static class ShootHumanPlayerDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(DynamicShootingClass.calcAngle(GlobalData.currentDistance));
+            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootHumanPlayerDis));
             return false;
         }
     }
 
-    public static Action changeHoodAngle() {
-        return new ChangeHoodAngle();
+    public static Action shootHumanPlayerDis() {
+        return new ShootHumanPlayerDis();
     }
 
+
+    public static class ShootClose1Dis implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootClose1Dis));
+            return false;
+        }
+    }
+
+    public static Action shootClose1Dis() {
+        return new ShootClose1Dis();
+    }
+
+
+    public static class ShootClose2Dis implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootClose2Dis));
+            return false;
+        }
+    }
+
+    public static Action shootClose2Dis() {
+        return new ShootClose2Dis();
+    }
 
 }

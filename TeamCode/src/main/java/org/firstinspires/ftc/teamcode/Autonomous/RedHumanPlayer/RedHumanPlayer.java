@@ -72,14 +72,14 @@ public class RedHumanPlayer extends LinearOpMode
                                         PinpointTurretHeadingPID.pid(),
                                         new SequentialAction
                                                 (
-                                                        HoodAngleClass.changeHoodAngle(),
+                                                       // HoodAngleClass.changeHoodAngle(),
                                                         Shoot1,
-                                                        ShootingSpeedClass.setSpeed(),
+                                                       // ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Shoot2,
-                                                        HoodAngleClass.changeHoodAngle(),
-                                                        ShootingSpeedClass.setSpeed(),
+                                                      //  HoodAngleClass.changeHoodAngle(),
+                                                       // ShootingSpeedClass.setSpeed(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Leave
