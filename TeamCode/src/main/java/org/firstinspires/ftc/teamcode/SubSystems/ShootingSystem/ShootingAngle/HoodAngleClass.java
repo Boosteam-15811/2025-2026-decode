@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.GlobalData;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -14,57 +15,45 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicS
 
 import static com.seattlesolvers.solverslib.util.MathUtils.*;
 
-public class HoodAngleClass
-{
+public class HoodAngleClass {
     private static Servo hoodServo;
     private static double servoPos;
 
     private static boolean lastChange = false;
 
 
-    public static void init(HardwareMap hardwareMap)
-    {
+    public static void init(HardwareMap hardwareMap) {
         hoodServo = hardwareMap.servo.get("hoodServo");
 
         hoodServo.setDirection(Servo.Direction.REVERSE);
     }
 
 
-    public static void setPos(double pos)
-    {
+    public static void setPos(double pos) {
         hoodServo.setPosition(clamp(pos, HoodAngleConstants.hoodAngleMin, HoodAngleConstants.hoodAngleMax));
     }
 
 
-    public static void test(Gamepad gamepad)
-    {
-        if (gamepad.dpad_up)
-        {
-            if (!lastChange)
-            {
-                servoPos +=0.02;
+    public static void test(Gamepad gamepad) {
+        if (gamepad.dpad_up) {
+            if (!lastChange) {
+                servoPos += 0.02;
                 lastChange = true;
             }
-        }
-        else if(gamepad.dpad_down)
-        {
-            if (!lastChange)
-            {
-                servoPos -=0.02;
+        } else if (gamepad.dpad_down) {
+            if (!lastChange) {
+                servoPos -= 0.02;
                 lastChange = true;
             }
-        }
-        else
-        {
+        } else {
             lastChange = false;
         }
 
         hoodServo.setPosition(servoPos);
     }
 
-    public static void telemetry(Telemetry telemetry)
-    {
-        telemetry.addData("hoodServoAngle:" , hoodServo.getPosition());
+    public static void telemetry(Telemetry telemetry) {
+        telemetry.addData("hoodServoAngle:", hoodServo.getPosition());
     }
 
     public static class ChangeHoodAngle implements Action {
@@ -75,6 +64,7 @@ public class HoodAngleClass
             return false;
         }
     }
+
     public static Action changeHoodAngle() {
         return new ChangeHoodAngle();
     }

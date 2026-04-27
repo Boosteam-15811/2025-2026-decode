@@ -99,9 +99,9 @@ public class Blue extends LinearOpMode {
             LocalizerClass.calcTurretPose(robotPose2D);
 
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0)));
+            distance = LocalizerClass.blueGetDistance(new Pose2d(-69,-69,Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72, Math.toRadians(0)));
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-69, -69, Math.toRadians(0)));
 
 //            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
 //            {
@@ -119,7 +119,7 @@ public class Blue extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 1800)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio <= 2000)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
@@ -181,7 +181,7 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-           //TurretHeadingClass.pinpointOperate(wantedAngle);
+           TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 

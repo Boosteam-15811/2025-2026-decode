@@ -20,7 +20,7 @@ public class IntakeClass
     public static void init(HardwareMap hardwareMap)
     {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
+        //intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -29,7 +29,7 @@ public class IntakeClass
     public static void operate(double power)
     {
         intakeMotor.setPower(power);
-        intakeServo.setPower(power);
+        //intakeServo.setPower(power);
     }
 
     public static void telemetry(Telemetry telemetry)

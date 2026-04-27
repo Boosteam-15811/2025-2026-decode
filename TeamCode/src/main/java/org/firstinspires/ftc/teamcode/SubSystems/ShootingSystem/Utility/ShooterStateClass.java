@@ -16,25 +16,20 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 public class ShooterStateClass {
     public static ShooterStates shooterState = ShooterStates.DISABLED;
 
+    public static boolean shootToggle = false;
+
     private static boolean lastChange = false;
-   //private static boolean patternMode = false;
+    //private static boolean patternMode = false;
 
     public static void setState(Gamepad gamepad) {
-        if (gamepad.circle)
-        {
+        if (gamepad.circle) {
             shooterState = ShooterStates.LAUNCHZONE;
-        }
-        else if (gamepad.triangle)
-        {
+        } else if (gamepad.triangle) {
             shooterState = ShooterStates.FARFROMGOAL;
 
-        }
-        else if (gamepad.square)
-        {
+        } else if (gamepad.square) {
             shooterState = ShooterStates.ATGOAL;
-        }
-        else if (gamepad.cross)
-        {
+        } else if (gamepad.cross) {
             shooterState = ShooterStates.DISABLED;
         }
     }
@@ -59,75 +54,65 @@ public class ShooterStateClass {
 //    }
 
     public static void manualOperate() {
-        switch (shooterState)
-        {
-            case LAUNCHZONE:
-            {
+        switch (shooterState) {
+            case LAUNCHZONE: {
                 HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.launchZoneSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold))
-                {
-                    IntakeClass.operate(-1);
+
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.launchZoneSpeed, ShootingSpeedConstants.launchZoneTolerance)) {
+                    shootToggle = true;
                 }
-                else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.launchZoneSpeed, ShootingSpeedConstants.launchZoneTolerance))
-                {
+
+                 if (shootToggle) {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
-                }
-                else
-                {
+                } else {
                     TransferWheelClass.operate(0);
                     IntakeClass.operate(0);
                 }
 
                 break;
             }
-            case ATGOAL:
-            {
+            case ATGOAL: {
                 HoodAngleClass.setPos(HoodAngleConstants.atGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.atGoalSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold))
-                {
-                    IntakeClass.operate(-1);
+
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.atGoalSpeed, ShootingSpeedConstants.atGoalTolerance)) {
+                    shootToggle = true;
                 }
-                else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.atGoalSpeed, ShootingSpeedConstants.atGoalTolerance))
-                {
+
+                if (shootToggle){
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
-                }
-                else
-                {
+                } else {
                     TransferWheelClass.operate(0);
                     IntakeClass.operate(0);
                 }
 
                 break;
             }
-            case FARFROMGOAL:
-            {
+            case FARFROMGOAL: {
                 HoodAngleClass.setPos(HoodAngleConstants.farFromGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.farFromGoalSpeed);
-                if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold))
-                {
-                    IntakeClass.operate(-1);
+
+                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance)) {
+                    shootToggle = true;
                 }
-                else if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance))
-                {
-                    TransferWheelClass.operate(1);
+
+                if (shootToggle) {
                     IntakeClass.operate(1);
-                }
-                else
-                {
+                    TransferWheelClass.operate(1);
+                } else {
                     TransferWheelClass.operate(0);
                     IntakeClass.operate(0);
                 }
 
                 break;
             }
-            case DISABLED:
-            {
+            case DISABLED: {
                 HoodAngleClass.setPos(HoodAngleConstants.disabledPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.disabledSpeed);
+                shootToggle = false;
                 break;
             }
 
@@ -136,25 +121,17 @@ public class ShooterStateClass {
 
     }
 
-    public static void operate(double wantedSpeed)
-    {
+    public static void operate(double wantedSpeed) {
         ShootingSpeedClass.setSpeed(wantedSpeed);
-        if (wantedSpeed == 0)
-        {
+        if (wantedSpeed == 0) {
             IntakeClass.operate(0);
             TransferWheelClass.operate(0);
-        }
-        else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold))
-        {
+        } else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold)) {
             IntakeClass.operate(-1);
-        }
-        else if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance))
-        {
+        } else if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance)) {
             TransferWheelClass.operate(1);
             IntakeClass.operate(1);
-        }
-        else
-        {
+        } else {
             TransferWheelClass.operate(0);
             IntakeClass.operate(0);
         }
