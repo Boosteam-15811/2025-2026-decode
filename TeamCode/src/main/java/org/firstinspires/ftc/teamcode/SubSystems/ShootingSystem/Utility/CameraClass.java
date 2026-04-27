@@ -5,6 +5,7 @@ import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
@@ -43,8 +44,8 @@ public class CameraClass {
     {
             LLResult result = limeLight3A.getLatestResult();
 
-            double robotX = result.getBotpose().getPosition().x + 6.5*Math.cos(Blue.wantedAngle)+180;
-            double robotY = result.getBotpose().getPosition().y + 6.5*Math.sin(Blue.wantedAngle)+180;
+            double robotX = result.getBotpose().getPosition().toUnit(DistanceUnit.INCH).x + 6.5*Math.cos(Math.toRadians(Blue.wantedAngle))+180;
+            double robotY = result.getBotpose().getPosition().toUnit(DistanceUnit.INCH).y + 6.5*Math.sin(Math.toRadians(Blue.wantedAngle))+180;
 
             return new Pose2D(DistanceUnit.INCH, robotX, robotY, AngleUnit.DEGREES , Blue.wantedAngle);
     }
@@ -63,6 +64,16 @@ public class CameraClass {
             }
         }
         return false;
+    }
+
+    public static void telemetry(Telemetry telemetry)
+    {
+        LLResult result = limeLight3A.getLatestResult();
+        if (cameraDetecting())
+        {
+        telemetry.addData("targetX", result.getBotpose().getPosition().toUnit(DistanceUnit.INCH).x);
+        telemetry.addData("targetY", result.getBotpose().getPosition().toUnit(DistanceUnit.INCH).y);
+        }
     }
 
 }

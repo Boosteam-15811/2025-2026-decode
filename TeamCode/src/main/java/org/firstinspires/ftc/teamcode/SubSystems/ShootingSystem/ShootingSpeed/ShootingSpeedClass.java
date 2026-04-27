@@ -9,10 +9,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.GlobalData;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 
 public class ShootingSpeedClass
 {
     public static DcMotorEx masterShootingMotor;
+    public static DcMotorEx slaveShootingMotor;
 
     public static double targetSpeed = 0;
 
@@ -24,12 +27,17 @@ public class ShootingSpeedClass
     {
 
         masterShootingMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
+        slaveShootingMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
 
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slaveShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        masterShootingMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slaveShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        slaveShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
 
     }
 
@@ -39,9 +47,11 @@ public class ShootingSpeedClass
         if (targetSpeed == 0)
         {
             masterShootingMotor.setMotorDisable();
+            slaveShootingMotor.setMotorDisable();
         }
         else {
             masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
         }
     }
 
@@ -65,40 +75,17 @@ public class ShootingSpeedClass
         //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance));
     }
 
-    public static class AtGoal implements Action {
+
+    public static class SetSpeed implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = ShootingSpeedConstants.atGoalSpeed;
+            targetSpeed = DynamicShootingClass.calcSpeed(GlobalData.currentDistance);
             return false;
         }
     }
-    public static Action atGoal() {
-        return new AtGoal();
-    }
-
-    public static class FarFromGoal implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 2600;
-            return false;
-        }
-    }
-    public static Action farFromGoal() {
-        return new FarFromGoal();
-    }
-
-    public static class Far implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = ShootingSpeedConstants.launchZoneSpeed;
-            return false;
-        }
-    }
-    public static Action far() {
-        return new Far();
+    public static Action setSpeed() {
+        return new SetSpeed();
     }
 
     public static class Disabled implements Action {

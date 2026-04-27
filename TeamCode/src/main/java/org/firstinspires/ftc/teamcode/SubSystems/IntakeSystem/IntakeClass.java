@@ -3,6 +3,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -14,9 +15,12 @@ public class IntakeClass
 {
     private static DcMotor intakeMotor;
 
+    private static CRServo intakeServo;
+
     public static void init(HardwareMap hardwareMap)
     {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        //intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -25,6 +29,7 @@ public class IntakeClass
     public static void operate(double power)
     {
         intakeMotor.setPower(power);
+        //intakeServo.setPower(power);
     }
 
     public static void telemetry(Telemetry telemetry)

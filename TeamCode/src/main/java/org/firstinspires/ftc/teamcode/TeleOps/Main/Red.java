@@ -67,7 +67,7 @@ public class Red extends LinearOpMode {
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
 
         imu.initialize(parameters);
 
@@ -102,11 +102,11 @@ public class Red extends LinearOpMode {
 
             wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(-72, 72, Math.toRadians(0)));
 
-            if (CameraClass.cameraDetecting()&& CameraClass.compareID(redId) && CameraClass.inDisTolerance(distance))
-            {
-                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
-                LocalizerClass.calcPinpointPose();
-            }
+//            if (CameraClass.cameraDetecting()&& CameraClass.compareID(redId) && CameraClass.inDisTolerance(distance))
+//            {
+//                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
+//                LocalizerClass.calcPinpointPoseRed();
+//            }
 
 
             if (gamepad1.right_trigger > 0)

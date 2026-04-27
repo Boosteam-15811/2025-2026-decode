@@ -4,10 +4,10 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class ShootingSpeedConstants {
-    public static double launchZoneSpeed = 3250;
+    public static double launchZoneSpeed = 3400;
     public static double atGoalSpeed = 2300;
-    public static double farFromGoalSpeed = 2600;
-    public static double disabledSpeed = 0;
+    public static double farFromGoalSpeed = 2900;
+    public static double disabledSpeed = 2000;
 
     public static int farFromGoalTolerance = 100;
     public static int launchZoneTolerance = 130;
@@ -18,5 +18,8 @@ public class ShootingSpeedConstants {
     public static int ejectionRPMThreshold = 0;
     public static final double tickToRPMRatio = 60.0 / 28.0 ;
 
-    public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
+    //old PIDF values yigal said to save
+    //public static double p = 0.006 ,i = 0 ,d = 0.000001, f = 0.00025;
+
+    public static double p = 0.002 ,i = 0 ,d = 0, fs = 0.1, fv = 0.00016;
 }
