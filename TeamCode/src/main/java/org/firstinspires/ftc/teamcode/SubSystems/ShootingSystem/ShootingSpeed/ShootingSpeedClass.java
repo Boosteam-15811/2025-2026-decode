@@ -69,8 +69,9 @@ public class ShootingSpeedClass
     {
         //telemetry.addData("error", error);
         telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-        telemetry.addData("motorPower" , masterShootingMotor.getPower()*1000);
-        telemetry.addData("error", error);
+        telemetry.addData("target speed", targetSpeed);
+        //telemetry.addData("motorPower" , masterShootingMotor.getPower()*1000);
+        //telemetry.addData("error", error);
         //telemetry.addData("error" , 2200-masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
         //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance));
     }
@@ -80,7 +81,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = (DynamicShootingClass.calcDistance(GlobalData.ShootHumanPlayerDis));
+            targetSpeed = (DynamicShootingClass.calcAngle(GlobalData.ShootHumanPlayerDis));
             return false;
         }
     }
@@ -94,7 +95,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed =(DynamicShootingClass.calcDistance(GlobalData.ShootClose1Dis));
+            targetSpeed =(DynamicShootingClass.calcAngle(GlobalData.ShootClose1Dis));
             return false;
         }
     }
@@ -108,7 +109,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = (DynamicShootingClass.calcDistance(GlobalData.ShootClose2Dis));
+            targetSpeed = (DynamicShootingClass.calcAngle(GlobalData.ShootClose2Dis));
             return false;
         }
     }

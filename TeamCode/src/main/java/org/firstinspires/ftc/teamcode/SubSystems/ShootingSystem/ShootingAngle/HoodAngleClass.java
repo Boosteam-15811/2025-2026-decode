@@ -59,7 +59,7 @@ public class HoodAngleClass {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootHumanPlayerDis));
+            setPos(DynamicShootingClass.calcAngle(GlobalData.ShootHumanPlayerDis));
             return false;
         }
     }
@@ -73,7 +73,7 @@ public class HoodAngleClass {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootClose1Dis));
+            setPos(DynamicShootingClass.calcAngle(GlobalData.ShootClose1Dis));
             return false;
         }
     }
@@ -87,7 +87,7 @@ public class HoodAngleClass {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPos(DynamicShootingClass.calcDistance(GlobalData.ShootClose2Dis));
+            setPos(DynamicShootingClass.calcAngle(GlobalData.ShootClose2Dis));
             return false;
         }
     }

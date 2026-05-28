@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -15,26 +16,42 @@ public class IntakeClass
 {
     private static DcMotor intakeMotor;
 
-    private static CRServo intakeServo;
+    private static CRServo tlServo;
+    private static CRServo blServo;
+    private static CRServo trServo;
+    private static CRServo brServo;
 
     public static void init(HardwareMap hardwareMap)
     {
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
-        //intakeServo = hardwareMap.get(CRServo.class, "intakeServo");
+        tlServo = hardwareMap.get(CRServo.class, "tlServo");
+        blServo = hardwareMap.get(CRServo.class, "blServo");
+        trServo = hardwareMap.get(CRServo.class, "trServo");
+        brServo = hardwareMap.get(CRServo.class, "brServo");
 
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        tlServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        blServo.setDirection(DcMotorSimple.Direction.REVERSE);
+
     }
     public static void operate(double power)
     {
         intakeMotor.setPower(power);
-        //intakeServo.setPower(power);
+        tlServo.setPower(power);
+        blServo.setPower(power);
+        trServo.setPower(power);
+        brServo.setPower(power);
     }
 
     public static void telemetry(Telemetry telemetry)
     {
         telemetry.addData("intakeMotor:", intakeMotor.getPower());
+        telemetry.addData("tlServo", tlServo.getPower());
+        telemetry.addData("blServo", blServo.getPower());
+        telemetry.addData("trServo", trServo.getPower());
+        telemetry.addData("brServo", brServo.getPower());
     }
     public static class Activate implements Action {
 

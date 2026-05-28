@@ -7,7 +7,7 @@ public class ShootingSpeedConstants {
     public static double launchZoneSpeed = 3400;
     public static double atGoalSpeed = 2300;
     public static double farFromGoalSpeed = 2900;
-    public static double disabledSpeed = 2000;
+    public static double disabledSpeed = 0;
 
     public static int farFromGoalTolerance = 100;
     public static int launchZoneTolerance = 130;

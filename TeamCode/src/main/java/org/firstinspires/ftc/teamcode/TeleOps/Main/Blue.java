@@ -21,7 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
 @TeleOp(group = "main")
@@ -60,16 +62,13 @@ public class Blue extends LinearOpMode {
         TransferWheelClass.init(hardwareMap);
         CameraClass.init(hardwareMap);
 
-
-
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(parameters);
-
 
         waitForStart();
         LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
@@ -146,7 +145,7 @@ public class Blue extends LinearOpMode {
                 }
                 else
                 {
-                  //  HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
+                    HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
                 }
 
                 if (gamepad1.square)
@@ -154,10 +153,10 @@ public class Blue extends LinearOpMode {
                     shooting = true;
                 }
 
-                if (gamepad1.cross)
+                if (gamepad1.cross||shooting == false)
                 {
                     shooting = false;
-                    ShooterStateClass.operate(ShootingSpeedConstants.disabledSpeed);
+                    ShooterStateClass.disable();
                 }
                 else if (shooting)
                 {
@@ -171,7 +170,7 @@ public class Blue extends LinearOpMode {
                     }
                     else
                     {
-                       // ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
+                        ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
                     }
                 }
             }
@@ -181,7 +180,7 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-           TurretHeadingClass.pinpointOperate(wantedAngle);
+//           TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 
@@ -189,13 +188,17 @@ public class Blue extends LinearOpMode {
             telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
             telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
             telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0))));
+            telemetry.addData("distance" , distance);
             telemetry.addData("wanted angle" , wantedAngle);
-            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
+            //telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
             telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
             //IntakeClass.telemetry(telemetry);
             TransferWheelClass.telemetry(telemetry);
             CameraClass.telemetry(telemetry);
+            telemetry.addData("shooting" , shooting);
+            ShootingSpeedClass.telemetry(telemetry);
+            DynamicShootingClass.telemetry(telemetry , distance);
+            //telemetry.addData("turretError" , wantedAngle-TurretHeadingClass.headingMotor.getCurrentPosition()/ TurretHeadingConstants.degreeInTicks);
             telemetry.update();
 
 

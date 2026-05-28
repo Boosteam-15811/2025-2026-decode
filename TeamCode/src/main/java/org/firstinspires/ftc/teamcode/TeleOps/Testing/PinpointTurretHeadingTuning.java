@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.seattlesolvers.solverslib.controller.PIDController;
+import com.seattlesolvers.solverslib.controller.PIDFController;
 import com.seattlesolvers.solverslib.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -19,12 +20,11 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.Localize
 
 @TeleOp
 @Config
-@Disabled
 public class PinpointTurretHeadingTuning extends LinearOpMode
 {
     private PIDController controller;
 
-    public static double p = 0 ,i = 0 ,d = 0;
+    public static double p = 0 ,i = 0 ,d = 0 , f = 0;
 
     public static double wantedAngle = 0;
 
@@ -62,11 +62,12 @@ public class PinpointTurretHeadingTuning extends LinearOpMode
             double motorAngle = turretHeadingMotor.getCurrentPosition()/ TurretHeadingConstants.degreeInTicks;
 
             LocalizerClass.pinpoint.update();
-            Pose2D pose2D = LocalizerClass.pinpoint.getPosition();
+            Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            LocalizerClass.setTurretPose(pose2D);
+            LocalizerClass.calcTurretPose(robotPose2D);
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-72, -72 , Math.toRadians(0)));
+
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-69, -69, Math.toRadians(0)));
 
             if (wantedAngle > 180)
             {
@@ -85,12 +86,13 @@ public class PinpointTurretHeadingTuning extends LinearOpMode
 
             power = pid;
 
-            turretHeadingMotor.setPower(power);
+            turretHeadingMotor.setPower((power + (f * Math.signum(trueAngle)))*-1);
 
             telemetry.addData("motorAngle" , motorAngle);
             telemetry.addData("wantedAngle", wantedAngle);
             telemetry.addData("power" , power);
             telemetry.addData("motorPower", turretHeadingMotor.getPower());
+            telemetry.addData("error:" , wantedAngle-motorAngle);
             telemetry.update();
         }
     }

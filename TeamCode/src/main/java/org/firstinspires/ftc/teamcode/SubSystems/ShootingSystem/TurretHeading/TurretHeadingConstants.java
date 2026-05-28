@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading;
 
+import com.acmerobotics.dashboard.config.Config;
+
+@Config
 public class TurretHeadingConstants
 {
-    public static double p = 0.0415 , i = 0 , d = 0.0016 , f = 0.05;
+    public static double p = 0.18  , i = 0 , d = 0.0018 , f = 0.1;
 
     private static final double encoderResolution = 537.7;
 

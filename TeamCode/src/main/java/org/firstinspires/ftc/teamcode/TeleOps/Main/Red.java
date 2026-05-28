@@ -98,9 +98,9 @@ public class Red extends LinearOpMode {
 
             LocalizerClass.setTurretPose(robotPose2D);
 
-            distance = LocalizerClass.redGetDistance(new Pose2d(-72,72,Math.toRadians(0)));
+            distance = LocalizerClass.redGetDistance(new Pose2d(-69,69,Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(-72, 72, Math.toRadians(0)));
+            wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(-69, 69, Math.toRadians(0)));
 
 //            if (CameraClass.cameraDetecting()&& CameraClass.compareID(redId) && CameraClass.inDisTolerance(distance))
 //            {
@@ -156,7 +156,7 @@ public class Red extends LinearOpMode {
                 if (gamepad1.cross)
                 {
                     shooting = false;
-                    ShooterStateClass.operate(ShootingSpeedConstants.disabledSpeed);
+                    ShooterStateClass.disable();
                 }
                 else if (shooting)
                 {

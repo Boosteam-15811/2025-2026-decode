@@ -123,18 +123,24 @@ public class ShooterStateClass {
 
     public static void operate(double wantedSpeed) {
         ShootingSpeedClass.setSpeed(wantedSpeed);
-        if (wantedSpeed == 0) {
-            IntakeClass.operate(0);
-            TransferWheelClass.operate(0);
-        } else if ((ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio > 0) && (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < ShootingSpeedConstants.ejectionRPMThreshold)) {
-            IntakeClass.operate(-1);
-        } else if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance)) {
-            TransferWheelClass.operate(1);
+        if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance)) {
+            shootToggle = true;
+        }
+
+        if (shootToggle) {
             IntakeClass.operate(1);
-        } else {
+            TransferWheelClass.operate(1);
+        }
+        else {
             TransferWheelClass.operate(0);
             IntakeClass.operate(0);
         }
+
+    }
+    public static void disable()
+    {
+        ShootingSpeedClass.setSpeed(ShootingSpeedConstants.disabledSpeed);
+        shootToggle = false;
     }
 
     public enum ShooterStates {
