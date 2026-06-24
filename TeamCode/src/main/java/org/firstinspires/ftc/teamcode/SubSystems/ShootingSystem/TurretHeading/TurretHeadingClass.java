@@ -27,17 +27,7 @@ public class TurretHeadingClass
 
         headingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         headingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
-
-    public static void teleOpInit(HardwareMap hardwareMap)
-    {
-        headingMotor = hardwareMap.get(DcMotor.class , "headingMotor");
-
-        headingMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-    }
-
-
+     }
 
     public static void pinpointOperate(double wantedAngle)
     {

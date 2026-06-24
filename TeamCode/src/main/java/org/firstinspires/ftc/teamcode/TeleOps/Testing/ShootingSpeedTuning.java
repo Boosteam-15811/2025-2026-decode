@@ -21,11 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 public class ShootingSpeedTuning extends LinearOpMode {
 
     public static PIDController controller;
-    //yesterday half tuning
-    //public static double p = 0 ,i = 0 ,d = 0, fs = 0.182, fv = 0.000195;
 
 
-    public static double p = 0.002 ,i = 0 ,d = 0, fs = 0.1, fv = 0.00016;
+    public static double p = 0  ,i = 0 ,d = 0, fs = 0, fv = 0;
 
     public static int targetVelocity = 0;
 

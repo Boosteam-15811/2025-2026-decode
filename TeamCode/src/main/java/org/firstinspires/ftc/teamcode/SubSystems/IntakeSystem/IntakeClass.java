@@ -5,16 +5,18 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 
 public class IntakeClass
 {
-    private static DcMotor intakeMotor;
+    private static DcMotorEx intakeMotor;
 
     private static CRServo tlServo;
     private static CRServo blServo;
@@ -23,7 +25,7 @@ public class IntakeClass
 
     public static void init(HardwareMap hardwareMap)
     {
-        intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intakeMotor = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         tlServo = hardwareMap.get(CRServo.class, "tlServo");
         blServo = hardwareMap.get(CRServo.class, "blServo");
         trServo = hardwareMap.get(CRServo.class, "trServo");
@@ -48,10 +50,11 @@ public class IntakeClass
     public static void telemetry(Telemetry telemetry)
     {
         telemetry.addData("intakeMotor:", intakeMotor.getPower());
-        telemetry.addData("tlServo", tlServo.getPower());
-        telemetry.addData("blServo", blServo.getPower());
-        telemetry.addData("trServo", trServo.getPower());
-        telemetry.addData("brServo", brServo.getPower());
+        telemetry.addData("intake voltage:", intakeMotor.getCurrent(CurrentUnit.AMPS));
+        //telemetry.addData("tlServo", tlServo.getPower());
+        //telemetry.addData("blServo", blServo.getPower());
+        //telemetry.addData("trServo", trServo.getPower());
+        //telemetry.addData("brServo", brServo.getPower());
     }
     public static class Activate implements Action {
 

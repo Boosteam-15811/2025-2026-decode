@@ -5,11 +5,11 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public class TurretHeadingConstants
 {
-    public static double p = 0.18  , i = 0 , d = 0.0018 , f = 0.1;
+    public static double p = 0.3  , i = 0.0003 , d = 0.0018 , f = 0.1;
 
     private static final double encoderResolution = 537.7;
 
-    private static final double gearRatio = (220.0/32.0)*-1;
+    private static final double gearRatio = (74.0/10.0)*-1;
 
     public static final double degreeInTicks = (encoderResolution*gearRatio)/360;
 

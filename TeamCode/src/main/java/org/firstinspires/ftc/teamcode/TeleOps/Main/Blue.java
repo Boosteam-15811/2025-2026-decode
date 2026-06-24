@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOps.Main;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraCl
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
+@Config
 @TeleOp(group = "main")
 public class Blue extends LinearOpMode {
 
@@ -41,6 +43,8 @@ public class Blue extends LinearOpMode {
     public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
+    private static int targetX = -70;
+    private static int targetY = -67;
 
     private static int blueId = 20;
 
@@ -98,9 +102,9 @@ public class Blue extends LinearOpMode {
             LocalizerClass.calcTurretPose(robotPose2D);
 
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(-69,-69,Math.toRadians(0)));
+            distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-69, -69, Math.toRadians(0)));
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
 
 //            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
 //            {
@@ -180,24 +184,26 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-//           TurretHeadingClass.pinpointOperate(wantedAngle);
+
+            TurretHeadingClass.pinpointOperate(wantedAngle);
 
             lastChange = gamepad1.dpad_up;
 
             LocalizerClass.telemetry(telemetry);
             telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
             telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
+            //telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
             telemetry.addData("distance" , distance);
             telemetry.addData("wanted angle" , wantedAngle);
             //telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
+            //telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
             //IntakeClass.telemetry(telemetry);
-            TransferWheelClass.telemetry(telemetry);
-            CameraClass.telemetry(telemetry);
-            telemetry.addData("shooting" , shooting);
-            ShootingSpeedClass.telemetry(telemetry);
-            DynamicShootingClass.telemetry(telemetry , distance);
+            //TransferWheelClass.telemetry(telemetry);
+            //CameraClass.telemetry(telemetry);
+            //telemetry.addData("shooting" , shooting);
+            //ShootingSpeedClass.telemetry(telemetry);
+            //DynamicShootingClass.telemetry(telemetry , distance);
+            //IntakeClass.telemetry(telemetry);
             //telemetry.addData("turretError" , wantedAngle-TurretHeadingClass.headingMotor.getCurrentPosition()/ TurretHeadingConstants.degreeInTicks);
             telemetry.update();
 
