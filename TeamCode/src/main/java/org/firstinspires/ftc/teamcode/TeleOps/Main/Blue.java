@@ -43,8 +43,8 @@ public class Blue extends LinearOpMode {
     public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
-    private static int targetX = -70;
-    private static int targetY = -67;
+    public static int targetX = -67;
+    public   static int targetY = -70;
 
     private static int blueId = 20;
 
@@ -104,6 +104,24 @@ public class Blue extends LinearOpMode {
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
+            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
+            {
+                targetX = -65;
+                targetY = -70;
+            }
+            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
+                targetX = -65;
+                targetY = -70;
+            }
+            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
+            {
+                targetX = -65;
+                targetY = 70;
+            }
+            else {
+                targetX = -70;
+                targetY = -67;
+            }
             wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
 
 //            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
