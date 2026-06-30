@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOps.Main;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.Tu
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
+@Config
 @TeleOp(group = "main")
 public class Red extends LinearOpMode {
 
@@ -40,7 +42,11 @@ public class Red extends LinearOpMode {
 
     private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
 
+    public static int targetX = -70;
+    public   static int targetY = 70;
+
     private static int redId = 24;
+    private static boolean turretIsActive = true;
 
 
     @Override
@@ -67,7 +73,7 @@ public class Red extends LinearOpMode {
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
+                RevHubOrientationOnRobot.UsbFacingDirection.UP));
 
         imu.initialize(parameters);
 
@@ -100,7 +106,26 @@ public class Red extends LinearOpMode {
 
             distance = LocalizerClass.redGetDistance(new Pose2d(-69,69,Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(-69, 69, Math.toRadians(0)));
+//            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)>0)
+//            {
+//                targetX = -66;
+//                targetY = 70;
+//            }
+//            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)<1){
+//                targetX = -66;
+//                targetY = 70;
+//            }
+//            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)>1)
+//            {
+//                targetX = -66;
+//                targetY = 70;
+//            }
+//            else {
+//                targetX = -70;
+//                targetY = 68;
+//            }
+
+            wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
 
 //            if (CameraClass.cameraDetecting()&& CameraClass.compareID(redId) && CameraClass.inDisTolerance(distance))
 //            {
@@ -180,7 +205,14 @@ public class Red extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            TurretHeadingClass.pinpointOperate(wantedAngle);
+            if (gamepad1.dpad_down)
+            {
+                turretIsActive = false;
+            }
+
+            if (turretIsActive) {
+                TurretHeadingClass.pinpointOperate(wantedAngle);
+            }
 
             lastChange = gamepad1.dpad_up;
 

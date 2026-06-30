@@ -43,10 +43,12 @@ public class Blue extends LinearOpMode {
     public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
-    public static int targetX = -67;
+    public static int targetX = -70;
     public   static int targetY = -70;
 
     private static int blueId = 20;
+    private static boolean turretIsActive = true;
+
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -106,21 +108,21 @@ public class Blue extends LinearOpMode {
 
             if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
             {
-                targetX = -65;
+                targetX = -66;
                 targetY = -70;
             }
             else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
-                targetX = -65;
+                targetX = -66;
                 targetY = -70;
             }
             else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
             {
-                targetX = -65;
-                targetY = 70;
+                targetX = -66;
+                targetY = -70;
             }
             else {
                 targetX = -70;
-                targetY = -67;
+                targetY = -68;
             }
             wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
 
@@ -203,7 +205,14 @@ public class Blue extends LinearOpMode {
             }
 
 
-            TurretHeadingClass.pinpointOperate(wantedAngle);
+            if (gamepad1.dpad_down)
+            {
+                turretIsActive = false;
+            }
+
+            if (turretIsActive) {
+                TurretHeadingClass.pinpointOperate(wantedAngle);
+            }
 
             lastChange = gamepad1.dpad_up;
 
