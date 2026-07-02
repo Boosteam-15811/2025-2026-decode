@@ -81,6 +81,6 @@ public class LocalizerClass {
     public static void telemetry(Telemetry telemetry) {
         telemetry.addData("turretX", turretPose.getX(DistanceUnit.INCH));
         telemetry.addData("turretY", turretPose.getY(DistanceUnit.INCH));
-        telemetry.addData("turret angle", turretPose.getHeading(AngleUnit.DEGREES));
+        //telemetry.addData("turret angle", turretPose.getHeading(AngleUnit.DEGREES));
     }
 }

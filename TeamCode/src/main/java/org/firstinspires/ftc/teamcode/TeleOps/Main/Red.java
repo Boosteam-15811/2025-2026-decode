@@ -42,11 +42,10 @@ public class Red extends LinearOpMode {
 
     private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
 
-    public static int targetX = -70;
-    public   static int targetY = 70;
+    public static int targetX = -55;
+    public static int targetY = 70;
 
     private static int redId = 24;
-    private static boolean turretIsActive = true;
 
 
     @Override
@@ -55,6 +54,7 @@ public class Red extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         boolean manualToggle = false;
+        boolean turretIsActive = true;
 
         LocalizerClass.init(redAutonoumsEnd,hardwareMap);
         DriveClass.init(hardwareMap);
@@ -102,9 +102,9 @@ public class Red extends LinearOpMode {
             LocalizerClass.pinpoint.update();
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
-            LocalizerClass.setTurretPose(robotPose2D);
+            LocalizerClass.calcTurretPose(robotPose2D);
 
-            distance = LocalizerClass.redGetDistance(new Pose2d(-69,69,Math.toRadians(0)));
+            distance = LocalizerClass.redGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
 //            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)>0)
 //            {
@@ -217,10 +217,13 @@ public class Red extends LinearOpMode {
             lastChange = gamepad1.dpad_up;
 
 
-            telemetry.addData("X coordinate (IN)", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("Y coordinate (IN)", robotPose2D.getY(DistanceUnit.INCH));
-            telemetry.addData("Heading angle (DEGREES)", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , LocalizerClass.blueGetDistance(new Pose2d(-72,-72,Math.toRadians(0))));
+            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
+            telemetry.addData("distance" , distance);
+            telemetry.addData("wanted angle" , wantedAngle);
+            TurretHeadingClass.telemetry(telemetry);
+            LocalizerClass.telemetry(telemetry);
+
             telemetry.update();
 
 

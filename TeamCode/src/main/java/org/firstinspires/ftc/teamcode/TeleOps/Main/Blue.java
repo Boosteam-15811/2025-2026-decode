@@ -22,7 +22,6 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
@@ -47,7 +46,7 @@ public class Blue extends LinearOpMode {
     public   static int targetY = -70;
 
     private static int blueId = 20;
-    private static boolean turretIsActive = true;
+    private static boolean turretLastChange = false;
 
 
     @Override
@@ -56,6 +55,7 @@ public class Blue extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         boolean manualToggle = false;
+        boolean turretIsActive = true;
 
         LocalizerClass.init(blueAutonoumsEnd,hardwareMap);
         DriveClass.init(hardwareMap);
@@ -204,10 +204,10 @@ public class Blue extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-
-            if (gamepad1.dpad_down)
-            {
-                turretIsActive = false;
+            if (!turretLastChange) {
+                if (gamepad1.dpad_down) {
+                    turretIsActive = !turretIsActive;
+                }
             }
 
             if (turretIsActive) {
@@ -232,6 +232,8 @@ public class Blue extends LinearOpMode {
             //DynamicShootingClass.telemetry(telemetry , distance);
             //IntakeClass.telemetry(telemetry);
             //telemetry.addData("turretError" , wantedAngle-TurretHeadingClass.headingMotor.getCurrentPosition()/ TurretHeadingConstants.degreeInTicks);
+            LocalizerClass.telemetry(telemetry);
+            TurretHeadingClass.telemetry(telemetry);
             telemetry.update();
 
 

@@ -63,7 +63,7 @@ public class TurretHeadingClass
 
     public static void telemetry(Telemetry telemetry)
     {
-        telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition());
+        telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition()/TurretHeadingConstants.degreeInTicks);
     }
 
     public static class BlueShootHumanPlayerAngle implements Action {
