@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Config
-
+@Disabled
 public class OTOSLocalizer implements Localizer {
     public static class Params {
         public double angularScalar = 1.0;

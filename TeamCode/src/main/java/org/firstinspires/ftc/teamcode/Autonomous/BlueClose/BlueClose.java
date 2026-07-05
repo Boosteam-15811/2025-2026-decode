@@ -69,10 +69,10 @@ public class BlueClose extends LinearOpMode
         (
                 new ParallelAction
                         (
-                                ShootingSpeedPID.pid(),
-                                TransferWheelClass.activate(),
-                                IntakeClass.activate(),
-                                PinpointTurretHeadingPID.pid(),
+//                                ShootingSpeedPID.pid(),
+//                                TransferWheelClass.activate(),
+//                                IntakeClass.activate(),
+//                                PinpointTurretHeadingPID.pid(),
                                 new SequentialAction
                                         (
                                                 Shoot1,
@@ -80,11 +80,11 @@ public class BlueClose extends LinearOpMode
                                                 ShootingSpeedClass.disabled(),
                                                 Shoot2,
                                                 new SleepAction(3),
-                                                ShootingSpeedClass.disabled(),
-                                                GateShoot,
-                                                new SleepAction(3),
-                                                ShootingSpeedClass.disabled(),
-                                                Leave
+                                                ShootingSpeedClass.disabled()
+//                                                GateShoot,
+//                                                new SleepAction(3),
+//                                                ShootingSpeedClass.disabled(),
+//                                                Leave
                                         )
 
                         )
