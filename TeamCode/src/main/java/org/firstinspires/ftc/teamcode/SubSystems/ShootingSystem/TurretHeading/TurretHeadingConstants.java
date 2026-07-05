@@ -5,7 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public class TurretHeadingConstants
 {
-    public static double p = 0.3  , i = 0.0003 , d = 0.0018 , f = 0.1;
+    public static double p = 0.25  , i = 0.0003 , d = 0.0018 , f = 0.1;
 
     private static final double encoderResolution = 537.7;
 

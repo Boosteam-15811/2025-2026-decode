@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
 @Config
@@ -170,7 +171,7 @@ public class Red extends LinearOpMode {
                 }
                 else
                 {
-                   // HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
+                    HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
                 }
 
                 if (gamepad1.square)
@@ -195,7 +196,7 @@ public class Red extends LinearOpMode {
                     }
                     else
                     {
-                      //  ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
+                        ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
                     }
                 }
             }
