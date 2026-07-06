@@ -43,8 +43,8 @@ public class Red extends LinearOpMode {
 
     private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
 
-    public static int targetX = -55;
-    public static int targetY = 70;
+    public static int targetX = -72;
+    public static int targetY = 72;
 
     private static int redId = 24;
 

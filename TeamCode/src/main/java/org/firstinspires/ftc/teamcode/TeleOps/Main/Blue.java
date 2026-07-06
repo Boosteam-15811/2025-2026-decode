@@ -42,8 +42,8 @@ public class Blue extends LinearOpMode {
     public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
-    public static int targetX = -70;
-    public   static int targetY = -67;
+    public static int targetX = -72;
+    public   static int targetY = -72;
 
     private static int blueId = 20;
     private static boolean turretLastChange = false;
@@ -222,7 +222,7 @@ public class Blue extends LinearOpMode {
             //telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
             telemetry.addData("distance" , distance);
             telemetry.addData("wanted angle" , wantedAngle);
-            //telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
+            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
             //telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
             //IntakeClass.telemetry(telemetry);
             //TransferWheelClass.telemetry(telemetry);
