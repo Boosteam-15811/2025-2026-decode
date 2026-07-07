@@ -76,6 +76,8 @@ public class Blue extends LinearOpMode {
 
         imu.initialize(parameters);
 
+        imu.resetYaw();
+
         waitForStart();
         LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
         CameraClass.limeLight3A.start();
