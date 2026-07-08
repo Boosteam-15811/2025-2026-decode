@@ -13,7 +13,7 @@ public class ShootingSpeedConstants {
     public static int launchZoneTolerance = 130;
     public static int atGoalTolerance = 70;
 
-    public static int dynamicTolerance = 200;
+    public static int dynamicTolerance = 130;
 
     public static int ejectionRPMThreshold = 0;
     public static final double tickToRPMRatio = 60.0 / 28.0 ;

@@ -5,19 +5,21 @@ import com.acmerobotics.roadrunner.Vector2d;
 
 public class BlueHumanPlayerConstants
 {
-    public static final Pose2d firstRow = new Pose2d(34, -56, Math.toRadians(270));
+    public static final Pose2d firstRow = new Pose2d(34, -59, Math.toRadians(270));
 
     public static final Pose2d startingPos = new Pose2d(62,-14.5, Math.toRadians(270));
-    public static final Vector2d shootingPos = new Vector2d(62,-14.5);
+    public static final Vector2d shootingPos = new Vector2d(57,-14.5);
+    public static final Vector2d shootingPosClose = new Vector2d(-5,-14.5);
 
     public static final Vector2d collectHumanPlayer = new Vector2d(62,-62);
     public static final Vector2d back = new Vector2d(62,-40);
 
     public static final Vector2d leave = new Vector2d(47,-23);
-    public static final Vector2d secondRow = new Vector2d(12,-30);
-    public static final Vector2d collectSecondRow = new Vector2d(12,-60);
+    public static final Vector2d leaveClose = new Vector2d(7,-16);
+    public static final Vector2d secondRow = new Vector2d(14,-30);
+    public static final Vector2d collectSecondRow = new Vector2d(14,-60);
 
-    public static final Vector2d thirdRow = new Vector2d(-12,-30);
-    public static final Vector2d collectThirdRow = new Vector2d(-12,-54);
-    public static final Vector2d backThirdRow = new Vector2d(-12,-50);
+    public static final Vector2d thirdRow = new Vector2d(-10,-30);
+    public static final Vector2d collectThirdRow = new Vector2d(-10,-54);
+    public static final Vector2d backThirdRow = new Vector2d(-10,-50);
 }

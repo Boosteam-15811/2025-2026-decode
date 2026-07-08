@@ -39,7 +39,7 @@ public class TransferWheelClass
     public static class Activate implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if(ShootingSpeedClass.targetSpeed == 2500)
+            if(ShootingSpeedClass.targetSpeed < 2600)
             {
                 operate(-1);
             }

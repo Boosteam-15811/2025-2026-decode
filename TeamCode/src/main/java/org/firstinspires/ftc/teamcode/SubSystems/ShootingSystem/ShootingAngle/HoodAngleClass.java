@@ -60,7 +60,7 @@ public class HoodAngleClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPos(0.285);
-            return false;
+            return true;
         }
     }
 
@@ -74,7 +74,7 @@ public class HoodAngleClass {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPos(0.285);
-            return false;
+            return true;
         }
     }
 

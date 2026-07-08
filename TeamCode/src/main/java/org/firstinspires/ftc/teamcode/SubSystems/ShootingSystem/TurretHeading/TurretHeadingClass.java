@@ -83,7 +83,7 @@ public class TurretHeadingClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(0);
+            pinpointOperate(67);
             return false;
         }
     }
@@ -108,12 +108,24 @@ public class TurretHeadingClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(45);
+            pinpointOperate(48);
             return false;
         }
     }
     public static Action blueShootClose2Angle() {
         return new BlueShootClose2Angle();
+    }
+
+    public static class BlueEndAutoAngle implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(0);
+            return false;
+        }
+    }
+    public static Action blueEndAutoAngle() {
+        return new BlueEndAutoAngle();
     }
 
 

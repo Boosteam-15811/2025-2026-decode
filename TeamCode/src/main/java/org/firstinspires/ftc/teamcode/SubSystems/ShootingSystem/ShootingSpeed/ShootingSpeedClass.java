@@ -81,7 +81,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 2850;
+            targetSpeed = 3600;
             return false;
         }
     }

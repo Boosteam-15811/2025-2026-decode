@@ -42,20 +42,19 @@ public class BlueHumanPlayer3Marks extends LinearOpMode
                 .splineToLinearHeading(BlueHumanPlayerConstants.firstRow, Math.toRadians(270))
                 .strafeTo(BlueHumanPlayerConstants.shootingPos);
 
-        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(62,-14.5 , Math.toRadians(270)))
+        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(57,-14.5 , Math.toRadians(270)))
                 .strafeTo(BlueHumanPlayerConstants.secondRow)
                 .strafeTo(BlueHumanPlayerConstants.collectSecondRow)
-                .strafeTo(BlueHumanPlayerConstants.shootingPos);
+                .strafeTo(BlueHumanPlayerConstants.shootingPosClose);
 
-        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(62,-14.5 , Math.toRadians(270)))
+        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(-5, -14.5, Math.toRadians(270)))
                 .strafeTo(BlueHumanPlayerConstants.thirdRow)
                 .strafeTo(BlueHumanPlayerConstants.collectThirdRow)
                 .strafeTo(BlueHumanPlayerConstants.backThirdRow)
-                .strafeTo(BlueHumanPlayerConstants.shootingPos);
+                .strafeTo(BlueHumanPlayerConstants.shootingPosClose);
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(62,-14.5 , Math.toRadians(270)))
-                .strafeTo(BlueHumanPlayerConstants.leave);
-
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-5, -14.5, Math.toRadians(270)))
+                .strafeTo(BlueHumanPlayerConstants.leaveClose);
 
 
         Action Shoot1 = shoot1.build();
@@ -78,21 +77,24 @@ public class BlueHumanPlayer3Marks extends LinearOpMode
                     HoodAngleClass.shootHumanPlayerDis(),
                     new SequentialAction
                     (
+                            ShootingSpeedClass.shootHumanPlayerDis(),
                             TurretHeadingClass.blueShootHumanPlayerAngle(),
+                            new SleepAction(5),
+                            ShootingSpeedClass.disabled(),
+                            Shoot1,
                             ShootingSpeedClass.shootHumanPlayerDis(),
                             new SleepAction(4),
                             ShootingSpeedClass.disabled(),
-                            Shoot1,
-                            new SleepAction(3),
-                            ShootingSpeedClass.disabled(),
+                            TurretHeadingClass.blueShootClose2Angle(),
                             Shoot2,
-                            ShootingSpeedClass.shootHumanPlayerDis(),
-                            new SleepAction(3),
+                            ShootingSpeedClass.shootClose2Dis(),
+                            new SleepAction(2),
                             ShootingSpeedClass.disabled(),
                             Shoot3,
-                            ShootingSpeedClass.shootHumanPlayerDis(),
-                            new SleepAction(3),
+                            ShootingSpeedClass.shootClose2Dis(),
+                            new SleepAction(2),
                             ShootingSpeedClass.disabled(),
+                            TurretHeadingClass.blueEndAutoAngle(),
                             Leave
 
                     )

@@ -50,19 +50,19 @@ public class BlueClose3Marks extends LinearOpMode
                 .strafeTo(BlueCloseConstants3Marks.shootingPos);
 
 
-        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(0, -16, Math.toRadians(270)))
+        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueCloseConstants3Marks.secondRow)
                 .strafeTo(BlueCloseConstants3Marks.collectSecondRow)
                 .strafeTo(BlueCloseConstants3Marks.shootingPos);
 
-        TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(0, -16, Math.toRadians(270)))
+        TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueCloseConstants3Marks.firstRow)
                 .strafeTo(BlueCloseConstants3Marks.collectFirstRow)
-                .strafeTo(BlueCloseConstants3Marks.shootingPos);
+                .strafeTo(BlueCloseConstants3Marks.shootingPosThird);
 
 
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(0, -16, Math.toRadians(270)))
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-10, -16, Math.toRadians(270)))
                 .strafeTo(BlueCloseConstants.leave);
 
         Action Shoot = shoot.build();
@@ -102,6 +102,7 @@ public class BlueClose3Marks extends LinearOpMode
                             ShootingSpeedClass.shootClose2Dis(),
                             new SleepAction(2),
                             ShootingSpeedClass.disabled(),
+                            TurretHeadingClass.blueEndAutoAngle(),
                             Leave
 
                             )

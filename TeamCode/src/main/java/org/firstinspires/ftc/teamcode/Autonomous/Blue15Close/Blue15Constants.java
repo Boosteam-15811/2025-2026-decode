@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.Autonomous.BlueClose3Marks;
+package org.firstinspires.ftc.teamcode.Autonomous.Blue15Close;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 
-public class BlueCloseConstants3Marks
+public class Blue15Constants
 {
     public static final Pose2d startingPos = new Pose2d(-38,-55, Math.toRadians(270));
 
