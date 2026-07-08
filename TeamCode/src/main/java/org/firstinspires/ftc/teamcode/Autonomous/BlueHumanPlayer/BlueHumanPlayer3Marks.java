@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Autonomous.BlueClose3Plus9.BlueClose3Plus9Constants;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -38,8 +39,8 @@ public class BlueHumanPlayer3Marks extends LinearOpMode
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
-                .setTangent(90)
-                .splineToLinearHeading(BlueHumanPlayerConstants.firstRow, Math.toRadians(270))
+                .strafeTo(BlueHumanPlayerConstants.firstRow)
+                .strafeTo(BlueHumanPlayerConstants.collectFirstRow)
                 .strafeTo(BlueHumanPlayerConstants.shootingPos);
 
         TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(57,-14.5 , Math.toRadians(270)))
@@ -77,10 +78,11 @@ public class BlueHumanPlayer3Marks extends LinearOpMode
                     HoodAngleClass.shootHumanPlayerDis(),
                     new SequentialAction
                     (
-                            ShootingSpeedClass.shootHumanPlayerDis(),
                             TurretHeadingClass.blueShootHumanPlayerAngle(),
+                            ShootingSpeedClass.shootHumanPlayerDis(),
                             new SleepAction(5),
                             ShootingSpeedClass.disabled(),
+                            TurretHeadingClass.blueShootHumanPlayerAngle(),
                             Shoot1,
                             ShootingSpeedClass.shootHumanPlayerDis(),
                             new SleepAction(4),

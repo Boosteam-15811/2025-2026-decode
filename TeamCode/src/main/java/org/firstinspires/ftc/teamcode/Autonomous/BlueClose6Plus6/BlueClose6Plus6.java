@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Blue15Close;
+package org.firstinspires.ftc.teamcode.Autonomous.BlueClose6Plus6;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Autonomous.BlueClose.BlueCloseConstants;
+import org.firstinspires.ftc.teamcode.Autonomous.BlueClose3Plus9.BlueClose3Plus9Constants;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -20,11 +21,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-import org.firstinspires.ftc.teamcode.TeleOps.Main.Blue;
 
-@Autonomous(name = "blueClose15", group = "Autonomous" , preselectTeleOp = "Blue")
+@Autonomous(name = "BlueClose6Plus6", group = "Autonomous" , preselectTeleOp = "Blue")
 
-public class Blue15Auto extends LinearOpMode
+public class BlueClose6Plus6 extends LinearOpMode
 {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,35 +38,31 @@ public class Blue15Auto extends LinearOpMode
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = Blue15Constants.startingPos;
+        Pose2d initialPose = BlueClose6Plus6Constants.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
-                .strafeTo(Blue15Constants.startShootingPos);
+                .strafeTo(BlueClose6Plus6Constants.startShootingPos);
 
         TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
-                .strafeTo(Blue15Constants.thirdRow)
-                .strafeTo(Blue15Constants.collectThirdRow)
-                .strafeTo(Blue15Constants.shootingPos);
+                .strafeTo(BlueClose6Plus6Constants.thirdRow)
+                .strafeTo(BlueClose6Plus6Constants.collectThirdRow)
+                .strafeTo(BlueClose6Plus6Constants.shootingPos);
 
 
-        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(Blue15Constants.secondRow)
-                .strafeTo(Blue15Constants.collectSecondRow)
-                .strafeTo(Blue15Constants.shootingPos);
+        TrajectoryActionBuilder collectSecondRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
+                .strafeTo(BlueClose6Plus6Constants.secondRow)
+                .strafeTo(BlueClose6Plus6Constants.collectSecondRow)
+                .strafeTo(BlueClose6Plus6Constants.back)
+                .strafeTo(BlueClose6Plus6Constants.gate);
+
+        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -54, Math.toRadians(270)))
+                .strafeTo(BlueClose6Plus6Constants.shootingPos);
 
         TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(Blue15Constants.firstRow)
-                .strafeTo(Blue15Constants.collectFirstRow)
-                .strafeTo(Blue15Constants.shootingPosThird);
-
-        TrajectoryActionBuilder gateShoot1 = drive.actionBuilder(new Pose2d(-6,-16 , Math.toRadians(270)))
-                .strafeToLinearHeading(BlueCloseConstants.collectGate, Math.toRadians(240))
-                .strafeTo(BlueCloseConstants.Back)
-                .strafeTo(BlueCloseConstants.collectGate);
-
-        TrajectoryActionBuilder gateShoot1Part2 = drive.actionBuilder(new Pose2d(16,-61 , Math.toRadians(240)))
-                .strafeToLinearHeading(BlueCloseConstants.shootingPos, Math.toRadians(270));
+                .strafeTo(BlueClose6Plus6Constants.firstRow)
+                .strafeTo(BlueClose6Plus6Constants.collectFirstRow)
+                .strafeTo(BlueClose6Plus6Constants.shootingPosThird);
 
 
         TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-10, -16, Math.toRadians(270)))
@@ -74,6 +70,7 @@ public class Blue15Auto extends LinearOpMode
 
         Action Shoot = shoot.build();
         Action ShootThirdRow = shootThirdRow.build();
+        Action CollectSecondRow = collectSecondRow.build();
         Action ShootSecondRow = shootSecondRow.build();
         Action ShootFirstRow = shootFirstRow.build();
         Action Leave = leave.build();
@@ -92,15 +89,18 @@ public class Blue15Auto extends LinearOpMode
                                         new SequentialAction
                                                 (
                                                         TurretHeadingClass.blueShootClose1Angle(),
-                                                        ShootingSpeedClass.shootClose1Dis(),
                                                         Shoot,
+                                                        ShootingSpeedClass.shootClose1Dis(),
                                                         new SleepAction(2),
                                                         ShootingSpeedClass.disabled(),
                                                         TurretHeadingClass.blueShootClose2Angle(),
                                                         ShootThirdRow,
                                                         ShootingSpeedClass.shootClose2Dis(),
-                                                        new SleepAction(2),
+                                                        new SleepAction(1),
                                                         ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.blueShootClose3Angle(),
+                                                        CollectSecondRow,
+                                                        new SleepAction(2),
                                                         ShootSecondRow,
                                                         ShootingSpeedClass.shootClose2Dis(),
                                                         new SleepAction(2),
@@ -111,7 +111,6 @@ public class Blue15Auto extends LinearOpMode
                                                         ShootingSpeedClass.disabled(),
                                                         TurretHeadingClass.blueEndAutoAngle(),
                                                         Leave
-
                                                 )
                                 )
                 );

@@ -89,7 +89,19 @@ public class TurretHeadingClass
     }
     public static Action blueShootHumanPlayerAngle() {
         return new BlueShootHumanPlayerAngle();
+    }
+
+    public static class BlueShootHumanPlayerAngle2 implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(69);
+            return false;
         }
+    }
+    public static Action blueShootHumanPlayerAngle2() {
+        return new BlueShootHumanPlayerAngle2();
+    }
 
 
     public static class BlueShootClose1Angle implements Action {
@@ -113,6 +125,18 @@ public class TurretHeadingClass
         }
     }
     public static Action blueShootClose2Angle() {
+        return new BlueShootClose2Angle();
+    }
+
+    public static class BlueShootClose3Angle implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(45);
+            return false;
+        }
+    }
+    public static Action blueShootClose3Angle() {
         return new BlueShootClose2Angle();
     }
 

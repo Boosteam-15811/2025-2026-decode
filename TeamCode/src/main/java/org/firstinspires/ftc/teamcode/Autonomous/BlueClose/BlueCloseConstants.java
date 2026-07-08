@@ -15,6 +15,6 @@ public class BlueCloseConstants
     public static Vector2d shootingPos = new Vector2d(0,-11);
     public static Vector2d collectGate = new Vector2d(16,-62);
     public static Vector2d Back = new Vector2d(16,-52);
-    public static Vector2d leave = new Vector2d(10,-16);
+    public static Vector2d leave = new Vector2d(10,-18);
 
 }
