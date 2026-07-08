@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.GlobalData;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 
 public class ShootingSpeedClass
 {
@@ -77,7 +75,7 @@ public class ShootingSpeedClass
     }
 
 
-    public static class ShootHumanPlayerDis implements Action {
+    public static class ShootFarDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -86,12 +84,12 @@ public class ShootingSpeedClass
         }
     }
 
-    public static Action shootHumanPlayerDis() {
-        return new ShootHumanPlayerDis();
+    public static Action shootFarDis() {
+        return new ShootFarDis();
     }
 
 
-    public static class ShootClose1Dis implements Action {
+    public static class ShootCloseDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -100,22 +98,8 @@ public class ShootingSpeedClass
         }
     }
 
-    public static Action shootClose1Dis() {
-        return new ShootClose1Dis();
-    }
-
-
-    public static class ShootClose2Dis implements Action {
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 2850;
-            return false;
-        }
-    }
-
-    public static Action shootClose2Dis() {
-        return new ShootClose2Dis();
+    public static Action shootCloseDis() {
+        return new ShootCloseDis();
     }
 
     public static class Disabled implements Action {
@@ -128,5 +112,17 @@ public class ShootingSpeedClass
     }
     public static Action disabled() {
         return new Disabled();
+    }
+
+    public static class EndAuto implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            targetSpeed = 0;
+            return false;
+        }
+    }
+    public static Action endAuto() {
+        return new EndAuto();
     }
 }
