@@ -45,7 +45,6 @@ public class Blue extends LinearOpMode {
     public static int targetX = -72;
     public   static int targetY = -72;
 
-    private static int blueId = 20;
     private static boolean turretLastChange = false;
 
 
@@ -108,31 +107,7 @@ public class Blue extends LinearOpMode {
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
-//            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
-//            {
-//                targetX = -66;
-//                targetY = -70;
-//            }
-//            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
-//                targetX = -66;
-//                targetY = -70;
-//            }
-//            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
-//            {
-//                targetX = -66;
-//                targetY = -70;
-//            }
-//            else {
-//                targetX = -70;
-//                targetY = -68;
-//            }
             wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
-
-//            if (CameraClass.cameraDetecting()&& CameraClass.compareID(blueId) && CameraClass.inDisTolerance(distance))
-//            {
-//                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
-//                LocalizerClass.calcPinpointPoseBlue();
-//            }
 
 
              if (gamepad1.right_trigger > 0)
@@ -212,30 +187,28 @@ public class Blue extends LinearOpMode {
                 }
             }
 
-            if (turretIsActive) {
-                TurretHeadingClass.pinpointOperate(wantedAngle);
-            }
+//            if (turretIsActive) {
+//                TurretHeadingClass.pinpointOperate(wantedAngle);
+//            }
 
             lastChange = gamepad1.dpad_up;
 
-            LocalizerClass.telemetry(telemetry);
-            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-            //telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , distance);
-            telemetry.addData("wanted angle" , wantedAngle);
-            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-            //telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
-            //IntakeClass.telemetry(telemetry);
-            //TransferWheelClass.telemetry(telemetry);
-            //CameraClass.telemetry(telemetry);
-            //telemetry.addData("shooting" , shooting);
-            //ShootingSpeedClass.telemetry(telemetry);
-            //DynamicShootingClass.telemetry(telemetry , distance);
-            //IntakeClass.telemetry(telemetry);
-            //telemetry.addData("turretError" , wantedAngle-TurretHeadingClass.headingMotor.getCurrentPosition()/ TurretHeadingConstants.degreeInTicks);
-            LocalizerClass.telemetry(telemetry);
-            TurretHeadingClass.telemetry(telemetry);
+//            LocalizerClass.telemetry(telemetry);
+//            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
+//            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
+//            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
+//            telemetry.addData("distance" , distance);
+//            telemetry.addData("wanted angle" , wantedAngle);
+//            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
+//            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
+//            IntakeClass.telemetry(telemetry);
+            TransferWheelClass.telemetry(telemetry);
+//            CameraClass.telemetry(telemetry);
+//            telemetry.addData("shooting" , shooting);
+//            ShootingSpeedClass.telemetry(telemetry);
+//            DynamicShootingClass.telemetry(telemetry , distance);
+//            IntakeClass.telemetry(telemetry);
+//            TurretHeadingClass.telemetry(telemetry);
             telemetry.update();
 
 

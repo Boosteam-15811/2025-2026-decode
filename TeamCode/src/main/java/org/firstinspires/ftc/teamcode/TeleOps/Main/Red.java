@@ -46,8 +46,6 @@ public class Red extends LinearOpMode {
     public static int targetX = -72;
     public static int targetY = 72;
 
-    private static int redId = 24;
-
 
     @Override
     public void runOpMode() throws InterruptedException
@@ -107,33 +105,7 @@ public class Red extends LinearOpMode {
 
             distance = LocalizerClass.redGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
-//            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)>0)
-//            {
-//                targetX = -66;
-//                targetY = 70;
-//            }
-//            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)<1){
-//                targetX = -66;
-//                targetY = 70;
-//            }
-//            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)>1)
-//            {
-//                targetX = -66;
-//                targetY = 70;
-//            }
-//            else {
-//                targetX = -70;
-//                targetY = 68;
-//            }
-
             wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
-
-//            if (CameraClass.cameraDetecting()&& CameraClass.compareID(redId) && CameraClass.inDisTolerance(distance))
-//            {
-//                LocalizerClass.setTurretPose(CameraClass.calcTurretPose());
-//                LocalizerClass.calcPinpointPoseRed();
-//            }
-
 
             if (gamepad1.right_trigger > 0)
             {
@@ -218,14 +190,13 @@ public class Red extends LinearOpMode {
             lastChange = gamepad1.dpad_up;
 
 
-            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-            telemetry.addData("distance" , distance);
-            telemetry.addData("wanted angle" , wantedAngle);
-            TurretHeadingClass.telemetry(telemetry);
-            LocalizerClass.telemetry(telemetry);
-
-            telemetry.update();
+//            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
+//            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
+//            telemetry.addData("distance" , distance);
+//            telemetry.addData("wanted angle" , wantedAngle);
+//            TurretHeadingClass.telemetry(telemetry);
+//            LocalizerClass.telemetry(telemetry);
+//            telemetry.update();
 
 
         }
