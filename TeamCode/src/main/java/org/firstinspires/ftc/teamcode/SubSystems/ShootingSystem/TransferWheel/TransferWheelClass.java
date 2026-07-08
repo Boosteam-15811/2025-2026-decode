@@ -39,12 +39,16 @@ public class TransferWheelClass
     public static class Activate implements Action {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            if(ShootingSpeedClass.targetSpeed == 0)
+            if(ShootingSpeedClass.targetSpeed == 2500)
             {
                 operate(-1);
             }
             else if (ShootingSpeedClass.inTolerence(ShootingSpeedClass.targetSpeed, ShootingSpeedConstants.dynamicTolerance)) {
                 operate(1);
+            }
+            else
+            {
+                operate(-1);
             }
             return true;
         }

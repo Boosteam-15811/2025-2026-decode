@@ -23,6 +23,8 @@ public class PinpointTurretHeadingPID
 
     private static double zeroAngle = 0;
 
+    public static double wantedAngle = 0;
+
 
 
     public static void init(HardwareMap hardwareMap)
@@ -36,8 +38,10 @@ public class PinpointTurretHeadingPID
     }
 
 
-    public static double moveToPos(double wantedAngle)
+    public static double moveToPos(double angle)
     {
+        wantedAngle = angle;
+
         controller.setPID(TurretHeadingConstants.p, TurretHeadingConstants.i , TurretHeadingConstants.d);
 
         double motorAngle = headingMotor.getCurrentPosition()/TurretHeadingConstants.degreeInTicks;
@@ -66,29 +70,8 @@ public class PinpointTurretHeadingPID
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            controller.setPID(TurretHeadingConstants.p, TurretHeadingConstants.i, TurretHeadingConstants.d);
 
-            double motorAngle = headingMotor.getCurrentPosition() / TurretHeadingConstants.degreeInTicks;
-
-            if (GlobalData.currentAngle > 180)
-            {
-                trueAngle = GlobalData.currentAngle - 360;
-
-            }
-            else if(GlobalData.currentAngle < -180)
-            {
-                trueAngle = 360 + GlobalData.currentAngle;
-            }
-            else
-            {
-                trueAngle = GlobalData.currentAngle;
-            }
-
-            double pid = controller.calculate(motorAngle , trueAngle);
-
-            power = (pid + (TurretHeadingConstants.f * Math.signum(trueAngle)))*-1;
-
-            headingMotor.setPower(pid);
+            headingMotor.setPower(moveToPos(wantedAngle));
 
             return true;
         }

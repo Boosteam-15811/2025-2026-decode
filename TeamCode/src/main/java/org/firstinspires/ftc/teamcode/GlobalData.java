@@ -18,7 +18,7 @@ public class GlobalData
     public static double blueShootClose1Angle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 16,-16, AngleUnit.DEGREES, 0));
 
     public static double ShootClose2Dis = calcDistance(new Pose2D(DistanceUnit.INCH, 16,0 , AngleUnit.DEGREES , 0));
-    public static double blueShootClose2Angle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 16,0 , AngleUnit.DEGREES , 0));
+    public static double blueShootClose2Angle = calcWantedAngleBlue(new Pose2D(DistanceUnit.INCH, 11,0 , AngleUnit.DEGREES , 0));
 
 
     //public static double redShootHumanPlayerDis = calcDistanceRed(new Pose2D(DistanceUnit.INCH,14.5,-62 , AngleUnit.DEGREES , 0));

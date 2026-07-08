@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.BlueHumanPlayer;
+package org.firstinspires.ftc.teamcode.Autonomous.RedHumanPlayer3Marks;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -10,8 +10,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Autonomous.BlueClose.BlueCloseConstants;
-import org.firstinspires.ftc.teamcode.GlobalData;
+import org.firstinspires.ftc.teamcode.Autonomous.BlueHumanPlayer.BlueHumanPlayerConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -21,12 +20,13 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-@Autonomous(name = "BlueHumanPlayer" , group = "Autonomous" , preselectTeleOp = "Blue")
-public class BlueHumanPlayer extends LinearOpMode
+
+@Autonomous(name = "RedHumanPlayer" , group = "Autonomous" , preselectTeleOp = "Red")
+public class RedHumanPlayer3Marks extends LinearOpMode
 {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
+
         DriveClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
@@ -36,27 +36,33 @@ public class BlueHumanPlayer extends LinearOpMode
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = BlueHumanPlayerConstants.startingPos;
+        Pose2d initialPose = RedHumanPlayerConstants3Marks.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
-                .setTangent(90)
-                .splineToLinearHeading(BlueHumanPlayerConstants.firstRow, Math.toRadians(270))
-                .strafeTo(BlueHumanPlayerConstants.shootingPos);
+                .setTangent(180)
+                .splineToLinearHeading(RedHumanPlayerConstants3Marks.firstRow, Math.toRadians(90))
+                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
 
-        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(62,-14.5 , Math.toRadians(270)))
-                .strafeTo(BlueHumanPlayerConstants.collectHumanPlayer)
-                .strafeTo(BlueHumanPlayerConstants.back)
-                .strafeTo(BlueHumanPlayerConstants.collectHumanPlayer)
-                .strafeTo(BlueHumanPlayerConstants.shootingPos);
+        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
+                .strafeTo(RedHumanPlayerConstants3Marks.secondRow)
+                .strafeTo(RedHumanPlayerConstants3Marks.collectSecondRow)
+                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(62,-14.5 , Math.toRadians(270)))
+        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
+                .strafeTo(RedHumanPlayerConstants3Marks.thirdRow)
+                .strafeTo(RedHumanPlayerConstants3Marks.collectThirdRow)
+                .strafeTo(RedHumanPlayerConstants3Marks.backThirdRow)
+                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
+
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
                 .strafeTo(BlueHumanPlayerConstants.leave);
 
 
 
         Action Shoot1 = shoot1.build();
         Action Shoot2 = shoot2.build();
+        Action Shoot3 = shoot3.build();
         Action Leave = leave.build();
 
 
@@ -67,22 +73,32 @@ public class BlueHumanPlayer extends LinearOpMode
                         new ParallelAction
                                 (
                                         ShootingSpeedPID.pid(),
+                                        PinpointTurretHeadingPID.pid(),
                                         TransferWheelClass.activate(),
                                         IntakeClass.activate(),
-                                        PinpointTurretHeadingPID.pid(),
+                                        HoodAngleClass.shootHumanPlayerDis(),
                                         new SequentialAction
                                                 (
+                                                        TurretHeadingClass.redShootHumanPlayerAngle(),
+                                                        ShootingSpeedClass.shootHumanPlayerDis(),
+                                                        new SleepAction(4),
+                                                        ShootingSpeedClass.disabled(),
                                                         Shoot1,
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Shoot2,
+                                                        ShootingSpeedClass.shootHumanPlayerDis(),
+                                                        new SleepAction(3),
+                                                        ShootingSpeedClass.disabled(),
+                                                        Shoot3,
+                                                        ShootingSpeedClass.shootHumanPlayerDis(),
                                                         new SleepAction(3),
                                                         ShootingSpeedClass.disabled(),
                                                         Leave
+
                                                 )
 
                                 )
                 );
-
     }
 }

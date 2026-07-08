@@ -33,7 +33,7 @@ public class ShootingSpeedClass
         slaveShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        masterShootingMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        masterShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         slaveShootingMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         masterShootingMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
@@ -81,7 +81,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = (DynamicShootingClass.calcAngle(GlobalData.ShootHumanPlayerDis));
+            targetSpeed = 2850;
             return false;
         }
     }
@@ -95,7 +95,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed =(DynamicShootingClass.calcAngle(GlobalData.ShootClose1Dis));
+            targetSpeed =2850;
             return false;
         }
     }
@@ -109,7 +109,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = (DynamicShootingClass.calcAngle(GlobalData.ShootClose2Dis));
+            targetSpeed = 2850;
             return false;
         }
     }
@@ -122,7 +122,7 @@ public class ShootingSpeedClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 0;
+            targetSpeed = 2500;
             return false;
         }
     }

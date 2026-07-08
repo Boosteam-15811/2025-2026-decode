@@ -66,11 +66,24 @@ public class TurretHeadingClass
         telemetry.addData("headingMotorPos" , headingMotor.getCurrentPosition()/TurretHeadingConstants.degreeInTicks);
     }
 
+
+    public static class Reset implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            pinpointOperate(0);
+            return false;
+        }
+    }
+    public static Action reset() {
+        return new Reset();
+    }
+
     public static class BlueShootHumanPlayerAngle implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(GlobalData.blueShootHumanPlayerAngle);
+            pinpointOperate(0);
             return false;
         }
     }
@@ -83,7 +96,7 @@ public class TurretHeadingClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(GlobalData.blueShootClose1Angle);
+            pinpointOperate(41);
             return false;
         }
     }
@@ -95,7 +108,7 @@ public class TurretHeadingClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(GlobalData.blueShootClose2Angle);
+            pinpointOperate(45);
             return false;
         }
     }

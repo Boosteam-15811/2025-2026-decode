@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed;
 
 import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.masterShootingMotor;
+import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.slaveShootingMotor;
 import static org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass.targetSpeed;
 import androidx.annotation.NonNull;
 
@@ -34,16 +35,20 @@ public class ShootingSpeedPID
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            controller.setPID(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
-
-            double pid = controller.calculate(masterShootingMotor.getVelocity()*ShootingSpeedConstants.tickToRPMRatio, targetSpeed);
-
-            if (targetSpeed == 0)
-            {
-                masterShootingMotor.setMotorDisable();
-            } else {
-                masterShootingMotor.setPower(pid);
-            }
+//            controller.setPID(ShootingSpeedConstants.p, ShootingSpeedConstants.i , ShootingSpeedConstants.d);
+//
+//            double pid = controller.calculate(masterShootingMotor.getVelocity()*ShootingSpeedConstants.tickToRPMRatio, targetSpeed);
+//
+//            double power = pid + ShootingSpeedConstants.fs + ShootingSpeedConstants.fv*targetSpeed;
+//
+//            if (targetSpeed == 0)
+//            {
+//                masterShootingMotor.setMotorDisable();
+//            } else {
+//                masterShootingMotor.setPower(power);
+//            }
+            masterShootingMotor.setPower(updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+            slaveShootingMotor.setPower(updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
             return true;
         }
 
