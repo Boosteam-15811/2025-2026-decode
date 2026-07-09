@@ -63,14 +63,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
         // drive model parameters
-        public double inPerTick = 0.0019590750761958;
-        public double lateralInPerTick =  0.0011826143304350327;
-        public double trackWidthTicks = 7957.712905362597;
+        public double inPerTick = 0.0019636928894;
+        public double lateralInPerTick =  0.0010629291850780874;
+        public double trackWidthTicks = 7561.7254203624825;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.5282053507685087;
-        public double kV = 0.00025167159256254;
-        public double kA = 0.0001;
+        public double kS = 1.6325086471359698;
+        public double kV = 0.00024779088134892045;
+        public double kA = 0.00005;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 70;
@@ -82,9 +82,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 4;
+        public double axialGain = 5;
         public double lateralGain = 2;
-        public double headingGain = 2; // shared with turn
+        public double headingGain = 3; // shared with turn
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -248,7 +248,7 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new PinpointLocalizer(hardwareMap, PARAMS.inPerTick, pose);
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick, pose);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
