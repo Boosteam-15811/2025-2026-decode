@@ -187,18 +187,19 @@ public class Blue extends LinearOpMode {
                 }
             }
 
-//            if (turretIsActive) {
-//                TurretHeadingClass.pinpointOperate(wantedAngle);
-//            }
+            if (turretIsActive) {
+                TurretHeadingClass.pinpointOperate(wantedAngle);
+
+            }
 
             lastChange = gamepad1.dpad_up;
 
-//            LocalizerClass.telemetry(telemetry);
-//            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-//            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
+            LocalizerClass.telemetry(telemetry);
+            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
 //            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-//            telemetry.addData("distance" , distance);
-//            telemetry.addData("wanted angle" , wantedAngle);
+            telemetry.addData("distance" , distance);
+            telemetry.addData("wanted angle" , wantedAngle);
 //            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
 //            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
 //            IntakeClass.telemetry(telemetry);
@@ -208,7 +209,7 @@ public class Blue extends LinearOpMode {
 //            ShootingSpeedClass.telemetry(telemetry);
 //            DynamicShootingClass.telemetry(telemetry , distance);
 //            IntakeClass.telemetry(telemetry);
-//            TurretHeadingClass.telemetry(telemetry);
+            TurretHeadingClass.telemetry(telemetry);
             telemetry.update();
 
 

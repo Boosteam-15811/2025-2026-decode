@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.TeleOps.Main.Blue;
 public class LocalizerClass {
     public static GoBildaPinpointDriver pinpoint;
     public static Pose2D turretPose;
+    public static double driveHeading;
 
     public static void init(Pose2D pose2d, HardwareMap hardwareMap) {
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
@@ -55,7 +56,7 @@ public class LocalizerClass {
     public static double blueWantedTurretHeading(Pose2d wantedPos) {
         double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - (turretPose.getY(DistanceUnit.INCH) * -1)) / (wantedPos.getX() - turretPose.getX(DistanceUnit.INCH))));
 
-        double driveHeading = pinpoint.getHeading(AngleUnit.DEGREES);
+        driveHeading = pinpoint.getHeading(AngleUnit.DEGREES);
 
         return 90 - wantedHeading + driveHeading;
     }
@@ -63,7 +64,7 @@ public class LocalizerClass {
     public static double redWantedTurretHeading(Pose2d wantedPos) {
         double wantedHeading = Math.toDegrees(Math.atan((wantedPos.getY() - turretPose.getY(DistanceUnit.INCH)) / (wantedPos.getX() - (turretPose.getX(DistanceUnit.INCH) * -1))));
 
-        double driveHeading = pinpoint.getHeading(AngleUnit.DEGREES);
+        driveHeading = pinpoint.getHeading(AngleUnit.DEGREES);
 
         return (90 + wantedHeading) * -1 + driveHeading;
     }
@@ -81,6 +82,7 @@ public class LocalizerClass {
     public static void telemetry(Telemetry telemetry) {
         telemetry.addData("turretX", turretPose.getX(DistanceUnit.INCH));
         telemetry.addData("turretY", turretPose.getY(DistanceUnit.INCH));
+        telemetry.addData("driveHeading", driveHeading);
         //telemetry.addData("turret angle", turretPose.getHeading(AngleUnit.DEGREES));
     }
 }
