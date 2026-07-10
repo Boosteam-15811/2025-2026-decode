@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Red.RedCloseGate;
+package org.firstinspires.ftc.teamcode.Autonomous.Red.Close.RedCloseGate;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;

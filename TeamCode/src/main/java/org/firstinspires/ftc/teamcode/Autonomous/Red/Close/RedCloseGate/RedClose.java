@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Red.RedCloseGate;
+package org.firstinspires.ftc.teamcode.Autonomous.Red.Close.RedCloseGate;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
