@@ -15,6 +15,9 @@ public class LocalizerClass {
     public static Pose2D turretPose;
     public static double driveHeading;
 
+    private static final double backOffset = 5.832509/2.54;
+    private static final double leftOffset = 0.10422/2.54;
+
     public static void init(Pose2D pose2d, HardwareMap hardwareMap) {
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
@@ -24,8 +27,8 @@ public class LocalizerClass {
     }
 
     public static void calcTurretPose(Pose2D pinpointPos) {
-        double turretY = pinpointPos.getX(DistanceUnit.INCH) + 2.31 * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS) + 180);
-        double turretX = pinpointPos.getY(DistanceUnit.INCH) + 2.31 * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS) + 180);
+        double turretY = pinpointPos.getX(DistanceUnit.INCH) - backOffset * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS)) - leftOffset * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS));
+        double turretX = pinpointPos.getY(DistanceUnit.INCH) - backOffset * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS)) + leftOffset * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS));
         turretPose = new Pose2D(DistanceUnit.INCH, turretX, turretY, AngleUnit.DEGREES, Blue.wantedAngle);
     }
 
