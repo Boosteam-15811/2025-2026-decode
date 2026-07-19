@@ -69,24 +69,15 @@ public class PinpointTurretHeadingTuning extends LinearOpMode
 
             wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(-69, -69, Math.toRadians(0)));
 
-            if (wantedAngle > 120)
+            if (wantedAngle > 80 || wantedAngle < -90)
             {
-                trueAngle = 120;
-
-                power = 0;
-            }
-            else if (wantedAngle < -120)
-            {
-                trueAngle = -120;
-
                 power = 0;
             }
             else
             {
                 trueAngle = wantedAngle;
-                double pid = controller.calculate(motorAngle, trueAngle);
 
-                power = pid;
+                power = controller.calculate(motorAngle, trueAngle);
             }
 
             turretHeadingMotor.setPower((power + (f * Math.signum(trueAngle)))*-1);

@@ -46,22 +46,15 @@ public class PinpointTurretHeadingPID
 
         double motorAngle = headingMotor.getCurrentPosition()/TurretHeadingConstants.degreeInTicks;
 
-        if (wantedAngle > 120)
-        {
-            trueAngle = 120;
-        }
-        else if (wantedAngle < -120)
-        {
-            trueAngle = -120;
+        if (wantedAngle < 80 && wantedAngle > -90) {
+            trueAngle = wantedAngle;
+
+            power = controller.calculate(motorAngle, trueAngle);
         }
         else
         {
-            trueAngle = wantedAngle;
+            power = 0;
         }
-
-        double pid = controller.calculate(motorAngle, trueAngle);
-
-        power = pid;
 
         return (power + (TurretHeadingConstants.f * Math.signum(trueAngle)))*-1;
     }

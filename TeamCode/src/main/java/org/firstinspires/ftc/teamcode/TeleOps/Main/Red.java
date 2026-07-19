@@ -42,9 +42,10 @@ public class Red extends LinearOpMode {
     private static double wantedAngle = 0;
 
     private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
+    public static int targetX = -70;
+    public static int targetY = 70;
 
-    public static int targetX = -72;
-    public static int targetY = 72;
+    private static boolean turretLastChange = false;
 
 
     @Override
@@ -66,8 +67,6 @@ public class Red extends LinearOpMode {
         TransferWheelClass.init(hardwareMap);
         CameraClass.init(hardwareMap);
 
-
-
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
@@ -76,6 +75,7 @@ public class Red extends LinearOpMode {
 
         imu.initialize(parameters);
 
+        imu.resetYaw();
 
         waitForStart();
         LocalizerClass.pinpoint.setPosition(redAutonoumsEnd);
@@ -86,11 +86,7 @@ public class Red extends LinearOpMode {
             }
 
             //Preload
-            if (gamepad1.dpad_left)
-            {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 22, -58, AngleUnit.DEGREES, 0));
-            }
-            else if(gamepad1.dpad_right)
+            if(gamepad1.dpad_right)
             {
                 LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
             }
@@ -102,6 +98,25 @@ public class Red extends LinearOpMode {
             Pose2D robotPose2D = LocalizerClass.pinpoint.getPosition();
 
             LocalizerClass.calcTurretPose(robotPose2D);
+
+            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)>0)
+            {
+                targetX = -66;
+                targetY = 70;
+            }
+            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)<1){
+                targetX = -66;
+                targetY = 70;
+            }
+            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)>1)
+            {
+                targetX = -66;
+                targetY = 70;
+            }
+            else {
+                targetX = -70;
+                targetY = 66;
+            }
 
             distance = LocalizerClass.redGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
@@ -151,7 +166,7 @@ public class Red extends LinearOpMode {
                     shooting = true;
                 }
 
-                if (gamepad1.cross)
+                if (gamepad1.cross|| !shooting)
                 {
                     shooting = false;
                     ShooterStateClass.disable();
@@ -178,27 +193,36 @@ public class Red extends LinearOpMode {
                 ShooterStateClass.manualOperate();
             }
 
-            if (gamepad1.dpad_down)
-            {
-                turretIsActive = false;
+            if (!turretLastChange) {
+                if (gamepad1.dpad_left) {
+                    turretIsActive = false;
+                }
             }
 
             if (turretIsActive) {
                 TurretHeadingClass.pinpointOperate(wantedAngle);
+
             }
 
             lastChange = gamepad1.dpad_up;
 
-
-//            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-//            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-//            telemetry.addData("distance" , distance);
-//            telemetry.addData("wanted angle" , wantedAngle);
-//            TurretHeadingClass.telemetry(telemetry);
-//            LocalizerClass.telemetry(telemetry);
-//            telemetry.update();
-
-
+            LocalizerClass.telemetry(telemetry);
+            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
+            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
+//            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
+            telemetry.addData("distance" , distance);
+            telemetry.addData("wanted angle" , wantedAngle);
+//            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
+//            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
+//            IntakeClass.telemetry(telemetry);
+            TransferWheelClass.telemetry(telemetry);
+//            CameraClass.telemetry(telemetry);
+//            telemetry.addData("shooting" , shooting);
+//            ShootingSpeedClass.telemetry(telemetry);
+//            DynamicShootingClass.telemetry(telemetry , distance);
+//            IntakeClass.telemetry(telemetry);
+            TurretHeadingClass.telemetry(telemetry);
+            telemetry.update();
         }
     }
 }

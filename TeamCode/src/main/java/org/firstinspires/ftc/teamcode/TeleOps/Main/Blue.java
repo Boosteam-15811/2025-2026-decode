@@ -42,8 +42,8 @@ public class Blue extends LinearOpMode {
     public static double wantedAngle = 0;
 
     private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
-    public static int targetX = -72;
-    public   static int targetY = -72;
+    public static int targetX = -70;
+    public   static int targetY = -70;
 
     private static boolean turretLastChange = false;
 
@@ -79,7 +79,6 @@ public class Blue extends LinearOpMode {
 
         waitForStart();
         LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
-        CameraClass.limeLight3A.start();
         while (opModeIsActive())
         {
             if (gamepad1.options) {
@@ -87,14 +86,10 @@ public class Blue extends LinearOpMode {
             }
 
             //Preload
-            if (gamepad1.dpad_left) {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 22, 58, AngleUnit.DEGREES, 0));
-            }
-            else if(gamepad1.dpad_right)
+            if(gamepad1.dpad_right)
             {
                 LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
             }
-
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
 
@@ -104,6 +99,24 @@ public class Blue extends LinearOpMode {
 
             LocalizerClass.calcTurretPose(robotPose2D);
 
+            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
+            {
+                targetX = -66;
+                targetY = -70;
+            }
+            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
+                targetX = -66;
+                targetY = -70;
+            }
+            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
+            {
+                targetX = -66;
+                targetY = -70;
+            }
+            else {
+                targetX = -70;
+                targetY = -66;
+            }
 
             distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
@@ -154,7 +167,7 @@ public class Blue extends LinearOpMode {
                     shooting = true;
                 }
 
-                if (gamepad1.cross||shooting == false)
+                if (gamepad1.cross|| !shooting)
                 {
                     shooting = false;
                     ShooterStateClass.disable();
@@ -182,7 +195,7 @@ public class Blue extends LinearOpMode {
             }
 
             if (!turretLastChange) {
-                if (gamepad1.dpad_down) {
+                if (gamepad1.dpad_left) {
                     turretIsActive = false;
                 }
             }

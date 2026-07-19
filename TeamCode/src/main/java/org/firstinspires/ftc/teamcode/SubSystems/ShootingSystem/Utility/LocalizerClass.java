@@ -28,7 +28,7 @@ public class LocalizerClass {
 
     public static void calcTurretPose(Pose2D pinpointPos) {
         double turretY = pinpointPos.getX(DistanceUnit.INCH) - backOffset * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS)) - leftOffset * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS));
-        double turretX = pinpointPos.getY(DistanceUnit.INCH) - backOffset * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS)) + leftOffset * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS));
+        double turretX = pinpointPos.getY(DistanceUnit.INCH) - backOffset * Math.sin(pinpointPos.getHeading(AngleUnit.RADIANS)) + leftOffset * Math.cos(pinpointPos.getHeading(AngleUnit.RADIANS));
         turretPose = new Pose2D(DistanceUnit.INCH, turretX, turretY, AngleUnit.DEGREES, Blue.wantedAngle);
     }
 

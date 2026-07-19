@@ -14,7 +14,7 @@ public class BlueClose3Plus9Constants
     public static final Vector2d firstRow = new Vector2d(38, -30);
     public static final Vector2d collectFirstRow = new Vector2d(38, -60);
     public static final Vector2d shootingPos = new Vector2d(-6,-16);
-    public static final Vector2d shootingPosThird = new Vector2d(-35,-12);
+    public static final Vector2d shootingPosThird = new Vector2d(-10,-16);
 
     public static final Vector2d thirdRow = new Vector2d(-13, -30);
     public static final Vector2d collectThirdRow = new Vector2d(-13, -56);

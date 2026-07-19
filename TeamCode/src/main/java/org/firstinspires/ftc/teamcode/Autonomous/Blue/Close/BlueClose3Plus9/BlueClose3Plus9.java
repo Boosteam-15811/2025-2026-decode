@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -60,11 +61,11 @@ public class BlueClose3Plus9 extends LinearOpMode
         TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueClose3Plus9Constants.firstRow)
                 .strafeTo(BlueClose3Plus9Constants.collectFirstRow)
-                .strafeTo(BlueClose3Plus9Constants.shootingPosThird);
+                .strafeTo(BlueClose3Plus9Constants.shootingPosThird, new TranslationalVelConstraint(85));
 
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-35, -12, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.leave);
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-10, -16, Math.toRadians(270)))
+                .strafeTo(BlueClose3Plus9Constants.leave, new TranslationalVelConstraint(85));
 
         Action Shoot = shoot.build();
         Action ShootThirdRow = shootThirdRow.build();
@@ -89,17 +90,17 @@ public class BlueClose3Plus9 extends LinearOpMode
                     TurretHeadingClass.blueCloseShootAngle1(),
                     ShootingSpeedClass.shootCloseDis(),
                     Shoot,
-                    new SleepAction(3),
+                    new SleepAction(2),
                     ShootingSpeedClass.disabled(),
                     TurretHeadingClass.blueCloseShootAngle2(),
                     CollectSecondRow,
-                    new SleepAction(1),
+                    new SleepAction(0.8),
                     ShootSecondRow,
                     ShootingSpeedClass.shootCloseDis(),
                     new SleepAction(2),
                     ShootingSpeedClass.disabled(),
                     TurretHeadingClass.blueCloseShootAngle3(),
-                    new SleepAction(1.2),
+                    new SleepAction(0.8),
                     ShootThirdRow,
                     ShootingSpeedClass.shootCloseDis(),
                     new SleepAction(2),

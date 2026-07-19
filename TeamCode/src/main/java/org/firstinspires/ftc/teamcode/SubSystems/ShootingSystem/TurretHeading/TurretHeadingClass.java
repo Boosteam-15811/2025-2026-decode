@@ -117,7 +117,7 @@ public class TurretHeadingClass
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            pinpointOperate(41.5);
+            pinpointOperate(38);
             return false;
         }
     }
