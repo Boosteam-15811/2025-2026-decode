@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -27,10 +26,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraCl
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
-@Disabled
 @Config
 @TeleOp(group = "main")
-public class Red extends LinearOpMode {
+public class RedClose extends LinearOpMode {
 
     private static double distance = 0;
 
@@ -43,7 +41,7 @@ public class Red extends LinearOpMode {
 
     private static double wantedAngle = 0;
 
-    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
+    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 10, 18, AngleUnit.DEGREES, 0);
     public static int targetX = -70;
     public static int targetY = 70;
 
@@ -85,12 +83,6 @@ public class Red extends LinearOpMode {
         {
             if (gamepad1.options) {
                 imu.resetYaw();
-            }
-
-            //Preload
-            if(gamepad1.dpad_right)
-            {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);

@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-@Autonomous(name = "BlueHumanPlayer" , group = "Autonomous" , preselectTeleOp = "Blue")
+@Autonomous(name = "BlueHumanPlayer" , group = "Autonomous" , preselectTeleOp = "BlueClose")
 public class BlueFar12 extends LinearOpMode
 {
     @Override
@@ -47,13 +47,13 @@ public class BlueFar12 extends LinearOpMode
                 .strafeTo(BlueFar12Constants.collectSecondRow)
                 .strafeTo(BlueFar12Constants.shootingPosClose);
 
-        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(-5, -14.5, Math.toRadians(270)))
+        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueFar12Constants.thirdRow)
                 .strafeTo(BlueFar12Constants.collectThirdRow)
                 .strafeTo(BlueFar12Constants.backThirdRow)
                 .strafeTo(BlueFar12Constants.shootingPosClose);
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-5, -14.5, Math.toRadians(270)))
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueFar12Constants.leaveClose);
 
 

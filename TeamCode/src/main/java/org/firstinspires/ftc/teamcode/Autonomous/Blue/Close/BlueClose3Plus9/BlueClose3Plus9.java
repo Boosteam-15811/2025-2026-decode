@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueClose3Plus9", group = "Autonomous" , preselectTeleOp = "CompISR")
+@Autonomous(name = "BlueClose3Plus9", group = "Autonomous" , preselectTeleOp = "BlueClose")
 
 public class BlueClose3Plus9 extends LinearOpMode
 {
@@ -55,7 +55,7 @@ public class BlueClose3Plus9 extends LinearOpMode
                 .strafeTo(BlueClose3Plus9Constants.back)
                 .strafeTo(BlueClose3Plus9Constants.gate);
 
-        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -54, Math.toRadians(270)))
+        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
                 .strafeTo(BlueClose3Plus9Constants.shootingPos);
 
         TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))

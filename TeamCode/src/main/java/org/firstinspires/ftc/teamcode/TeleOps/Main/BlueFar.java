@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -27,10 +26,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraCl
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
-@Disabled
 @Config
 @TeleOp(group = "main")
-public class Red extends LinearOpMode {
+public class BlueFar extends LinearOpMode {
 
     private static double distance = 0;
 
@@ -41,11 +39,11 @@ public class Red extends LinearOpMode {
 
     private boolean shooting = false;
 
-    private static double wantedAngle = 0;
+    public static double wantedAngle = 0;
 
-    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 47, -23, AngleUnit.DEGREES, 0);
     public static int targetX = -70;
-    public static int targetY = 70;
+    public   static int targetY = -70;
 
     private static boolean turretLastChange = false;
 
@@ -58,7 +56,7 @@ public class Red extends LinearOpMode {
         boolean manualToggle = false;
         boolean turretIsActive = true;
 
-        LocalizerClass.init(redAutonoumsEnd,hardwareMap);
+        LocalizerClass.init(blueAutonoumsEnd,hardwareMap);
         DriveClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
@@ -80,17 +78,11 @@ public class Red extends LinearOpMode {
         imu.resetYaw();
 
         waitForStart();
-        LocalizerClass.pinpoint.setPosition(redAutonoumsEnd);
+        LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
         while (opModeIsActive())
         {
             if (gamepad1.options) {
                 imu.resetYaw();
-            }
-
-            //Preload
-            if(gamepad1.dpad_right)
-            {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
@@ -101,28 +93,29 @@ public class Red extends LinearOpMode {
 
             LocalizerClass.calcTurretPose(robotPose2D);
 
-            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)>0)
+            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
             {
                 targetX = -66;
-                targetY = 70;
+                targetY = -70;
             }
-            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)<1){
+            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
                 targetX = -66;
-                targetY = 70;
+                targetY = -70;
             }
-            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)>1)
+            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
             {
                 targetX = -66;
-                targetY = 70;
+                targetY = -70;
             }
             else {
                 targetX = -70;
-                targetY = 66;
+                targetY = -66;
             }
 
-            distance = LocalizerClass.redGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
+            distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.redWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
+
 
             if (gamepad1.right_trigger > 0)
             {
@@ -133,7 +126,7 @@ public class Red extends LinearOpMode {
             {
                 IntakeClass.operate(-gamepad1.left_trigger);
             }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio < 1800)
+            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio <= 2000)
             {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
@@ -225,6 +218,8 @@ public class Red extends LinearOpMode {
 //            IntakeClass.telemetry(telemetry);
             TurretHeadingClass.telemetry(telemetry);
             telemetry.update();
+
+
         }
     }
 }

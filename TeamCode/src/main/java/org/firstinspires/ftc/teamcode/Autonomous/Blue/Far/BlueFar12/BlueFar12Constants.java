@@ -10,7 +10,7 @@ public class BlueFar12Constants
 
     public static final Pose2d startingPos = new Pose2d(62,-14.5, Math.toRadians(270));
     public static final Vector2d shootingPos = new Vector2d(57,-14.5);
-    public static final Vector2d shootingPosClose = new Vector2d(-5,-14.5);
+    public static final Vector2d shootingPosClose = new Vector2d(-6,-16);
 
     public static final Vector2d leave = new Vector2d(47,-23);
     public static final Vector2d leaveClose = new Vector2d(10,-18);
