@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.Localize
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
 @Config
 @TeleOp(group = "main")
-public class RedFar extends LinearOpMode {
+public class RedCloseTele extends LinearOpMode {
 
     private static double distance = 0;
 
@@ -41,7 +41,7 @@ public class RedFar extends LinearOpMode {
 
     private static double wantedAngle = 0;
 
-    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, 42, AngleUnit.DEGREES, 0);
+    private static Pose2D redAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 16, -12, AngleUnit.DEGREES, 0);
     public static int targetX = -70;
     public static int targetY = 70;
 
@@ -83,6 +83,12 @@ public class RedFar extends LinearOpMode {
         {
             if (gamepad1.options) {
                 imu.resetYaw();
+            }
+
+            //Preload
+            if(gamepad1.dpad_right)
+            {
+                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 51, 45, AngleUnit.DEGREES, 39));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
@@ -199,24 +205,6 @@ public class RedFar extends LinearOpMode {
             }
 
             lastChange = gamepad1.dpad_up;
-
-            LocalizerClass.telemetry(telemetry);
-            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-//            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , distance);
-            telemetry.addData("wanted angle" , wantedAngle);
-//            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-//            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
-//            IntakeClass.telemetry(telemetry);
-            TransferWheelClass.telemetry(telemetry);
-//            CameraClass.telemetry(telemetry);
-//            telemetry.addData("shooting" , shooting);
-//            ShootingSpeedClass.telemetry(telemetry);
-//            DynamicShootingClass.telemetry(telemetry , distance);
-//            IntakeClass.telemetry(telemetry);
-            TurretHeadingClass.telemetry(telemetry);
-            telemetry.update();
         }
     }
 }

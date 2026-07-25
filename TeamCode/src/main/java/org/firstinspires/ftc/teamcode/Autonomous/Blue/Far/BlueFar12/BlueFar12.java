@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.Sh
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
-@Autonomous(name = "BlueHumanPlayer" , group = "Autonomous" , preselectTeleOp = "BlueClose")
+@Autonomous(name = "BlueFar12" , group = "Autonomous" , preselectTeleOp = "BlueCloseTele")
 public class BlueFar12 extends LinearOpMode
 {
     @Override
@@ -73,27 +73,30 @@ public class BlueFar12 extends LinearOpMode
                     ShootingSpeedPID.pid(),
                     PinpointTurretHeadingPID.pid(),
                     TransferWheelClass.activate(),
-                    IntakeClass.activate(),
                     HoodAngleClass.shootDis(),
+                    new SequentialAction(
+                        new SleepAction(0.7),
+                        IntakeClass.activate()
+                    ),
                     new SequentialAction
                     (
                             TurretHeadingClass.blueFarShootAngle1(),
                             ShootingSpeedClass.shootFarDis(),
-                            new SleepAction(5),
+                            new SleepAction(4.9),
                             ShootingSpeedClass.disabled(),
                             TurretHeadingClass.blueFarShootAngle2(),
                             Shoot1,
                             ShootingSpeedClass.shootFarDis(),
-                            new SleepAction(4),
+                            new SleepAction(3.8),
                             ShootingSpeedClass.disabled(),
                             TurretHeadingClass.blueCloseShootAngle2(),
                             Shoot2,
                             ShootingSpeedClass.shootCloseDis(),
-                            new SleepAction(2),
+                            new SleepAction(2.1),
                             ShootingSpeedClass.disabled(),
                             Shoot3,
                             ShootingSpeedClass.shootCloseDis(),
-                            new SleepAction(2),
+                            new SleepAction(2.1),
                             ShootingSpeedClass.disabled(),
                             TurretHeadingClass.endAutoAngle(),
                             Leave

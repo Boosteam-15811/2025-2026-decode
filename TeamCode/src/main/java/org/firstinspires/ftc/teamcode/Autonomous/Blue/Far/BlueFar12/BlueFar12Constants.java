@@ -13,9 +13,9 @@ public class BlueFar12Constants
     public static final Vector2d shootingPosClose = new Vector2d(-6,-16);
 
     public static final Vector2d leave = new Vector2d(47,-23);
-    public static final Vector2d leaveClose = new Vector2d(10,-18);
+    public static final Vector2d leaveClose = new Vector2d(12,-16);
     public static final Vector2d secondRow = new Vector2d(14,-30);
-    public static final Vector2d collectSecondRow = new Vector2d(14,-55);
+    public static final Vector2d collectSecondRow = new Vector2d(14,-60);
 
     public static final Vector2d thirdRow = new Vector2d(-10,-30);
     public static final Vector2d collectThirdRow = new Vector2d(-10,-54);

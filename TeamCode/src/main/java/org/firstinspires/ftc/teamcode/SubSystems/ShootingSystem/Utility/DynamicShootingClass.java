@@ -12,7 +12,7 @@ public class DynamicShootingClass
 
     public static double calcAngle(double distance)
     {
-        if (distance < 70)
+        if (distance <= 55)
         {
             return (-0.07393958 + 0.009568759*distance - 0.00008260177*Math.pow(distance,2) + 2.316434e-7*Math.pow(distance,3));
         }
@@ -21,7 +21,7 @@ public class DynamicShootingClass
 
     public static double calcSpeed(double distance)
     {
-        if(distance > 135)
+        if(distance >= 120)
         {
             return ShootingSpeedConstants.launchZoneSpeed;
         }

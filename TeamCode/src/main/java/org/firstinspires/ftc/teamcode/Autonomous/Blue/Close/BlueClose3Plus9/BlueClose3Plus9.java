@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueClose3Plus9", group = "Autonomous" , preselectTeleOp = "BlueClose")
+@Autonomous(name = "BlueClose3Plus9", group = "Autonomous" , preselectTeleOp = "BlueCloseTele")
 
 public class BlueClose3Plus9 extends LinearOpMode
 {
@@ -42,7 +42,7 @@ public class BlueClose3Plus9 extends LinearOpMode
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
-                .strafeTo(BlueClose3Plus9Constants.startShootingPos);
+                .strafeTo(BlueClose3Plus9Constants.startShootingPos, new TranslationalVelConstraint(85));
 
         TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
                 .strafeTo(BlueClose3Plus9Constants.thirdRow)
@@ -56,15 +56,16 @@ public class BlueClose3Plus9 extends LinearOpMode
                 .strafeTo(BlueClose3Plus9Constants.gate);
 
         TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.shootingPos);
+                .strafeTo(BlueClose3Plus9Constants.shootingPos, new TranslationalVelConstraint(85));
 
         TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.firstRow)
-                .strafeTo(BlueClose3Plus9Constants.collectFirstRow)
+                .strafeTo(BlueClose3Plus9Constants.firstRow, new TranslationalVelConstraint(85))
+                .strafeTo(BlueClose3Plus9Constants.collectFirstRow, new TranslationalVelConstraint(85))
+                .strafeTo(BlueClose3Plus9Constants.shootingPosThirdMiddle, new TranslationalVelConstraint(85))
                 .strafeTo(BlueClose3Plus9Constants.shootingPosThird, new TranslationalVelConstraint(85));
 
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-10, -16, Math.toRadians(270)))
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-8, -16, Math.toRadians(270)))
                 .strafeTo(BlueClose3Plus9Constants.leave, new TranslationalVelConstraint(85));
 
         Action Shoot = shoot.build();
@@ -90,17 +91,17 @@ public class BlueClose3Plus9 extends LinearOpMode
                     TurretHeadingClass.blueCloseShootAngle1(),
                     ShootingSpeedClass.shootCloseDis(),
                     Shoot,
-                    new SleepAction(2),
+                    new SleepAction(2.4),
                     ShootingSpeedClass.disabled(),
                     TurretHeadingClass.blueCloseShootAngle2(),
                     CollectSecondRow,
-                    new SleepAction(0.8),
+                    new SleepAction(0.2),
                     ShootSecondRow,
                     ShootingSpeedClass.shootCloseDis(),
                     new SleepAction(2),
                     ShootingSpeedClass.disabled(),
                     TurretHeadingClass.blueCloseShootAngle3(),
-                    new SleepAction(0.8),
+                    new SleepAction(0.4),
                     ShootThirdRow,
                     ShootingSpeedClass.shootCloseDis(),
                     new SleepAction(2),

@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.Localize
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
 @Config
 @TeleOp(group = "main")
-public class BlueClose extends LinearOpMode {
+public class BlueFarTele extends LinearOpMode {
 
     private static double distance = 0;
 
@@ -41,7 +41,7 @@ public class BlueClose extends LinearOpMode {
 
     public static double wantedAngle = 0;
 
-    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 10, -18, AngleUnit.DEGREES, 0);
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 47, -23, AngleUnit.DEGREES, 0);
     public static int targetX = -70;
     public   static int targetY = -70;
 
@@ -200,26 +200,6 @@ public class BlueClose extends LinearOpMode {
             }
 
             lastChange = gamepad1.dpad_up;
-
-            LocalizerClass.telemetry(telemetry);
-            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-//            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , distance);
-            telemetry.addData("wanted angle" , wantedAngle);
-//            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-//            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
-//            IntakeClass.telemetry(telemetry);
-            TransferWheelClass.telemetry(telemetry);
-//            CameraClass.telemetry(telemetry);
-//            telemetry.addData("shooting" , shooting);
-//            ShootingSpeedClass.telemetry(telemetry);
-//            DynamicShootingClass.telemetry(telemetry , distance);
-//            IntakeClass.telemetry(telemetry);
-            TurretHeadingClass.telemetry(telemetry);
-            telemetry.update();
-
-
         }
     }
 }

@@ -43,7 +43,7 @@ public class Blue extends LinearOpMode {
 
     public static double wantedAngle = 0;
 
-    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 15, -42, AngleUnit.DEGREES, 0);
+    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, -39, -55, AngleUnit.DEGREES, 0);
     public static int targetX = -70;
     public   static int targetY = -70;
 
@@ -85,12 +85,6 @@ public class Blue extends LinearOpMode {
         {
             if (gamepad1.options) {
                 imu.resetYaw();
-            }
-
-            //Preload
-            if(gamepad1.dpad_right)
-            {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0));
             }
 
             DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
@@ -208,26 +202,6 @@ public class Blue extends LinearOpMode {
             }
 
             lastChange = gamepad1.dpad_up;
-
-            LocalizerClass.telemetry(telemetry);
-            telemetry.addData("robotX", robotPose2D.getX(DistanceUnit.INCH));
-            telemetry.addData("robotY", robotPose2D.getY(DistanceUnit.INCH));
-//            telemetry.addData("robot angle", robotPose2D.getHeading(AngleUnit.DEGREES));
-            telemetry.addData("distance" , distance);
-            telemetry.addData("wanted angle" , wantedAngle);
-//            telemetry.addData("motorVelocity",  ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
-//            telemetry.addData("in tolerance" , ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance));
-//            IntakeClass.telemetry(telemetry);
-            TransferWheelClass.telemetry(telemetry);
-//            CameraClass.telemetry(telemetry);
-//            telemetry.addData("shooting" , shooting);
-//            ShootingSpeedClass.telemetry(telemetry);
-//            DynamicShootingClass.telemetry(telemetry , distance);
-//            IntakeClass.telemetry(telemetry);
-            TurretHeadingClass.telemetry(telemetry);
-            telemetry.update();
-
-
         }
     }
 }
