@@ -15,18 +15,18 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8 , Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(62, 17.8, Math.toRadians(180)))
                 //from start to collecting from the human player
-                .strafeToLinearHeading(new Vector2d(56,12),Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56, 12), Math.toRadians(152))
                 .setTangent(0)
-                .strafeToLinearHeading(new Vector2d(56,30), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(56, 30), Math.toRadians(90))
                 .lineToYConstantHeading(60)
 
                 //from human player to shooting from launchzone
-                .strafeToLinearHeading(new Vector2d(56,12), Math.toRadians(152))
+                .strafeToLinearHeading(new Vector2d(56, 12), Math.toRadians(152))
 
                 //leave
-                .strafeTo(new Vector2d(25,17))
+                .strafeTo(new Vector2d(25, 17))
 
                 .build());
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Blue.Close.BlueClose6Plus3;
+package org.firstinspires.ftc.teamcode.Autonomous.Blue.Close.BlueCloseGateSpam;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
@@ -21,9 +22,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueClose6Plus3", group = "Autonomous", preselectTeleOp = "BlueCloseTele")
+@Disabled
+@Autonomous(name = "BlueCloseGateSpam", group = "Autonomous", preselectTeleOp = "BlueCloseTele")
 
-public class BlueClose6Plus3 extends LinearOpMode {
+public class BlueCloseGateSpam extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -36,33 +38,52 @@ public class BlueClose6Plus3 extends LinearOpMode {
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = BlueClose6Plus3Constants.startingPos;
+        Pose2d initialPose = BlueCloseGateSpamConstants.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
-                .strafeTo(BlueClose6Plus3Constants.startShootingPos, new TranslationalVelConstraint(85));
+                .strafeTo(
+                        BlueCloseGateSpamConstants.startShootingPos,
+                        new TranslationalVelConstraint(85)
+                );
 
-        TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose6Plus3Constants.thirdRow)
-                .strafeTo(BlueClose6Plus3Constants.collectThirdRow)
-                .strafeTo(BlueClose6Plus3Constants.shootingPos);
+        TrajectoryActionBuilder collectThirdRow =
+                drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
+                        .strafeTo(BlueCloseGateSpamConstants.thirdRow)
+                        .strafeTo(BlueCloseGateSpamConstants.collectThirdRow)
+                        .strafeTo(BlueCloseGateSpamConstants.back)
+                        .strafeTo(BlueCloseGateSpamConstants.gate);
 
-        TrajectoryActionBuilder collectSecondRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose6Plus3Constants.secondRow)
-                .strafeTo(BlueClose6Plus3Constants.collectSecondRow)
-                .strafeTo(BlueClose6Plus3Constants.back)
-                .strafeTo(BlueClose6Plus3Constants.gate);
+        TrajectoryActionBuilder shootThirdRow =
+                drive.actionBuilder(new Pose2d(-8, -56, Math.toRadians(270)))
+                        .strafeTo(BlueCloseGateSpamConstants.shootingPos);
 
-        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
-                .strafeTo(BlueClose6Plus3Constants.shootingPos);
+        TrajectoryActionBuilder collectSecondRow =
+                drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
+                        .strafeTo(BlueCloseGateSpamConstants.secondRow)
+                        .strafeTo(BlueCloseGateSpamConstants.collectSecondRow)
+                        .strafeTo(BlueCloseGateSpamConstants.back)
+                        .strafeTo(BlueCloseGateSpamConstants.gate);
+
+        TrajectoryActionBuilder shootSecondRow =
+                drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
+                        .strafeTo(
+                                BlueCloseGateSpamConstants.shootingPos,
+                                new TranslationalVelConstraint(85)
+                        );
 
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose6Plus3Constants.leave);
+        TrajectoryActionBuilder leave =
+                drive.actionBuilder(new Pose2d(-8, -16, Math.toRadians(270)))
+                        .strafeTo(
+                                BlueCloseGateSpamConstants.leave,
+                                new TranslationalVelConstraint(85)
+                        );
 
         Action Shoot = shoot.build();
         Action ShootThirdRow = shootThirdRow.build();
         Action CollectSecondRow = collectSecondRow.build();
+        Action CollectThirdRow = collectThirdRow.build();
         Action ShootSecondRow = shootSecondRow.build();
         Action Leave = leave.build();
 
@@ -82,19 +103,22 @@ public class BlueClose6Plus3 extends LinearOpMode {
                                                         TurretHeadingClass.blueCloseShootAngle1(),
                                                         ShootingSpeedClass.shootCloseDis(),
                                                         Shoot,
-                                                        new SleepAction(2.6),
+                                                        new SleepAction(2.4),
                                                         ShootingSpeedClass.disabled(),
                                                         TurretHeadingClass.blueCloseShootAngle2(),
-                                                        ShootThirdRow,
-                                                        ShootingSpeedClass.shootCloseDis(),
-                                                        new SleepAction(2.3),
-                                                        ShootingSpeedClass.disabled(),
                                                         CollectSecondRow,
                                                         new SleepAction(0.3),
                                                         ShootSecondRow,
                                                         ShootingSpeedClass.shootCloseDis(),
-                                                        new SleepAction(2.3),
+                                                        new SleepAction(2),
                                                         ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.blueCloseShootAngle3(),
+                                                        new SleepAction(0.2),
+                                                        CollectThirdRow,
+                                                        new SleepAction(7.5),
+                                                        ShootThirdRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2),
                                                         ShootingSpeedClass.endAuto(),
                                                         TurretHeadingClass.endAutoAngle(),
                                                         Leave

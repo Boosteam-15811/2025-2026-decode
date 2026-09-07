@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueClose6", group = "Autonomous" , preselectTeleOp = "CompISR")
+@Autonomous(name = "BlueClose6", group = "Autonomous", preselectTeleOp = "BlueCloseTele")
 
 public class BlueClose6 extends LinearOpMode {
     @Override
@@ -39,7 +40,7 @@ public class BlueClose6 extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
-                .strafeTo(BlueClose6Constants.startShootingPos);
+                .strafeTo(BlueClose6Constants.startShootingPos, new TranslationalVelConstraint(85));
 
         TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
                 .strafeTo(BlueClose6Constants.thirdRow)
@@ -56,29 +57,31 @@ public class BlueClose6 extends LinearOpMode {
         waitForStart();
 
         Actions.runBlocking
-        (
-            new ParallelAction
-            (
-                ShootingSpeedPID.pid(),
-                PinpointTurretHeadingPID.pid(),
-                TransferWheelClass.activate(),
-                IntakeClass.activate(),
-                HoodAngleClass.shootDis(),
-                new SequentialAction
                 (
-                    TurretHeadingClass.blueCloseShootAngle1(),
-                    Shoot,
-                    ShootingSpeedClass.shootCloseDis(),
-                    new SleepAction(2),
-                    ShootingSpeedClass.disabled(),
-                    TurretHeadingClass.blueCloseShootAngle2(),
-                    ShootThirdRow,
-                    ShootingSpeedClass.shootCloseDis(),
-                    new SleepAction(2),
-                    ShootingSpeedClass.endAuto(),
-                    Leave
-                )
-            )
-        );
+                        new ParallelAction
+                                (
+                                        ShootingSpeedPID.pid(),
+                                        PinpointTurretHeadingPID.pid(),
+                                        TransferWheelClass.activate(),
+                                        IntakeClass.activate(),
+                                        HoodAngleClass.shootDis(),
+                                        new SequentialAction
+                                                (
+                                                        TurretHeadingClass.blueCloseShootAngle1(),
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        Shoot,
+                                                        new SleepAction(3.2),
+                                                        ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.blueCloseShootAngle2(),
+                                                        ShootThirdRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(3),
+                                                        ShootingSpeedClass.disabled(),
+                                                        ShootingSpeedClass.endAuto(),
+                                                        TurretHeadingClass.endAutoAngle(),
+                                                        Leave
+                                                )
+                                )
+                );
     }
 }

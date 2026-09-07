@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Blue.Close.BlueCloseGate.BlueCloseGateConstants;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -22,10 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueClose3Plus9", group = "Autonomous" , preselectTeleOp = "BlueCloseTele")
+@Autonomous(name = "BlueClose3Plus9", group = "Autonomous", preselectTeleOp = "BlueCloseTele")
 
-public class BlueClose3Plus9 extends LinearOpMode
-{
+public class BlueClose3Plus9 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -42,31 +40,57 @@ public class BlueClose3Plus9 extends LinearOpMode
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
-                .strafeTo(BlueClose3Plus9Constants.startShootingPos, new TranslationalVelConstraint(85));
+                .strafeTo(
+                        BlueClose3Plus9Constants.startShootingPos,
+                        new TranslationalVelConstraint(85)
+                );
 
-        TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.thirdRow)
-                .strafeTo(BlueClose3Plus9Constants.collectThirdRow)
-                .strafeTo(BlueClose3Plus9Constants.shootingPos);
+        TrajectoryActionBuilder shootThirdRow =
+                drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
+                        .strafeTo(BlueClose3Plus9Constants.thirdRow)
+                        .strafeTo(BlueClose3Plus9Constants.collectThirdRow)
+                        .strafeTo(BlueClose3Plus9Constants.shootingPos);
 
-        TrajectoryActionBuilder collectSecondRow = drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.secondRow)
-                .strafeTo(BlueClose3Plus9Constants.collectSecondRow)
-                .strafeTo(BlueClose3Plus9Constants.back)
-                .strafeTo(BlueClose3Plus9Constants.gate);
+        TrajectoryActionBuilder collectSecondRow =
+                drive.actionBuilder(new Pose2d(-16, -16, Math.toRadians(270)))
+                        .strafeTo(BlueClose3Plus9Constants.secondRow)
+                        .strafeTo(BlueClose3Plus9Constants.collectSecondRow)
+                        .strafeTo(BlueClose3Plus9Constants.back)
+                        .strafeTo(BlueClose3Plus9Constants.gate);
 
-        TrajectoryActionBuilder shootSecondRow = drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.shootingPos, new TranslationalVelConstraint(85));
+        TrajectoryActionBuilder shootSecondRow =
+                drive.actionBuilder(new Pose2d(8, -56, Math.toRadians(270)))
+                        .strafeTo(
+                                BlueClose3Plus9Constants.shootingPos,
+                                new TranslationalVelConstraint(85)
+                        );
 
-        TrajectoryActionBuilder shootFirstRow = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.firstRow, new TranslationalVelConstraint(85))
-                .strafeTo(BlueClose3Plus9Constants.collectFirstRow, new TranslationalVelConstraint(85))
-                .strafeTo(BlueClose3Plus9Constants.shootingPosThirdMiddle, new TranslationalVelConstraint(85))
-                .strafeTo(BlueClose3Plus9Constants.shootingPosThird, new TranslationalVelConstraint(85));
+        TrajectoryActionBuilder shootFirstRow =
+                drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
+                        .strafeTo(
+                                BlueClose3Plus9Constants.firstRow,
+                                new TranslationalVelConstraint(85)
+                        )
+                        .strafeTo(
+                                BlueClose3Plus9Constants.collectFirstRow,
+                                new TranslationalVelConstraint(85)
+                        )
+                        .strafeTo(
+                                BlueClose3Plus9Constants.shootingPosThirdMiddle,
+                                new TranslationalVelConstraint(85)
+                        )
+                        .strafeTo(
+                                BlueClose3Plus9Constants.shootingPosThird,
+                                new TranslationalVelConstraint(85)
+                        );
 
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-8, -16, Math.toRadians(270)))
-                .strafeTo(BlueClose3Plus9Constants.leave, new TranslationalVelConstraint(85));
+        TrajectoryActionBuilder leave =
+                drive.actionBuilder(new Pose2d(-8, -16, Math.toRadians(270)))
+                        .strafeTo(
+                                BlueClose3Plus9Constants.leave,
+                                new TranslationalVelConstraint(85)
+                        );
 
         Action Shoot = shoot.build();
         Action ShootThirdRow = shootThirdRow.build();
@@ -78,42 +102,42 @@ public class BlueClose3Plus9 extends LinearOpMode
         waitForStart();
 
         Actions.runBlocking
-        (
-            new ParallelAction
-            (
-                ShootingSpeedPID.pid(),
-                PinpointTurretHeadingPID.pid(),
-                TransferWheelClass.activate(),
-                IntakeClass.activate(),
-                HoodAngleClass.shootDis(),
-                new SequentialAction
                 (
-                    TurretHeadingClass.blueCloseShootAngle1(),
-                    ShootingSpeedClass.shootCloseDis(),
-                    Shoot,
-                    new SleepAction(2.4),
-                    ShootingSpeedClass.disabled(),
-                    TurretHeadingClass.blueCloseShootAngle2(),
-                    CollectSecondRow,
-                    new SleepAction(0.2),
-                    ShootSecondRow,
-                    ShootingSpeedClass.shootCloseDis(),
-                    new SleepAction(2),
-                    ShootingSpeedClass.disabled(),
-                    TurretHeadingClass.blueCloseShootAngle3(),
-                    new SleepAction(0.4),
-                    ShootThirdRow,
-                    ShootingSpeedClass.shootCloseDis(),
-                    new SleepAction(2),
-                    ShootingSpeedClass.disabled(),
-                    ShootFirstRow,
-                    ShootingSpeedClass.shootCloseDis(),
-                    new SleepAction(2),
-                    ShootingSpeedClass.endAuto(),
-                    TurretHeadingClass.endAutoAngle(),
-                    Leave
-                )
-            )
-        );
+                        new ParallelAction
+                                (
+                                        ShootingSpeedPID.pid(),
+                                        PinpointTurretHeadingPID.pid(),
+                                        TransferWheelClass.activate(),
+                                        IntakeClass.activate(),
+                                        HoodAngleClass.shootDis(),
+                                        new SequentialAction
+                                                (
+                                                        TurretHeadingClass.blueCloseShootAngle1(),
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        Shoot,
+                                                        new SleepAction(2.4),
+                                                        ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.blueCloseShootAngle2(),
+                                                        CollectSecondRow,
+                                                        new SleepAction(0.3),
+                                                        ShootSecondRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2),
+                                                        ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.blueCloseShootAngle3(),
+                                                        new SleepAction(0.2),
+                                                        ShootThirdRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2),
+                                                        ShootingSpeedClass.disabled(),
+                                                        ShootFirstRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2),
+                                                        ShootingSpeedClass.endAuto(),
+                                                        TurretHeadingClass.endAutoAngle(),
+                                                        Leave
+                                                )
+                                )
+                );
     }
 }

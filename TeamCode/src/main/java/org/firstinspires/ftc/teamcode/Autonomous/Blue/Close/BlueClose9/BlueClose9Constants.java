@@ -14,5 +14,5 @@ public class BlueClose9Constants {
 
     public static final Vector2d thirdRow = new Vector2d(-13, -30);
     public static final Vector2d collectThirdRow = new Vector2d(-13, -56);
-    public static final Vector2d leave = new Vector2d(10,-18);
+    public static final Vector2d leave = new Vector2d(12,-16);
 }

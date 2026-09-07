@@ -10,8 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class ShootingSpeedClass
-{
+public class ShootingSpeedClass {
     public static DcMotorEx masterShootingMotor;
     public static DcMotorEx slaveShootingMotor;
 
@@ -20,12 +19,10 @@ public class ShootingSpeedClass
     private static double error;
 
 
+    public static void init(HardwareMap hardwareMap) {
 
-    public static void init(HardwareMap hardwareMap)
-    {
-
-        masterShootingMotor = hardwareMap.get(DcMotorEx.class , "masterShootingMotorSpeed");
-        slaveShootingMotor = hardwareMap.get(DcMotorEx.class , "slaveShootingMotorSpeed");
+        masterShootingMotor = hardwareMap.get(DcMotorEx.class, "masterShootingMotorSpeed");
+        slaveShootingMotor = hardwareMap.get(DcMotorEx.class, "slaveShootingMotorSpeed");
 
         masterShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         slaveShootingMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -39,23 +36,25 @@ public class ShootingSpeedClass
 
     }
 
-    public static void setSpeed(double speed)
-    {
+    public static void setSpeed(double speed) {
         targetSpeed = speed;
-        if (targetSpeed == 0)
-        {
+        if (targetSpeed == 0) {
             masterShootingMotor.setMotorDisable();
             slaveShootingMotor.setMotorDisable();
-        }
-        else {
-            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
-            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(targetSpeed, masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio));
+        } else {
+            masterShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(
+                    targetSpeed,
+                    masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio
+            ));
+            slaveShootingMotor.setPower(ShootingSpeedPID.updateMotorOutput(
+                    targetSpeed,
+                    masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio
+            ));
         }
     }
 
 
-    public static boolean inTolerence(double speed, double tolerance)
-    {
+    public static boolean inTolerence(double speed, double tolerance) {
         error = speed - masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio;
 
         return Math.abs(error) < tolerance;
@@ -63,10 +62,12 @@ public class ShootingSpeedClass
     }
 
 
-    public static void telemetry(Telemetry telemetry)
-    {
+    public static void telemetry(Telemetry telemetry) {
         //telemetry.addData("error", error);
-        telemetry.addData("flywheel rpm" , masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio);
+        telemetry.addData(
+                "flywheel rpm",
+                masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio
+        );
         telemetry.addData("target speed", targetSpeed);
         //telemetry.addData("motorPower" , masterShootingMotor.getPower()*1000);
         //telemetry.addData("error", error);
@@ -74,32 +75,38 @@ public class ShootingSpeedClass
         //telemetry .addData("in tolerance" , inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.tolerance));
     }
 
+    public static Action shootFarDis() {
+        return new ShootFarDis();
+    }
+
+    public static Action shootCloseDis() {
+        return new ShootCloseDis();
+    }
+
+    public static Action disabled() {
+        return new Disabled();
+    }
+
+    public static Action endAuto() {
+        return new EndAuto();
+    }
 
     public static class ShootFarDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed = 3770;
+            targetSpeed = 3700;
             return false;
         }
     }
-
-    public static Action shootFarDis() {
-        return new ShootFarDis();
-    }
-
 
     public static class ShootCloseDis implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            targetSpeed =2850;
+            targetSpeed = 2850;
             return false;
         }
-    }
-
-    public static Action shootCloseDis() {
-        return new ShootCloseDis();
     }
 
     public static class Disabled implements Action {
@@ -110,9 +117,6 @@ public class ShootingSpeedClass
             return false;
         }
     }
-    public static Action disabled() {
-        return new Disabled();
-    }
 
     public static class EndAuto implements Action {
 
@@ -121,8 +125,5 @@ public class ShootingSpeedClass
             targetSpeed = 0;
             return false;
         }
-    }
-    public static Action endAuto() {
-        return new EndAuto();
     }
 }

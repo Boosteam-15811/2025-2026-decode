@@ -1,24 +1,18 @@
 package org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility;
 
-import static java.lang.Thread.getAllStackTraces;
-import static java.lang.Thread.sleep;
-
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Gate.GateClass;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
+import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.TransferWheelClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 
 public class ShooterStateClass {
+    private static final boolean lastChange = false;
     public static ShooterStates shooterState = ShooterStates.DISABLED;
-
     public static boolean shootToggle = false;
-
-    private static boolean lastChange = false;
     //private static boolean patternMode = false;
 
     public static void setState(Gamepad gamepad) {
@@ -59,11 +53,14 @@ public class ShooterStateClass {
                 HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.launchZoneSpeed);
 
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.launchZoneSpeed, ShootingSpeedConstants.launchZoneTolerance)) {
+                if (ShootingSpeedClass.inTolerence(
+                        ShootingSpeedConstants.launchZoneSpeed,
+                        ShootingSpeedConstants.launchZoneTolerance
+                )) {
                     shootToggle = true;
                 }
 
-                 if (shootToggle) {
+                if (shootToggle) {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
                 } else {
@@ -77,11 +74,14 @@ public class ShooterStateClass {
                 HoodAngleClass.setPos(HoodAngleConstants.atGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.atGoalSpeed);
 
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.atGoalSpeed, ShootingSpeedConstants.atGoalTolerance)) {
+                if (ShootingSpeedClass.inTolerence(
+                        ShootingSpeedConstants.atGoalSpeed,
+                        ShootingSpeedConstants.atGoalTolerance
+                )) {
                     shootToggle = true;
                 }
 
-                if (shootToggle){
+                if (shootToggle) {
                     TransferWheelClass.operate(1);
                     IntakeClass.operate(1);
                 } else {
@@ -95,7 +95,10 @@ public class ShooterStateClass {
                 HoodAngleClass.setPos(HoodAngleConstants.farFromGoalPos);
                 ShootingSpeedClass.setSpeed(ShootingSpeedConstants.farFromGoalSpeed);
 
-                if (ShootingSpeedClass.inTolerence(ShootingSpeedConstants.farFromGoalSpeed, ShootingSpeedConstants.dynamicTolerance)) {
+                if (ShootingSpeedClass.inTolerence(
+                        ShootingSpeedConstants.farFromGoalSpeed,
+                        ShootingSpeedConstants.dynamicTolerance
+                )) {
                     shootToggle = true;
                 }
 
@@ -123,22 +126,36 @@ public class ShooterStateClass {
 
     public static void operate(double wantedSpeed) {
         ShootingSpeedClass.setSpeed(wantedSpeed);
-        if (ShootingSpeedClass.inTolerence(wantedSpeed, ShootingSpeedConstants.dynamicTolerance)) {
+//        if (wantedSpeed < ShootingSpeedConstants.launchZoneSpeed) {
+        if (ShootingSpeedClass.inTolerence(
+                wantedSpeed,
+                ShootingSpeedConstants.dynamicTolerance
+        )) {
             shootToggle = true;
         }
 
         if (shootToggle) {
             IntakeClass.operate(1);
             TransferWheelClass.operate(1);
-        }
-        else {
+        } else {
             TransferWheelClass.operate(0);
             IntakeClass.operate(0);
         }
-
+//        } else {
+//            if (ShootingSpeedClass.inTolerence(
+//                    wantedSpeed,
+//                    ShootingSpeedConstants.dynamicTolerance
+//            )) {
+//                IntakeClass.operate(1);
+//                TransferWheelClass.operate(1);
+//            } else {
+//                TransferWheelClass.operate(0);
+//                IntakeClass.operate(0);
+//            }
+//        }
     }
-    public static void disable()
-    {
+
+    public static void disable() {
         ShootingSpeedClass.setSpeed(ShootingSpeedConstants.disabledSpeed);
         shootToggle = false;
     }

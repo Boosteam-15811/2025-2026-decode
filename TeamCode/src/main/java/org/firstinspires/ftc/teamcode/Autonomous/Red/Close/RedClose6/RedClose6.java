@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Blue.Far.BlueFar12;
+package org.firstinspires.ftc.teamcode.Autonomous.Red.Close.RedClose6;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,10 +21,12 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "BlueFar12", group = "Autonomous", preselectTeleOp = "BlueCloseTele")
-public class BlueFar12 extends LinearOpMode {
+@Autonomous(name = "RedClose6", group = "Autonomous", preselectTeleOp = "RedCloseTele")
+
+public class RedClose6 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
+
         DriveClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
@@ -33,76 +36,52 @@ public class BlueFar12 extends LinearOpMode {
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = BlueFar12Constants.startingPos;
+        Pose2d initialPose = RedClose6Constants.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
-        TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
-                .strafeTo(BlueFar12Constants.firstRow)
-                .strafeTo(BlueFar12Constants.collectFirstRow)
-                .strafeTo(BlueFar12Constants.shootingPos);
+        TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
+                .strafeTo(RedClose6Constants.startShootingPos, new TranslationalVelConstraint(85));
 
-        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(57, -14.5, Math.toRadians(270)))
-                .strafeTo(BlueFar12Constants.secondRow)
-                .strafeTo(BlueFar12Constants.collectSecondRow)
-                .strafeTo(BlueFar12Constants.shootingPosClose);
+        TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-16, 16, Math.toRadians(90)))
+                .strafeTo(RedClose6Constants.thirdRow)
+                .strafeTo(RedClose6Constants.collectThirdRow)
+                .strafeTo(RedClose6Constants.shootingPos);
 
-        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueFar12Constants.thirdRow)
-                .strafeTo(BlueFar12Constants.collectThirdRow)
-                .strafeTo(BlueFar12Constants.backThirdRow)
-                .strafeTo(BlueFar12Constants.shootingPosClose);
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(90)))
+                .strafeTo(RedClose6Constants.leave);
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-6, -16, Math.toRadians(270)))
-                .strafeTo(BlueFar12Constants.leaveClose);
-
-
-        Action Shoot1 = shoot1.build();
-        Action Shoot2 = shoot2.build();
-        Action Shoot3 = shoot3.build();
+        Action Shoot = shoot.build();
+        Action ShootThirdRow = shootThirdRow.build();
         Action Leave = leave.build();
-
 
         waitForStart();
 
         Actions.runBlocking
                 (
-
                         new ParallelAction
                                 (
                                         ShootingSpeedPID.pid(),
                                         PinpointTurretHeadingPID.pid(),
                                         TransferWheelClass.activate(),
+                                        IntakeClass.activate(),
                                         HoodAngleClass.shootDis(),
-                                        new SequentialAction(
-                                                new SleepAction(0.7),
-                                                IntakeClass.activate()
-                                        ),
                                         new SequentialAction
                                                 (
-                                                        TurretHeadingClass.blueFarShootAngle1(),
-                                                        ShootingSpeedClass.shootFarDis(),
-                                                        new SleepAction(4.9),
-                                                        ShootingSpeedClass.disabled(),
-                                                        TurretHeadingClass.blueFarShootAngle2(),
-                                                        Shoot1,
-                                                        ShootingSpeedClass.shootFarDis(),
-                                                        new SleepAction(3.8),
-                                                        ShootingSpeedClass.disabled(),
-                                                        TurretHeadingClass.blueCloseShootAngle2(),
-                                                        Shoot2,
+                                                        TurretHeadingClass.redCloseShootAngle1(),
                                                         ShootingSpeedClass.shootCloseDis(),
-                                                        new SleepAction(2.1),
+                                                        Shoot,
+                                                        new SleepAction(3.2),
                                                         ShootingSpeedClass.disabled(),
-                                                        Shoot3,
+                                                        TurretHeadingClass.redCloseShootAngle2(),
+                                                        ShootThirdRow,
                                                         ShootingSpeedClass.shootCloseDis(),
-                                                        new SleepAction(2.1),
+                                                        new SleepAction(3),
+                                                        ShootingSpeedClass.disabled(),
                                                         ShootingSpeedClass.endAuto(),
                                                         TurretHeadingClass.endAutoAngle(),
                                                         Leave
-
                                                 )
                                 )
                 );
-
     }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Red.RedHumanPlayer3Marks;
+package org.firstinspires.ftc.teamcode.Autonomous.Red.Close.RedClose9;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -6,11 +6,11 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Autonomous.Blue.Far.BlueFar12.BlueFar12Constants;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
@@ -21,9 +21,9 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "RedHumanPlayer" , group = "Autonomous" , preselectTeleOp = "Red")
-public class RedHumanPlayer3Marks extends LinearOpMode
-{
+@Autonomous(name = "RedClose9", group = "Autonomous", preselectTeleOp = "RedCloseTele")
+
+public class RedClose9 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -36,35 +36,29 @@ public class RedHumanPlayer3Marks extends LinearOpMode
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = RedHumanPlayerConstants3Marks.startingPos;
+        Pose2d initialPose = RedClose9Constants.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
-        TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
-                .setTangent(180)
-                .splineToLinearHeading(RedHumanPlayerConstants3Marks.firstRow, Math.toRadians(90))
-                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
+        TrajectoryActionBuilder shoot = drive.actionBuilder(initialPose)
+                .strafeTo(RedClose9Constants.startShootingPos, new TranslationalVelConstraint(85));
 
-        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
-                .strafeTo(RedHumanPlayerConstants3Marks.secondRow)
-                .strafeTo(RedHumanPlayerConstants3Marks.collectSecondRow)
-                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
+        TrajectoryActionBuilder shootThirdRow = drive.actionBuilder(new Pose2d(-16, 16, Math.toRadians(90)))
+                .strafeTo(RedClose9Constants.thirdRow)
+                .strafeTo(RedClose9Constants.collectThirdRow)
+                .strafeTo(RedClose9Constants.shootingPos);
 
-        TrajectoryActionBuilder shoot3 = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
-                .strafeTo(RedHumanPlayerConstants3Marks.thirdRow)
-                .strafeTo(RedHumanPlayerConstants3Marks.collectThirdRow)
-                .strafeTo(RedHumanPlayerConstants3Marks.backThirdRow)
-                .strafeTo(RedHumanPlayerConstants3Marks.shootingPos);
+        TrajectoryActionBuilder collectSecondRow = drive.actionBuilder(new Pose2d(-6, 16, Math.toRadians(90)))
+                .strafeTo(RedClose9Constants.secondRow)
+                .strafeTo(RedClose9Constants.collectSecondRow)
+                .strafeTo(RedClose9Constants.shootingPos);
 
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(62,14.5 , Math.toRadians(90)))
-                .strafeTo(BlueFar12Constants.leave);
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(-6, 16, Math.toRadians(90)))
+                .strafeTo(RedClose9Constants.leave);
 
-
-
-        Action Shoot1 = shoot1.build();
-        Action Shoot2 = shoot2.build();
-        Action Shoot3 = shoot3.build();
+        Action Shoot = shoot.build();
+        Action ShootThirdRow = shootThirdRow.build();
+        Action CollectSecondRow = collectSecondRow.build();
         Action Leave = leave.build();
-
 
         waitForStart();
 
@@ -80,24 +74,23 @@ public class RedHumanPlayer3Marks extends LinearOpMode
                                         new SequentialAction
                                                 (
                                                         TurretHeadingClass.redCloseShootAngle1(),
-                                                        ShootingSpeedClass.shootFarDis(),
-                                                        new SleepAction(4),
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        Shoot,
+                                                        new SleepAction(2.8),
                                                         ShootingSpeedClass.disabled(),
-                                                        Shoot1,
-                                                        new SleepAction(3),
+                                                        TurretHeadingClass.redCloseShootAngle2(),
+                                                        ShootThirdRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2.4),
                                                         ShootingSpeedClass.disabled(),
-                                                        Shoot2,
-                                                        ShootingSpeedClass.shootFarDis(),
-                                                        new SleepAction(3),
+                                                        CollectSecondRow,
+                                                        ShootingSpeedClass.shootCloseDis(),
+                                                        new SleepAction(2.4),
                                                         ShootingSpeedClass.disabled(),
-                                                        Shoot3,
-                                                        ShootingSpeedClass.shootFarDis(),
-                                                        new SleepAction(3),
-                                                        ShootingSpeedClass.disabled(),
+                                                        ShootingSpeedClass.endAuto(),
+                                                        TurretHeadingClass.endAutoAngle(),
                                                         Leave
-
                                                 )
-
                                 )
                 );
     }

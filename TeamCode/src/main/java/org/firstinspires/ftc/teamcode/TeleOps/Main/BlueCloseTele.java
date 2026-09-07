@@ -15,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.SubSystems.DriveTrain.DriveClass;
 import org.firstinspires.ftc.teamcode.SubSystems.IntakeSystem.IntakeClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleClass;
-import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingAngle.HoodAngleConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedConstants;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.ShootingSpeed.ShootingSpeedPID;
@@ -26,42 +25,34 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.CameraCl
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.DynamicShootingClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.LocalizerClass;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.Utility.ShooterStateClass;
+
 @Config
 @TeleOp(group = "main")
 public class BlueCloseTele extends LinearOpMode {
 
+    private static final Pose2D blueAutonoumsEnd =
+            new Pose2D(DistanceUnit.INCH, 16, 12, AngleUnit.DEGREES, 0);
+    private static final boolean turretLastChange = false;
+    public static double wantedAngle = 0;
+    public static int targetX = -70;
+    public static int targetY = -70;
     private static double distance = 0;
-
-    private static final double minDistance = 35;
-    private static final double maxDistance = 110;
-
     private boolean lastChange = false;
-
     private boolean shooting = false;
 
-    public static double wantedAngle = 0;
-
-    private static Pose2D blueAutonoumsEnd = new Pose2D(DistanceUnit.INCH, 16, 12, AngleUnit.DEGREES, 0);
-    public static int targetX = -70;
-    public   static int targetY = -70;
-
-    private static boolean turretLastChange = false;
-
-
     @Override
-    public void runOpMode() throws InterruptedException
-    {
+    public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         boolean manualToggle = false;
         boolean turretIsActive = true;
 
-        LocalizerClass.init(blueAutonoumsEnd,hardwareMap);
+        LocalizerClass.init(blueAutonoumsEnd, hardwareMap);
         DriveClass.init(hardwareMap);
         ShootingSpeedPID.init(hardwareMap);
         ShootingSpeedClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
-        TurretHeadingClass.init(hardwareMap);
+        TurretHeadingClass.initTele(hardwareMap);
         HoodAngleClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         TransferWheelClass.init(hardwareMap);
@@ -71,7 +62,8 @@ public class BlueCloseTele extends LinearOpMode {
 
         IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                 RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
+                RevHubOrientationOnRobot.UsbFacingDirection.UP
+        ));
 
         imu.initialize(parameters);
 
@@ -79,19 +71,28 @@ public class BlueCloseTele extends LinearOpMode {
 
         waitForStart();
         LocalizerClass.pinpoint.setPosition(blueAutonoumsEnd);
-        while (opModeIsActive())
-        {
+        while (opModeIsActive()) {
             if (gamepad1.options) {
                 imu.resetYaw();
             }
 
             //Preload
-            if(gamepad1.dpad_right)
-            {
-                LocalizerClass.pinpoint.setPosition(new Pose2D(DistanceUnit.INCH, 51, -45, AngleUnit.DEGREES, -39));
+            if (gamepad1.dpad_right) {
+                LocalizerClass.pinpoint.setPosition(new Pose2D(
+                        DistanceUnit.INCH,
+                        51,
+                        -45,
+                        AngleUnit.DEGREES,
+                        -39
+                ));
             }
 
-            DriveClass.fieldArcade(gamepad1.left_stick_x, -gamepad1.left_stick_y, gamepad1.right_stick_x, imu);
+            DriveClass.fieldArcade(
+                    gamepad1.left_stick_x,
+                    -gamepad1.left_stick_y,
+                    gamepad1.right_stick_x,
+                    imu
+            );
 
 
             LocalizerClass.pinpoint.update();
@@ -99,97 +100,64 @@ public class BlueCloseTele extends LinearOpMode {
 
             LocalizerClass.calcTurretPose(robotPose2D);
 
-            if (robotPose2D.getY(DistanceUnit.INCH)<0 && robotPose2D.getX(DistanceUnit.INCH)<0)
-            {
-                targetX = -66;
+            if (robotPose2D.getY(DistanceUnit.INCH) < 0 && robotPose2D.getX(DistanceUnit.INCH) < 0) {
+                targetX = -68;
                 targetY = -70;
-            }
-            else if (robotPose2D.getY(DistanceUnit.INCH)<0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/robotPose2D.getY(DistanceUnit.INCH)-0)>=-1){
-                targetX = -66;
+            } else if (robotPose2D.getY(DistanceUnit.INCH) < 0 && ((robotPose2D.getX(DistanceUnit.INCH) - 0) / robotPose2D.getY(
+                    DistanceUnit.INCH) - 0) >= -1) {
+                targetX = -68;
                 targetY = -70;
-            }
-            else if(robotPose2D.getY(DistanceUnit.INCH)>0 && ((robotPose2D.getX(DistanceUnit.INCH)-0)/ robotPose2D.getY(DistanceUnit.INCH)-0)<-1)
-            {
-                targetX = -66;
+            } else if (robotPose2D.getY(DistanceUnit.INCH) > 0 && ((robotPose2D.getX(DistanceUnit.INCH) - 0) / robotPose2D.getY(
+                    DistanceUnit.INCH) - 0) < -1) {
+                targetX = -68;
                 targetY = -70;
-            }
-            else {
+            } else {
                 targetX = -70;
-                targetY = -66;
+                targetY = -68;
             }
 
-            distance = LocalizerClass.blueGetDistance(new Pose2d(targetX,targetY,Math.toRadians(0)));
+            distance =
+                    LocalizerClass.blueGetDistance(new Pose2d(targetX, targetY, Math.toRadians(0)));
 
-            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(targetX, targetY, Math.toRadians(0)));
+            wantedAngle = LocalizerClass.blueWantedTurretHeading(new Pose2d(
+                    targetX,
+                    targetY,
+                    Math.toRadians(0)
+            ));
 
 
-            if (gamepad1.right_trigger > 0)
-            {
+            if (gamepad1.right_trigger > 0) {
                 IntakeClass.operate(gamepad1.right_trigger);
                 TransferWheelClass.operate(-gamepad1.right_trigger);
-            }
-            else if (gamepad1.left_trigger > 0)
-            {
+            } else if (gamepad1.left_trigger > 0) {
                 IntakeClass.operate(-gamepad1.left_trigger);
-            }
-            else if(ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio <= 2000)
-            {
+                TransferWheelClass.operate(-gamepad1.right_trigger);
+            } else if (ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio <= 2000) {
                 IntakeClass.operate(0);
                 TransferWheelClass.operate(0);
             }
 
 
-            if (!lastChange)
-            {
-                if (gamepad1.dpad_up)
-                {
+            if (!lastChange) {
+                if (gamepad1.dpad_up) {
                     manualToggle = !manualToggle;
                 }
             }
 
-            if (!manualToggle)
-            {
-                if (distance <= minDistance)
-                {
-                    HoodAngleClass.setPos(HoodAngleConstants.atGoalPos);
-                }
-                else if (distance >= maxDistance)
-                {
-                    HoodAngleClass.setPos(HoodAngleConstants.launchZonePos);
-                }
-                else
-                {
-                    HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
-                }
+            if (!manualToggle) {
+                HoodAngleClass.setPos(DynamicShootingClass.calcAngle(distance));
 
-                if (gamepad1.square)
-                {
+                if (gamepad1.square) {
                     shooting = true;
                 }
 
-                if (gamepad1.cross|| !shooting)
-                {
+                if (gamepad1.cross || !shooting) {
                     shooting = false;
                     ShooterStateClass.disable();
+                } else if (shooting) {
+                    ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
                 }
-                else if (shooting)
-                {
-                    if (distance <= minDistance)
-                    {
-                        ShooterStateClass.operate(ShootingSpeedConstants.atGoalSpeed);
-                    }
-                    else if (distance >= maxDistance)
-                    {
-                        ShooterStateClass.operate(ShootingSpeedConstants.launchZoneSpeed);
-                    }
-                    else
-                    {
-                        ShooterStateClass.operate(DynamicShootingClass.calcSpeed(distance));
-                    }
-                }
-            }
-            else
-            {
+            } else {
                 ShooterStateClass.setState(gamepad1);
                 ShooterStateClass.manualOperate();
             }
@@ -206,6 +174,12 @@ public class BlueCloseTele extends LinearOpMode {
             }
 
             lastChange = gamepad1.dpad_up;
+            telemetry.addData("Power", ShootingSpeedClass.masterShootingMotor.getPower());
+            telemetry.addData(
+                    "Speed",
+                    ShootingSpeedClass.masterShootingMotor.getVelocity() * ShootingSpeedConstants.tickToRPMRatio
+            );
+            telemetry.update();
         }
     }
 }

@@ -8,5 +8,5 @@ public class BlueClose3Constants {
 
     public static final Vector2d startShootingPos = new Vector2d(-16,-16);
 
-    public static final Vector2d leave = new Vector2d(-50,-18);
+    public static final Vector2d leave = new Vector2d(12,-16);
 }

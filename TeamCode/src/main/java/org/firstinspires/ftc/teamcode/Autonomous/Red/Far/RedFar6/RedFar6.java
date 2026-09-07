@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous.Red.Close.RedCloseGate;
+package org.firstinspires.ftc.teamcode.Autonomous.Red.Far.RedFar6;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -20,14 +20,10 @@ import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TransferWheel.Tr
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.PinpointTurretHeadingPID;
 import org.firstinspires.ftc.teamcode.SubSystems.ShootingSystem.TurretHeading.TurretHeadingClass;
 
-@Autonomous(name = "RedClose" , group = "Autonomous" , preselectTeleOp = "Red")
-public class RedClose extends LinearOpMode
-{
-
+@Autonomous(name = "RedFar6", group = "Autonomous", preselectTeleOp = "RedFarTele")
+public class RedFar6 extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException
-    {
-
+    public void runOpMode() throws InterruptedException {
         DriveClass.init(hardwareMap);
         IntakeClass.init(hardwareMap);
         HoodAngleClass.init(hardwareMap);
@@ -37,31 +33,19 @@ public class RedClose extends LinearOpMode
         TurretHeadingClass.init(hardwareMap);
         PinpointTurretHeadingPID.init(hardwareMap);
 
-        Pose2d initialPose = RedCloseConstants.startingPos;
+        Pose2d initialPose = RedFar6Constants.startingPos;
         MecanumDrive drive = new MecanumDrive(hardwareMap, initialPose);
 
         TrajectoryActionBuilder shoot1 = drive.actionBuilder(initialPose)
-                .strafeTo(RedCloseConstants.startShootingPos);
+                .strafeTo(RedFar6Constants.firstRow)
+                .strafeTo(RedFar6Constants.collectFirstRow)
+                .strafeTo(RedFar6Constants.shootingPos);
 
-        TrajectoryActionBuilder shoot2 = drive.actionBuilder(new Pose2d(-16,16, Math.toRadians(90)))
-                .strafeTo(RedCloseConstants.secondRow)
-                .strafeTo(RedCloseConstants.collectSecondRow)
-                .strafeTo(RedCloseConstants.shootingPos);
-
-        TrajectoryActionBuilder gateShoot = drive.actionBuilder(new Pose2d(0,16 , Math.toRadians(90)))
-                .strafeToLinearHeading(RedCloseConstants.collectGate, Math.toRadians(120))
-                .strafeTo(RedCloseConstants.Back)
-                .strafeTo(RedCloseConstants.collectGate)
-                .strafeToLinearHeading(RedCloseConstants.shootingPos, Math.toRadians(90));
-
-        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(0,16 , Math.toRadians(90)))
-                .strafeTo(RedCloseConstants.leave);
-
+        TrajectoryActionBuilder leave = drive.actionBuilder(new Pose2d(57, 14.5, Math.toRadians(90)))
+                .strafeTo(RedFar6Constants.leave);
 
 
         Action Shoot1 = shoot1.build();
-        Action Shoot2 = shoot2.build();
-        Action GateShoot = gateShoot.build();
         Action Leave = leave.build();
 
 
@@ -69,27 +53,34 @@ public class RedClose extends LinearOpMode
 
         Actions.runBlocking
                 (
+
                         new ParallelAction
                                 (
                                         ShootingSpeedPID.pid(),
-                                        TransferWheelClass.activate(),
-                                        IntakeClass.activate(),
                                         PinpointTurretHeadingPID.pid(),
+                                        TransferWheelClass.activate(),
+                                        HoodAngleClass.shootDis(),
+                                        new SequentialAction(
+                                                new SleepAction(0.7),
+                                                IntakeClass.activate()
+                                        ),
                                         new SequentialAction
                                                 (
+                                                        TurretHeadingClass.redFarShootAngle1(),
+                                                        ShootingSpeedClass.shootFarDis(),
+                                                        new SleepAction(4.9),
+                                                        ShootingSpeedClass.disabled(),
+                                                        TurretHeadingClass.redFarShootAngle2(),
                                                         Shoot1,
-                                                        new SleepAction(3),
-                                                        ShootingSpeedClass.disabled(),
-                                                        Shoot2,
-                                                        new SleepAction(3),
-                                                        ShootingSpeedClass.disabled(),
-                                                        GateShoot,
-                                                        new SleepAction(3),
-                                                        ShootingSpeedClass.disabled(),
+                                                        ShootingSpeedClass.shootFarDis(),
+                                                        new SleepAction(3.8),
+                                                        ShootingSpeedClass.endAuto(),
+                                                        TurretHeadingClass.endAutoAngle(),
                                                         Leave
-                                                )
 
+                                                )
                                 )
                 );
+
     }
 }
